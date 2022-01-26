@@ -7338,8 +7338,6 @@ MonoBehaviour:
   _fallDecelerationNormalizer: 0
   _fallAccelerationNormalizer: 0.5
   _groundCheck: {fileID: 820021447}
-  _ApplyKnockBackForce: 0
-  CanResetNavAgent: 0
 --- !u!114 &77006572047640341
 MonoBehaviour:
   m_ObjectHideFlags: 0

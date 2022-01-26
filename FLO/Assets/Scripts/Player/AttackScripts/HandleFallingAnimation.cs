@@ -8,7 +8,7 @@ public abstract class HandleFallingAnimation : MonoBehaviour
     protected Animator _animator;
     protected Rigidbody _rb;
     protected LayerMask _layerMask;
-    protected StunHandler StunHandler;
+    protected RigidBodyStunHandler RigidBodyStunHandler;
     protected GroundCheck _groundCheck;
 
     public Animator Animator => _animator;
@@ -20,13 +20,13 @@ public abstract class HandleFallingAnimation : MonoBehaviour
         _layerMask = LayerMask.GetMask("Ground");
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        StunHandler = GetComponent<StunHandler>();
+        RigidBodyStunHandler = GetComponent<RigidBodyStunHandler>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _animator.SetBool("Grounded", StunHandler._groundCheck.IsGrounded);
+        _animator.SetBool("Grounded", RigidBodyStunHandler._groundCheck.IsGrounded);
 
         if (!_animator.GetBool("Grounded"))
             _animator.SetFloat("Falling", _rb.velocity.y);

@@ -16,7 +16,7 @@ public class KnockBackCurveHandler : MonoBehaviour
     Vector3 _currentPosition;
     Vector3 _targetPosition;
     
-    StunHandler _stunHandler;
+    KnockBackHandler _stunHandler;
     Rigidbody _rb;
     NavMeshAgent _nav;
 
@@ -27,7 +27,7 @@ public class KnockBackCurveHandler : MonoBehaviour
     void Awake()
     {
         _nav = GetComponent<NavMeshAgent>();
-        _stunHandler = GetComponent<StunHandler>();
+        _stunHandler = GetComponent<KnockBackHandler>();
         _rb = GetComponent<Rigidbody>();
     }
 

@@ -14,7 +14,7 @@ public class S1Transition1Behaviour : StateMachineBehaviour
         _combatManager = animator.GetComponent<CombatManagerScript>();
         _view = animator.GetComponent<PhotonView>();
         
-        _view.RPC("HandleAttackScream", RpcTarget.All, animator, stateInfo);
+        HandleAttackScream(animator, stateInfo);
     }
     
     [PunRPC]

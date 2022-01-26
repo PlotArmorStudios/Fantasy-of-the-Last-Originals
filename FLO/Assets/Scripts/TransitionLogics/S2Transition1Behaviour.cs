@@ -6,6 +6,7 @@ using UnityEngine;
 public class S2Transition1Behaviour : StateMachineBehaviour
 {
     private CombatManagerScript _combatManager;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -49,14 +50,17 @@ public class S2Transition1Behaviour : StateMachineBehaviour
                 {
                     animator.CrossFade("S1 Attack 2", .25f, 0, 0f);
                 }
+
                 if (animator.GetBool("Stance2"))
                 {
                     animator.CrossFade("S2 Attack 2", .25f, 0, 0f);
                 }
+
                 if (animator.GetBool("Stance3"))
                 {
                     animator.CrossFade("S3 Attack 2", .25f, 0, 0f);
                 }
+
                 if (animator.GetBool("Stance4"))
                 {
                     animator.CrossFade("S4 Attack 2", .25f, 0, 0f);
@@ -67,7 +71,8 @@ public class S2Transition1Behaviour : StateMachineBehaviour
             }
         }
 
-        if (!animator.GetBool("Attack 2") && stateInfo.IsName("S2 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager._player.Stance))
+        if (!animator.GetBool("Attack 2") && stateInfo.IsName("S2 Transition 1") && stateInfo.normalizedTime >
+            _combatManager.ReturnTransitionSpeed1(_combatManager._player.Stance))
         {
             if (animator.GetBool("Stance1"))
                 animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);
@@ -84,7 +89,6 @@ public class S2Transition1Behaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

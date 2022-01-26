@@ -23,7 +23,7 @@ public abstract class HitBox : MonoBehaviour
 
     private ImpactSoundHandler _targetSound;
     private NavMeshAgent _targetNavMesh;
-    private StunHandler _targetStunHandler;
+    private RigidBodyStunHandler _targetRigidBodyStunHandler;
     private Player _playerLogic;
     private AttackDefinitionManager _attackDefinitionManager;
     protected Vector3 _attackDirection;
@@ -153,7 +153,7 @@ public abstract class HitBox : MonoBehaviour
 
             CacheTargetComponents(collider);
             GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
-            _targetStunHandler.DisableNavMesh();
+            _targetRigidBodyStunHandler.DisableNavMesh();
             TransferInfoToTarget(collider);
             _savedTargetID = _newTargetID;
         }
@@ -179,9 +179,9 @@ public abstract class HitBox : MonoBehaviour
 
         ChangeRigidBodySettings();
 
-        HandleTargetKnockback(_targetStunHandler, _attackDirection);
+        HandleTargetKnockback(_targetRigidBodyStunHandler, _attackDirection);
 
-        ApplyKnockBack(_targetStunHandler);
+        ApplyKnockBack(_targetRigidBodyStunHandler);
         ApplyKnockBackDeceleration();
     }
 
@@ -198,9 +198,9 @@ public abstract class HitBox : MonoBehaviour
             Gizmos.DrawSphere(transform.position, AttackDefinition.AttackRange);
     }
 
-    private void HandleTargetKnockback(StunHandler targetStunHandler, Vector3 attackDirection)
+    private void HandleTargetKnockback(RigidBodyStunHandler targetRigidBodyStunHandler, Vector3 attackDirection)
     {
-        if (targetStunHandler._groundCheck.UpdateIsGrounded())
+        if (targetRigidBodyStunHandler._groundCheck.UpdateIsGrounded())
         {
             attackDirection.y = AttackDefinition.KnockUpStrength;
             _knockBackPower = new Vector3(attackDirection.x,
@@ -237,7 +237,7 @@ public abstract class HitBox : MonoBehaviour
         _targetHealthLogic.TakeDamage(AttackDefinition.Damage);
     }
 
-    private void ApplyKnockBack(StunHandler targetStun)
+    private void ApplyKnockBack(KnockBackHandler targetStun)
     {
         targetStun.AirBorneKnockUp = AttackDefinition.AirBorneKnockUp;
         targetStun.StunDuration = AttackDefinition.StunDuration;
@@ -266,6 +266,6 @@ public abstract class HitBox : MonoBehaviour
         _targetHealthLogic = collider.GetComponent<HealthLogic>();
         _targetSound = collider.GetComponent<ImpactSoundHandler>();
         _targetNavMesh = collider.GetComponent<NavMeshAgent>();
-        _targetStunHandler = collider.GetComponent<StunHandler>();
+        _targetRigidBodyStunHandler = collider.GetComponent<RigidBodyStunHandler>();
     }
 }

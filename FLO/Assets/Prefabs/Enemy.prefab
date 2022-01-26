@@ -7399,8 +7399,6 @@ MonoBehaviour:
   _fallDecelerationNormalizer: 0.5
   _fallAccelerationNormalizer: 0.5
   _groundCheck: {fileID: 0}
-  _ApplyKnockBackForce: 0
-  CanResetNavAgent: 0
 --- !u!114 &5769214997430329452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7427,7 +7425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 5769214998447211273}
-  _maxHealth: 600
+  _maxHealth: 200
   _currentHealth: 0
 --- !u!114 &3669642708024087197
 MonoBehaviour:

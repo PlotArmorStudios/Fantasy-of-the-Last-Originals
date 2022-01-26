@@ -15,7 +15,7 @@ public class EnemyAI : MonoBehaviour
     Vector3 _initialPosition;
     NavMeshAgent _navMeshAgent;
 
-    StunHandler _stunHandler;
+    RigidBodyStunHandler _rigidBodyStunHandler;
     Animator _animator;
     EnemyDeathLogic _enemyDeathLogic;
 
@@ -27,7 +27,7 @@ public class EnemyAI : MonoBehaviour
         _initialPosition = transform.position;
         _enemyDeathLogic = GetComponent<EnemyDeathLogic>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        _stunHandler = GetComponent<StunHandler>();
+        _rigidBodyStunHandler = GetComponent<RigidBodyStunHandler>();
         _animator = GetComponent<Animator>();
         yield return new WaitForSeconds(1f);
         _playerTarget = GameObject.FindGameObjectWithTag("Player").transform;

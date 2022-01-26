@@ -158,6 +158,7 @@ public class Player : MonoBehaviour
 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity,
                 _turnSmoothTime);
+            
             Vector3 moveDir;
 
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
