@@ -12,7 +12,8 @@ public class PlayerDash : MonoBehaviour
 
     Rigidbody _rb;
     Animator _animator;
-    bool _dashing = false;
+
+    private bool _dashing;
     private int _enemyMaskInt;
     private int _playerMaskInt;
 
@@ -35,21 +36,32 @@ public class PlayerDash : MonoBehaviour
             _dashing = true;
             StartCoroutine(Dash());
         }
+
         Dashing = _dashing;
     }
 
     IEnumerator Dash()
     {
         _animator.SetBool("Dashing", true);
-        Physics.IgnoreLayerCollision(_playerMaskInt, _enemyMaskInt, true);
+
+        PassThroughEnemies(true);
+
         _rb.AddForce(transform.forward * _dashForce, ForceMode.VelocityChange);
+
         yield return new WaitForSeconds(.1f);
-        Physics.IgnoreLayerCollision(_playerMaskInt, _enemyMaskInt, false);
-        yield return new WaitForSeconds(_dashDuration);
+
+        PassThroughEnemies(false);
         
+        yield return new WaitForSeconds(_dashDuration);
+
         _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y, 0);
         _dashing = false;
-        
+
         _animator.SetBool("Dashing", false);
+    }
+
+    private void PassThroughEnemies(bool pass)
+    {
+        Physics.IgnoreLayerCollision(_playerMaskInt, _enemyMaskInt, pass);
     }
 }

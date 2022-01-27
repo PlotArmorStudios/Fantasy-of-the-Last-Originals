@@ -23,6 +23,7 @@ public class KnockBackCurveHandler : MonoBehaviour
     float _timeInTrajectory;
     bool _isInKnockBack;
     float _knockBackDuration;
+    private Vector3 _trajectoryCurveVector;
 
     void Awake()
     {
@@ -44,11 +45,11 @@ public class KnockBackCurveHandler : MonoBehaviour
             float trajectoryRatio = _timeInTrajectory / _trajectorySpeed;
             // _trajectoryInterpolationValue = (_trajectoryInterpolationValue + _trajectorySpeed) % 1f;
 
-            Vector3 trajectoryCurveVector = _trajectoryCurve.Evaluate(trajectoryRatio) * _trajectoryDirection;
+            _trajectoryCurveVector = _trajectoryCurve.Evaluate(trajectoryRatio) * _trajectoryDirection;
 
             //make a curve that makes trajectoryRatio go from 0 to 1 more or less gradually
             _nav.enabled = false;
-            _rb.MovePosition(Vector3.Lerp(_currentPosition, _targetPosition, trajectoryRatio) + trajectoryCurveVector);
+            _rb.MovePosition(Vector3.Lerp(_currentPosition, _targetPosition, trajectoryRatio) + _trajectoryCurveVector);
             StartCoroutine(ResetIsInKnockBack(_knockBackDuration));
         }
         else

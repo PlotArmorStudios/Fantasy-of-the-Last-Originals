@@ -25,14 +25,8 @@ public class RigidBodyStunHandler : KnockBackHandler
         {
             gameObject.AddComponent<Rigidbody>();
         }
-
-        if (GetComponent<CharacterController>())
-        {
-            Destroy(GetComponent<CharacterController>());
-        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_groundCheck.UpdateIsGrounded())
@@ -89,11 +83,13 @@ public class RigidBodyStunHandler : KnockBackHandler
             CurrentDownForce += Time.deltaTime *
                                 ((_fallDecelerationMultiplier * _fallDecelerationNormalizer) *
                                  _weight); //down force is going to decrease over time, and decrease more over time due to fallmult
+            
             if (CurrentDownForce > 8)
                 CurrentDownForce = 8;
 
             if (CurrentDownForce < 0)
                 CurrentDownForce = 0f;
+            
             _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
         }
     }
@@ -140,6 +136,7 @@ public class RigidBodyStunHandler : KnockBackHandler
                     Time.deltaTime *
                     ((_fallDecelerationMultiplier * _fallDecelerationNormalizer) *
                      _weight); //down force is going to decrease over time, and decrease more over time due to fallmult
+                
                 if (CurrentDownForce < 0)
                     CurrentDownForce = 0f;
 

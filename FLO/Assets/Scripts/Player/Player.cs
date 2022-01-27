@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
 
         CamTransform = _camera.transform;
 
+        //Multiplayer PhotonView Processes
         if (!_view.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
@@ -91,15 +92,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!_view.IsMine) return;
         if (PauseMenu.Active) return;
 
         ReadHorizontalAndVerticalInput();
-        if (PlayerJumpedFromGround()) _jump = true;
         ApplyMovementInputToAnimator();
+        
+        if (PlayerJumpedFromGround()) _jump = true;
     }
 
     private void FixedUpdate()
@@ -192,7 +193,7 @@ public class Player : MonoBehaviour
         {
             //let character jump while stopping sliding
             //character only stops completely when grounded
-            //set airborne false whenver grounded
+            //set airborne false whenever grounded
             if (_groundCheck.IsGrounded)
             {
                 if (!_playerDash.Dashing)
@@ -205,7 +206,7 @@ public class Player : MonoBehaviour
 
     private void HandleJumpAnimation()
     {
-        //Now I can have animations turn "Attacking" boolean off and on during a specific number of frames, turning movement ability on and off
+        //Now I can have animations turn "Attacking" boolean on and off during a specific number of frames, turning movement ability on and off
         if (!_animator.GetBool("Attacking"))
         {
             if (_jump)
@@ -245,6 +246,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Landing Functionality
     void OnCollisionEnter(Collision collisionInfo)
     {
         if (collisionInfo.collider.tag == "Ground")

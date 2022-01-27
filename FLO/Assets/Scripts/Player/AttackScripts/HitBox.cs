@@ -33,17 +33,24 @@ public abstract class HitBox : MonoBehaviour
     void OnEnable()
     {
         GetComponentInParent<AttackDefinitionManager>().ActiveHitBox = this;
+        
         GetHitBoxDefinition();
         DisableMeshRendererIfPresent();
         AddSwitchCameraComponent();
         FindComboGravityPoint();
         ActivateComboGravityPointIfLinkSkill();
 
+        SetDefaultHitboxRange();
+        
+        if (!GetComponent<TriggerStunAnimation>())
+            AddProperHitstunComponent();
+    }
+
+    private void SetDefaultHitboxRange()
+    {
         gameObject.transform.localScale = new Vector3(AttackDefinition.AttackRange + .1f,
             AttackDefinition.AttackRange + .1f,
             AttackDefinition.AttackRange + .1f);
-        if (!GetComponent<TriggerStunAnimation>())
-            AddProperHitstunComponent();
     }
 
     private void AddProperHitstunComponent()
@@ -151,10 +158,12 @@ public abstract class HitBox : MonoBehaviour
                 return;
             }
 
-            CacheTargetComponents(collider);
-            GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
             _targetRigidBodyStunHandler.DisableNavMesh();
+            
+            GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
+            CacheTargetComponents(collider);
             TransferInfoToTarget(collider);
+            
             _savedTargetID = _newTargetID;
         }
     }
