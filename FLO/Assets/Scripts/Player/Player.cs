@@ -62,7 +62,8 @@ public class Player : MonoBehaviour
 
     private PhotonView _view;
 
-
+    private State _currentState;
+    
     private void OnEnable()
     {
         _combatManager = GetComponent<CombatManagerScript>();

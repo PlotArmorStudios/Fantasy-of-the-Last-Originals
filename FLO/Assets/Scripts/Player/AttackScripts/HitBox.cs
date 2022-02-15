@@ -169,7 +169,7 @@ public abstract class HitBox : MonoBehaviour
         }
     }
 
-    protected abstract Collider[] OverlapPhysics();
+    public abstract Collider[] OverlapPhysics();
 
     protected virtual void TransferInfoToTarget(Collider collider)
     {

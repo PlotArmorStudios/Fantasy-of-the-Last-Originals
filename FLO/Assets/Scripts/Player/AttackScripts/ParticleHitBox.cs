@@ -19,7 +19,7 @@ public class ParticleHitBox : HitBox
         base.DetectCollisions();
     }
 
-    protected override Collider[] OverlapPhysics()
+    public override Collider[] OverlapPhysics()
     {
         return Physics.OverlapSphere(transform.position, AttackDefinition.AttackRange, AttackDefinition.LayerMask);
         ;

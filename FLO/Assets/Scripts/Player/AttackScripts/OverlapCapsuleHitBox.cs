@@ -13,7 +13,7 @@ public class OverlapCapsuleHitBox : HitBox
         _mesh = _capsule.GetComponent<Mesh>();
     }
 
-    protected override Collider[] OverlapPhysics()
+    public override Collider[] OverlapPhysics()
     {
         Vector3 attackRange = new Vector3(AttackDefinition.AttackRange,
             AttackDefinition.AttackRange,

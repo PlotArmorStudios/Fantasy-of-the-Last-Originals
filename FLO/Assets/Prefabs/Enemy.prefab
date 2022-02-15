@@ -2389,6 +2389,7 @@ GameObject:
   - component: {fileID: 1182093025}
   - component: {fileID: 8360174678642444290}
   - component: {fileID: 980243559}
+  - component: {fileID: 7653841190446533801}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
@@ -7505,7 +7506,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _feet: {fileID: 1447275211}
-  _startDownPull: 5
+  _startDownPull: 2
   _downPull: 0.5
   _weight: 3
   _fallAccelerationMultiplier: 0
@@ -7513,6 +7514,18 @@ MonoBehaviour:
   _fallDecelerationNormalizer: 0.5
   _fallAccelerationNormalizer: 0.5
   _groundCheck: {fileID: 1112429338058564837}
+--- !u!114 &7653841190446533801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6688188120052915403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ff26b4cbe84e7e8e55a3c8b525893a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6761636888401643418
 GameObject:
   m_ObjectHideFlags: 0
