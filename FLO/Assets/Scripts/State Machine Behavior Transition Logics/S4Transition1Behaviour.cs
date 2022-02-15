@@ -34,12 +34,12 @@ public class S4Transition1Behaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Play attack 3 as well if attack key was hit three times
-        if (_combatManager._inputCount == 3)
+        if (_combatManager.InputCount == 3)
         {
             animator.SetBool("Attack 3", true);
         }
 
-        if (_combatManager.inputReceived && _combatManager._inputCount >= 2)
+        if (_combatManager.InputReceived && _combatManager.InputCount >= 2)
         {
             animator.SetBool("Attack 2", true);
 
@@ -64,11 +64,11 @@ public class S4Transition1Behaviour : StateMachineBehaviour
                 }
 
                 _combatManager.ReceiveInput();
-                _combatManager.inputReceived = false;
+                _combatManager.InputReceived = false;
             }
         }
 
-        if (!animator.GetBool("Attack 2") && stateInfo.IsName("S4 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager._player.Stance))
+        if (!animator.GetBool("Attack 2") && stateInfo.IsName("S4 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager.Player.Stance))
         {
             if (animator.GetBool("Stance1"))
                 animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);

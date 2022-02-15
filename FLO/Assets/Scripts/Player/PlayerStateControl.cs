@@ -14,21 +14,20 @@ public enum PlayerState
 }
 public class PlayerStateControl : MonoBehaviour
 {
-    Player _player;
-    RigidBodyStunHandler _rigidBodyStunHandler;
+    public PlayerState PlayerState;
+    private PlayerState _currentState;
+    
+    private Player _player;
+    private RigidBodyStunHandler _rigidBodyStunHandler;
 
-    Rigidbody _rigidbody;
-    public PlayerState _playerState;
-    PlayerState _currentState;
+    private Rigidbody _rigidbody;
 
-    // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _player = GetComponent<Player>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         PlayerStateLogicHandler();
@@ -37,6 +36,7 @@ public class PlayerStateControl : MonoBehaviour
     {
         if (_currentState == state)
             return;
+        
         _currentState = state;
         switch (state)
         {
@@ -57,20 +57,20 @@ public class PlayerStateControl : MonoBehaviour
 
     void PlayerStateLogicHandler()
     {
-        if (_playerState != PlayerState.Dead)
+        if (PlayerState != PlayerState.Dead)
         {
-            if (_playerState == PlayerState.Idle)
+            if (PlayerState == PlayerState.Idle)
             {
             }
-            if (_playerState == PlayerState.Running)
+            if (PlayerState == PlayerState.Running)
             {
             }
-            if (_playerState == PlayerState.Attacking)
+            if (PlayerState == PlayerState.Attacking)
             {
             }
-            if (_playerState == PlayerState.HitStun)
+            if (PlayerState == PlayerState.HitStun)
                 TogglePlayerControl(false);
-            if (_playerState == PlayerState.KnockBack)
+            if (PlayerState == PlayerState.KnockBack)
                 TogglePlayerControl(false);
         }
     }

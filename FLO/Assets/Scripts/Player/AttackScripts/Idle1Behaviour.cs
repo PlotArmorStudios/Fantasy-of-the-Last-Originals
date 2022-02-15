@@ -20,7 +20,7 @@ public class Idle1Behaviour : StateMachineBehaviour
         
         animator.GetComponent<Player>().enabled = true;
         
-        _combatManager._inputCount = 0;
+        _combatManager.InputCount = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -43,7 +43,7 @@ public class Idle1Behaviour : StateMachineBehaviour
         //    animator.CrossFade("Stance 4 Blend Tree", .1f, 0, 0f);
         //}
 
-        if (_combatManager.inputReceived && _combatManager._inputCount >= 1)
+        if (_combatManager.InputReceived && _combatManager.InputCount >= 1)
         {
             animator.SetBool("Attacking", true);
 
@@ -65,7 +65,7 @@ public class Idle1Behaviour : StateMachineBehaviour
             }
 
             _combatManager.ReceiveInput();
-            _combatManager.inputReceived = false;
+            _combatManager.InputReceived = false;
         }
     }
 

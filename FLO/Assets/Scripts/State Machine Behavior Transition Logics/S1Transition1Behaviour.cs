@@ -37,12 +37,12 @@ public class S1Transition1Behaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Play attack 3 as well if attack key was hit three times
-        if (_combatManager._inputCount == 3)
+        if (_combatManager.InputCount == 3)
         {
             animator.SetBool("Attack 3", true);
         }
 
-        if (_combatManager.inputReceived && _combatManager._inputCount >= 2)
+        if (_combatManager.InputReceived && _combatManager.InputCount >= 2)
         {
             //Play attack 2 if attack key was hit two times (aka if hit while in this state)
             animator.SetBool("Attack 2", true);
@@ -74,11 +74,11 @@ public class S1Transition1Behaviour : StateMachineBehaviour
                 }
 
                 _combatManager.ReceiveInput();
-                _combatManager.inputReceived = false;
+                _combatManager.InputReceived = false;
             }
         }
 
-        if (!animator.GetBool("Attack 2") && stateInfo.IsName("S1 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager._player.Stance))
+        if (!animator.GetBool("Attack 2") && stateInfo.IsName("S1 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager.Player.Stance))
         {
             animator.SetBool("Attacking", false);
             if (animator.GetBool("Stance1"))

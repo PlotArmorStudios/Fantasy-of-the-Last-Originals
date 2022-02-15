@@ -32,7 +32,7 @@ public class S2Transition2Behaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_combatManager._inputCount >= 3)
+        if (_combatManager.InputCount >= 3)
         {
             animator.SetBool("Attack 3", true);
         }
@@ -45,7 +45,7 @@ public class S2Transition2Behaviour : StateMachineBehaviour
         }
 
         //play attack 3 if key is pressed while in attack 2 state
-        if (_combatManager.inputReceived && _combatManager._inputCount >= 3)
+        if (_combatManager.InputReceived && _combatManager.InputCount >= 3)
         {
             animator.SetBool("Attack 3", true);
 
@@ -73,12 +73,12 @@ public class S2Transition2Behaviour : StateMachineBehaviour
                 }
 
                 _combatManager.ReceiveInput();
-                _combatManager.inputReceived = false;
+                _combatManager.InputReceived = false;
             }
         }
 
         if (!animator.GetBool("Attack 3") && stateInfo.IsName("S2 Transition 2") && stateInfo.normalizedTime >
-            _combatManager.ReturnTransitionSpeed2(_combatManager._player.Stance))
+            _combatManager.ReturnTransitionSpeed2(_combatManager.Player.Stance))
         {
             if (animator.GetBool("Stance1"))
                 animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);

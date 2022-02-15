@@ -1781,6 +1781,7 @@ GameObject:
   - component: {fileID: 5769214997852951546}
   - component: {fileID: 5769214997852951547}
   - component: {fileID: 5769214997852951544}
+  - component: {fileID: 1117672070}
   m_Layer: 3
   m_Name: Health Bar
   m_TagString: Untagged
@@ -1869,6 +1870,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1117672070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769214997852951550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1938a9c9acbe4d82b751e87c7d61470e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthBarImage: {fileID: 5769214998447211273}
+  _enemy: {fileID: 1958848708}
 --- !u!1 &5769214998196753987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2366,14 +2381,14 @@ GameObject:
   - component: {fileID: 5769214997430329447}
   - component: {fileID: 5769214997430329441}
   - component: {fileID: 1958848708}
-  - component: {fileID: 5769214997430329440}
   - component: {fileID: 5769214997430329452}
-  - component: {fileID: 1729835574}
   - component: {fileID: 3669642708024087197}
   - component: {fileID: 1729835575}
   - component: {fileID: 1911037397}
   - component: {fileID: 1112429338058564837}
   - component: {fileID: 1182093025}
+  - component: {fileID: 8360174678642444290}
+  - component: {fileID: 980243559}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
@@ -7375,30 +7390,6 @@ MonoBehaviour:
   _targetDetectRange: 5
   _attackDelay: 2
   _attackRange: 2
---- !u!114 &5769214997430329440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6688188120052915403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2834c028ba5d079418062edfaa8633e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _feet: {fileID: 1447275211}
-  _startDownPull: 5
-  _downPull: 0.5
-  _weight: 3
-  _fallAccelerationMultiplier: 0
-  _fallDecelerationMultiplier: 0
-  _fallDecelerationNormalizer: 0.5
-  _fallAccelerationNormalizer: 0.5
-  _groundCheck: {fileID: 0}
 --- !u!114 &5769214997430329452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7412,21 +7403,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deathCollider: {fileID: 5299037274444040040}
---- !u!114 &1729835574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6688188120052915403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c646e6b83094abe4f9e2d974fcf98577, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _healthBar: {fileID: 5769214998447211273}
-  _maxHealth: 200
-  _currentHealth: 0
 --- !u!114 &3669642708024087197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7499,6 +7475,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e52f35a4ad0276241991625a16025fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8360174678642444290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6688188120052915403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb0af89c6e6a4816be62971f4a59f1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10000
+  _currentHealth: 0
+--- !u!114 &980243559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6688188120052915403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3671047b81c7401390dd36450d40b6a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _feet: {fileID: 1447275211}
+  _startDownPull: 5
+  _downPull: 0.5
+  _weight: 3
+  _fallAccelerationMultiplier: 0
+  _fallDecelerationMultiplier: 0
+  _fallDecelerationNormalizer: 0.5
+  _fallAccelerationNormalizer: 0.5
+  _groundCheck: {fileID: 1112429338058564837}
 --- !u!1 &6761636888401643418
 GameObject:
   m_ObjectHideFlags: 0

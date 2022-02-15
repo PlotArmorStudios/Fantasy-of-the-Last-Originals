@@ -36,7 +36,7 @@ public class S3Transition2Behaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //allow player to use third attack even while not in attack 2 state
-        if (_combatManager._inputCount >= 3)
+        if (_combatManager.InputCount >= 3)
         {
             animator.SetBool("Attack 3", true);
         }
@@ -47,7 +47,7 @@ public class S3Transition2Behaviour : StateMachineBehaviour
             animator.SetBool("Attack 3", false);
         }
 
-        if (_combatManager.inputReceived && _combatManager._inputCount >= 3)
+        if (_combatManager.InputReceived && _combatManager.InputCount >= 3)
         {
             animator.SetBool("Attack 3", true);
 
@@ -75,13 +75,13 @@ public class S3Transition2Behaviour : StateMachineBehaviour
                 }
 
                 _combatManager.ReceiveInput();
-                _combatManager.inputReceived = false;
+                _combatManager.InputReceived = false;
             }
         }
 
         if (!animator.GetBool("Attack 3") && !animator.IsInTransition(0) && stateInfo.IsName("S3 Transition 2") &&
             stateInfo.normalizedTime >
-            _combatManager.ReturnTransitionSpeed2(_combatManager._player.Stance))
+            _combatManager.ReturnTransitionSpeed2(_combatManager.Player.Stance))
         {
             if (animator.GetBool("Stance1"))
                 animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);

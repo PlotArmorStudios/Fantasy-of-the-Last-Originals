@@ -36,7 +36,7 @@ public abstract class KnockBackHandler : MonoBehaviour
     protected float AirStallDuration { get; set; }
     public float AirBorneKnockUp { get; set; }
     protected float GroundAttackPull { get; set; }
-    protected bool _ApplyKnockBackForce;
+    protected bool ApplyHitStopDuration;
     protected bool AirStall { get; set; }
     protected float _linkSkillKnockBack;
     protected bool CanResetNavAgent;
@@ -45,38 +45,28 @@ public abstract class KnockBackHandler : MonoBehaviour
 
     protected Vector3 _trajectory;
 
-    public virtual void ApplyKnockBack(float attackDefinitionHitStopDuration)
+    private void Start()
     {
-        throw new NotImplementedException();
+        _groundCheck = GetComponent<GroundCheck>();
+        _rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
-    public virtual void AllowKnockBackToApply(Vector3 knockBackPower)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract void ApplyKnockBack(float attackDefinitionHitStopDuration);
 
-    public virtual void SetAirStall(float attackDefinitionAirStallDuration)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract void AllowKnockBackToApply(Vector3 attackForce);
 
-    public virtual void SetContactPoint(SkillType attackDefinitionSkillType, Vector3 comboPoint)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract void SetAirStall(float attackDefinitionAirStallDuration);
 
-    public virtual void ApplyGroundedAttackPull(float attackDefinitionDownwardPull)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract void SetContactPoint(SkillType attackDefinitionSkillType, Vector3 comboPoint);
 
-    public virtual void ResetDownForce()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract void ApplyGroundedAttackPull(float attackDefinitionDownwardPull);
 
-    public virtual void SetDownPull(float enemyGravityResetValue)
+    public abstract void ResetDownForce();
+
+    public abstract void SetDownPull(float enemyGravityResetValue);
+
+    public virtual void DisableComponents()
     {
-        throw new NotImplementedException();
     }
 }

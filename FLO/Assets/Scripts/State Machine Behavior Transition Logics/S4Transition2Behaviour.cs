@@ -35,7 +35,7 @@ public class S4Transition2Behaviour : StateMachineBehaviour
     {
         // transition to attack 3 if input key was pressed in attack 1 state
         //update input count and preemptively activate attack 3
-        if (_combatManager._inputCount >= 3)
+        if (_combatManager.InputCount >= 3)
         {
             animator.SetBool("Attack 3", true);
         }
@@ -48,7 +48,7 @@ public class S4Transition2Behaviour : StateMachineBehaviour
         }
 
         //transition to attack 3 if input key is pressed while in attack 2 state
-        if (_combatManager.inputReceived && _combatManager._inputCount >= 3)
+        if (_combatManager.InputReceived && _combatManager.InputCount >= 3)
         {
             animator.SetBool("Attack 3", true);
 
@@ -76,12 +76,12 @@ public class S4Transition2Behaviour : StateMachineBehaviour
                 }
 
                 _combatManager.ReceiveInput();
-                _combatManager.inputReceived = false;
+                _combatManager.InputReceived = false;
             }
         }
 
         if (!animator.GetBool("Attack 3") && stateInfo.IsName("S4 Transition 2") && stateInfo.normalizedTime >
-            _combatManager.ReturnTransitionSpeed2(_combatManager._player.Stance))
+            _combatManager.ReturnTransitionSpeed2(_combatManager.Player.Stance))
         {
             if (animator.GetBool("Stance1"))
                 animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);

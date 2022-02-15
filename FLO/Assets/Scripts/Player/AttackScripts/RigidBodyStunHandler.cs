@@ -2,21 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
 public class RigidBodyStunHandler : KnockBackHandler
 {
-    // Start is called before the first frame update
+    private bool IsAboveContactPoint;
+
     void Start()
     {
         _trajectory = new Vector3(0, 0, 0);
-        _groundCheck = GetComponent<GroundCheck>();
-        _navMesh = GetComponent<NavMeshAgent>();
-        _enemyAI = GetComponent<EnemyAI>();
-        _playerLogic = GetComponent<Player>();
-        _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
     }
 
     private void OnValidate()
@@ -36,15 +30,22 @@ public class RigidBodyStunHandler : KnockBackHandler
                 _enemyAI.SetIdle();
         }
     }
-    
+
     void FixedUpdate()
     {
         LimitFallAccelerationMultiplier();
-        ApplyKnockBackForce();
+        ApplyHitStop();
+        CalculateKnockBackPhysics();
+    }
+
+    private void CalculateKnockBackPhysics()
+    {
+        //Limit Down force
+        if (CurrentDownForce > 3) CurrentDownForce = 3;
 
         if (!_groundCheck.UpdateIsGrounded())
         {
-            ApplyAirStall();
+            //ApplyAirStall();
 
             if (_targetSkillTypeUsed == SkillType.LinkSkill)
             {
@@ -57,11 +58,17 @@ public class RigidBodyStunHandler : KnockBackHandler
         }
         else
         {
-            _fallAccelerationMultiplier = 0;
-            _fallDecelerationMultiplier = 0;
-            CurrentDownForce = 0;
-            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
+            NullifyGravity();
         }
+
+        _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
+    }
+
+    private void NullifyGravity()
+    {
+        _fallAccelerationMultiplier = 0;
+        _fallDecelerationMultiplier = 0;
+        CurrentDownForce = 0;
     }
 
     private void ApplyHookSkillForces()
@@ -72,8 +79,6 @@ public class RigidBodyStunHandler : KnockBackHandler
 
             CurrentDownForce = _fallAccelerationMultiplier *
                                ((_fallAccelerationMultiplier * _fallAccelerationNormalizer) * _weight);
-
-            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
         }
 
         else if (IsFalling)
@@ -83,64 +88,42 @@ public class RigidBodyStunHandler : KnockBackHandler
             CurrentDownForce += Time.deltaTime *
                                 ((_fallDecelerationMultiplier * _fallDecelerationNormalizer) *
                                  _weight); //down force is going to decrease over time, and decrease more over time due to fallmult
-            
-            if (CurrentDownForce > 8)
-                CurrentDownForce = 8;
 
-            if (CurrentDownForce < 0)
-                CurrentDownForce = 0f;
-            
-            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
+            if (CurrentDownForce > 3) CurrentDownForce = 3;
+
+            if (CurrentDownForce < 0) CurrentDownForce = 0f;
         }
     }
 
-
     private void ApplyLinkSkillForces()
     {
+        IsAboveContactPoint = transform.position.y >= ContactPointLaunchLimiter.y;
         if (transform.position.y >= ContactPointLaunchLimiter.y)
         {
             _fallAccelerationMultiplier += Time.deltaTime * 3f;
 
             CurrentDownForce = _downPull * _fallAccelerationMultiplier *
                                ((_fallAccelerationMultiplier * _fallAccelerationNormalizer) * _weight);
-
-            if (_rb.velocity.z > 0)
-                _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
-            if (_rb.velocity.z < 0)
-                _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
         }
         else if (transform.position.y < ContactPointLaunchLimiter.y)
         {
             if (IsRaising)
             {
-                _fallAccelerationMultiplier += Time.deltaTime;
+                _fallAccelerationMultiplier += Time.deltaTime * 3f;
 
-                CurrentDownForce = _fallAccelerationMultiplier *
+                CurrentDownForce = _downPull * _fallAccelerationMultiplier *
                                    ((_fallAccelerationMultiplier * _fallAccelerationNormalizer) * _weight);
-
-                _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
             }
             else if (IsFalling)
             {
-                if (_fallAccelerationMultiplier > 2f)
-                {
-                    _fallDecelerationMultiplier = 100f;
-                }
-                else
-                {
-                    _fallDecelerationMultiplier = 0f;
-                }
-
+                _fallDecelerationMultiplier = _fallAccelerationMultiplier > 2f ? 100f : 0f;
                 _fallDecelerationMultiplier += Time.deltaTime * _weight;
                 CurrentDownForce -=
                     Time.deltaTime *
                     ((_fallDecelerationMultiplier * _fallDecelerationNormalizer) *
                      _weight); //down force is going to decrease over time, and decrease more over time due to fallmult
-                
-                if (CurrentDownForce < 0)
-                    CurrentDownForce = 0f;
 
-                _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
+                if (CurrentDownForce < 0) CurrentDownForce = 0f;
             }
         }
     }
@@ -152,7 +135,6 @@ public class RigidBodyStunHandler : KnockBackHandler
             _fallAccelerationMultiplier = 0;
             _fallDecelerationMultiplier = 0;
             CurrentDownForce = 0;
-            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
             StartCoroutine(ResetAirStall(AirStallDuration));
         }
     }
@@ -164,18 +146,12 @@ public class RigidBodyStunHandler : KnockBackHandler
     }
 
 
-    private void ApplyKnockBackForce()
+    private void ApplyHitStop()
     {
-        if (_ApplyKnockBackForce)
+        if (ApplyHitStopDuration)
         {
             StartCoroutine(KnockBackAfterHitStop(KnockBackForce));
         }
-    }
-
-    public void DisableNavMesh()
-    {
-        if (_navMesh)
-            _navMesh.enabled = false;
     }
 
     private void LimitFallAccelerationMultiplier()
@@ -195,7 +171,7 @@ public class RigidBodyStunHandler : KnockBackHandler
 
     public override void ApplyKnockBack(float hitStopDuration)
     {
-        _ApplyKnockBackForce = true;
+        ApplyHitStopDuration = true;
         HitStopDuration = hitStopDuration;
     }
 
@@ -233,6 +209,6 @@ public class RigidBodyStunHandler : KnockBackHandler
         yield return new WaitForSeconds(HitStopDuration);
         _rb.velocity = KnockBackForce;
 
-        _ApplyKnockBackForce = false;
+        ApplyHitStopDuration = false;
     }
 }

@@ -8,7 +8,7 @@ public abstract class HandleFallingAnimation : MonoBehaviour
     protected Animator _animator;
     protected Rigidbody _rb;
     protected LayerMask _layerMask;
-    protected RigidBodyStunHandler RigidBodyStunHandler;
+    protected KnockBackHandler RigidBodyStunHandler;
     protected GroundCheck _groundCheck;
 
     public Animator Animator => _animator;
@@ -20,7 +20,7 @@ public abstract class HandleFallingAnimation : MonoBehaviour
         _layerMask = LayerMask.GetMask("Ground");
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        RigidBodyStunHandler = GetComponent<RigidBodyStunHandler>();
+        RigidBodyStunHandler = GetComponent<KnockBackHandler>();
     }
 
     // Update is called once per frame

@@ -25,28 +25,35 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerID _playerID;
     [SerializeField] private LayerMask _layerMask;
 
-    [SerializeField] private bool _jump;
-    [SerializeField] private float _movementSpeed = 5.0f;
     [SerializeField] private float _jumpHeight = 10f;
-    [SerializeField] private float _downPull = 2f;
+    [SerializeField] private bool _jump;
     [SerializeField] private bool isGrounded;
+    
+    [SerializeField] private float _movementSpeed = 5.0f;
+    [SerializeField] private float _downPull = 2f;
     [SerializeField] private float _turnSmoothTime = 2f;
     [SerializeField] private float _turnSmoothVelocity = 2f;
 
     [SerializeField] private Camera _camera;
     
+    public bool IsGrounded => _groundCheck.IsGrounded;
+    public Animator Animator => _animator;
+    
     private CameraLogic _cameraLogic;
 
     private Rigidbody _rb;
     private Animator _animator;
-    private PlayerDash _playerDash;
     private CombatManagerScript _combatManager;
+
     private GroundCheck _groundCheck;
+    private float _fallTimer;
+    
+    private PlayerDash _playerDash;
 
     public Transform CamTransform;
     public PlayerStance Stance;
 
-    public bool IsJumping = false;
+    public bool IsJumping;
 
     private Vector3 _movement;
     private Vector3 _heightMovement;
@@ -55,18 +62,10 @@ public class Player : MonoBehaviour
 
     private PhotonView _view;
 
-    public bool IsGrounded => _groundCheck.IsGrounded;
-    public Animator Animator => _animator;
-    public HealthLogic Health => GetComponent<HealthLogic>();
-
-
-    private float _fallTimer;
-
 
     private void OnEnable()
     {
         _combatManager = GetComponent<CombatManagerScript>();
-    
         if (_combatManager.enabled == false)
             _combatManager.enabled = true;
     }

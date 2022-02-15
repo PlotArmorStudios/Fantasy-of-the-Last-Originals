@@ -34,12 +34,12 @@ public class S3Transition1Behaviour : StateMachineBehaviour
     {
 
         //Play attack 3 as well if attack key was hit three times
-        if (_combatManager._inputCount == 3)
+        if (_combatManager.InputCount == 3)
         {
             animator.SetBool("Attack 3", true);
         }
 
-        if (_combatManager.inputReceived && _combatManager._inputCount >= 2) //THIS IS WHERE YOU LEFT OFF 4/28/21
+        if (_combatManager.InputReceived && _combatManager.InputCount >= 2) //THIS IS WHERE YOU LEFT OFF 4/28/21
         {
             animator.SetBool("Attack 2", true);
 
@@ -64,11 +64,11 @@ public class S3Transition1Behaviour : StateMachineBehaviour
                 }
 
                 _combatManager.ReceiveInput();
-                _combatManager.inputReceived = false;
+                _combatManager.InputReceived = false;
             }
         }
 
-        if (!animator.GetBool("Attack 2") && !animator.IsInTransition(0) && stateInfo.IsName("S3 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager._player.Stance))
+        if (!animator.GetBool("Attack 2") && !animator.IsInTransition(0) && stateInfo.IsName("S3 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager.Player.Stance))
         {
             if (animator.GetBool("Stance1"))
                 animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);

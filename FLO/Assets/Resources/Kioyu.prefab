@@ -161,7 +161,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46361610}
-  m_LocalRotation: {x: -0.02919681, y: -0.89574635, z: 0.24455842, w: -0.37010443}
+  m_LocalRotation: {x: -0.029196799, y: -0.89574635, z: 0.24455842, w: -0.37010446}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -448,8 +448,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134277710}
-  m_LocalRotation: {x: -0.099263564, y: -0.8326434, z: 0.41094404, w: -0.35773823}
-  m_LocalPosition: {x: -0.22891532, y: 5.31511, z: -0.76528597}
+  m_LocalRotation: {x: -0.02247776, y: -0.90003556, z: 0.22826803, w: -0.37057322}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1573216474}
@@ -2590,7 +2590,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836838286}
-  m_LocalRotation: {x: 0.06058638, y: -0.026738303, z: 0.0028221153, w: -0.9978008}
+  m_LocalRotation: {x: 0.061931077, y: -0.026742077, z: 0.0027860769, w: -0.9977182}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3423,8 +3423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d9b068ca6e38c40bd18cf7578c71f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activateOnEnter: 0
-  _deactivateOnExit: 0
+  _activateOnEnter: 1
+  _deactivateOnExit: 1
 --- !u!1 &1251864398
 GameObject:
   m_ObjectHideFlags: 0
@@ -4398,7 +4398,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450810376}
-  m_LocalRotation: {x: 0.070006855, y: 0.9037597, z: -0.16229421, w: 0.3898437}
+  m_LocalRotation: {x: 0.07000687, y: 0.9037596, z: -0.16229422, w: 0.3898437}
   m_LocalPosition: {x: -5.775007, y: 4.2631836, z: 5.4484406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5494,7 +5494,6 @@ GameObject:
   - component: {fileID: 1704448455}
   - component: {fileID: 1704448458}
   - component: {fileID: 1704448457}
-  - component: {fileID: 1704448456}
   m_Layer: 5
   m_Name: Player HP
   m_TagString: Untagged
@@ -5559,19 +5558,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1704448456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704448454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 479d258b170064d4f8026f24808e8bb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _healthBarImage: {fileID: 1704448457}
 --- !u!1 &1717339634
 GameObject:
   m_ObjectHideFlags: 0
@@ -5963,6 +5949,7 @@ GameObject:
   - component: {fileID: 1872349510}
   - component: {fileID: 1872349512}
   - component: {fileID: 1872349511}
+  - component: {fileID: 2080557974}
   m_Layer: 5
   m_Name: Player Health Bar Panel
   m_TagString: Untagged
@@ -6029,6 +6016,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2080557974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872349509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 479d258b170064d4f8026f24808e8bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthBarImage: {fileID: 1704448457}
+  _player: {fileID: 77006572047640343}
 --- !u!1 &2002363091
 GameObject:
   m_ObjectHideFlags: 0
@@ -6907,9 +6908,7 @@ GameObject:
   - component: {fileID: 77006572047640342}
   - component: {fileID: 135566279129276547}
   - component: {fileID: 77006572047640343}
-  - component: {fileID: 77006572047640340}
   - component: {fileID: 77006572047640341}
-  - component: {fileID: 77006572047640338}
   - component: {fileID: 77006572047640339}
   - component: {fileID: 77006572047640336}
   - component: {fileID: 77006572047640337}
@@ -6934,6 +6933,8 @@ GameObject:
   - component: {fileID: 820021447}
   - component: {fileID: 1971991679603161263}
   - component: {fileID: 74501412}
+  - component: {fileID: 3070942312087109079}
+  - component: {fileID: 372034313}
   m_Layer: 6
   m_Name: Kioyu
   m_TagString: Player
@@ -7262,19 +7263,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7b1e03cd033ca42b13c41b05c44468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputCount: 0
-  _player: {fileID: 0}
-  canReceiveInput: 0
-  inputReceived: 0
-  m_currentLayer: 0
-  m_S1Transition1Speed: 0.9
-  m_S1Transition2Speed: 0.9
-  m_S2Transition1Speed: 0.9
-  m_S2Transition2Speed: 0.9
-  m_S3Transition1Speed: 0.9
-  m_S3Transition2Speed: 0.9
-  m_S4Transition1Speed: 0.9
-  m_S4Transition2Speed: 0.9
+  _S1Transition1Speed: 0.9
+  _S1Transition2Speed: 0.9
+  _S2Transition1Speed: 0.9
+  _S2Transition2Speed: 0.9
+  _S3Transition1Speed: 0.9
+  _S3Transition2Speed: 0.9
+  _S4Transition1Speed: 0.9
+  _S4Transition2Speed: 0.9
 --- !u!114 &135566279129276547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7303,41 +7299,17 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 256
-  _jump: 0
-  _movementSpeed: 6.7
   _jumpHeight: 15
-  _downPull: 2
+  _jump: 0
   isGrounded: 0
+  _movementSpeed: 6.7
+  _downPull: 2
   _turnSmoothTime: 0.1
   _turnSmoothVelocity: 0.5
   _camera: {fileID: 1450810383}
   CamTransform: {fileID: 0}
   Stance: 0
   IsJumping: 0
---- !u!114 &77006572047640340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77006572047640327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2834c028ba5d079418062edfaa8633e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _feet: {fileID: 1937149043480429290}
-  _startDownPull: 0
-  _downPull: 0
-  _weight: 4
-  _fallAccelerationMultiplier: 0
-  _fallDecelerationMultiplier: 0
-  _fallDecelerationNormalizer: 0
-  _fallAccelerationNormalizer: 0.5
-  _groundCheck: {fileID: 820021447}
 --- !u!114 &77006572047640341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7354,21 +7326,6 @@ MonoBehaviour:
   _attackSlideDistance: 5
   _stopMovement: {fileID: 2569280169711264301}
   StopMovement: 0
---- !u!114 &77006572047640338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77006572047640327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c646e6b83094abe4f9e2d974fcf98577, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _healthBar: {fileID: 1704448457}
-  _maxHealth: 200
-  _currentHealth: 0
 --- !u!114 &77006572047640339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7452,7 +7409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef13c62532fe543449734bb7b290dede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerState: 0
+  PlayerState: 0
 --- !u!114 &77006572047640330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7919,6 +7876,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 2113365122}
+--- !u!114 &3070942312087109079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77006572047640327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52de259f36c443b581a83da850f7cfee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 200
+  _currentHealth: 0
+--- !u!114 &372034313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77006572047640327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c54a97b32cf448b927bacd275f52133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _feet: {fileID: 1937149043480429290}
+  _startDownPull: 0
+  _downPull: 0
+  _weight: 4
+  _fallAccelerationMultiplier: 0
+  _fallDecelerationMultiplier: 0
+  _fallDecelerationNormalizer: 0
+  _fallAccelerationNormalizer: 0.5
+  _groundCheck: {fileID: 820021447}
 --- !u!1 &120753584536972249
 GameObject:
   m_ObjectHideFlags: 0

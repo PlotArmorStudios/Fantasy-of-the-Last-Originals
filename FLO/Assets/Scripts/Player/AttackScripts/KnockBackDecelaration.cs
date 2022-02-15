@@ -7,25 +7,23 @@ public class KnockBackDecelaration : MonoBehaviour
     [SerializeField] float _attackForce = 0f;
     [SerializeField] float _startDecelarationMultiplier = 10;
 
+    public bool IsInKnockBack => _isInKnockBack;
 
-    Rigidbody _rigidBody;
+    private Rigidbody _rigidBody;
 
-    bool _isInKnockBack;
-    float _decelerationMultiplier = 0f;
-    float _decelerationDuration = 1f;
-    bool _wasHit;
-    float _hitStopDuration;
-    bool _hasReachedMaxVelocity;
-    float _zVelocity = 10;
-    bool _slowDown;
-
-    public bool IsInKnockBack { get { return _isInKnockBack; } }
+    private bool _isInKnockBack;
+    private float _decelerationMultiplier = 0f;
+    private float _decelerationDuration = 1f;
+    private bool _wasHit;
+    private float _hitStopDuration;
+    private bool _hasReachedMaxVelocity;
+    private float _zVelocity = 10;
+    private bool _slowDown;
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidBody = GetComponent<Rigidbody>();
-
     }
 
     // Update is called once per frame
@@ -38,8 +36,10 @@ public class KnockBackDecelaration : MonoBehaviour
                 StartCoroutine(SetIsKnockBackFalse());
             }
     }
+
     void Decelerate()
-    { //knock time set by attack
+    {
+        //knock time set by attack
         _decelerationMultiplier += Time.deltaTime * 2;
 
         if (_rigidBody.velocity.magnitude > 2)
@@ -50,25 +50,31 @@ public class KnockBackDecelaration : MonoBehaviour
                 {
                     _slowDown = true;
                 }
+
                 if (_slowDown)
                 {
-                    _zVelocity = _startDecelarationMultiplier * _decelerationMultiplier * (_decelerationMultiplier * .6f);
-                    _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _rigidBody.velocity.y, Mathf.Lerp(_rigidBody.velocity.z, 6, Time.deltaTime * _zVelocity));
+                    _zVelocity = _startDecelarationMultiplier * _decelerationMultiplier *
+                                 (_decelerationMultiplier * .6f);
+                    
+                    _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _rigidBody.velocity.y,
+                        Mathf.Lerp(_rigidBody.velocity.z, 6, Time.deltaTime * _zVelocity));
                 }
             }
+
             if (_rigidBody.velocity.z < 0)
             {
                 if (_rigidBody.velocity.magnitude > 4)
                 {
                     _slowDown = true;
                 }
+
                 if (_slowDown)
                 {
-                    _zVelocity = _startDecelarationMultiplier * _decelerationMultiplier * (_decelerationMultiplier * .6f);
-                    _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _rigidBody.velocity.y, Mathf.Lerp(_rigidBody.velocity.z, -6, Time.deltaTime * _zVelocity));
+                    _zVelocity = _startDecelarationMultiplier * _decelerationMultiplier *
+                                 (_decelerationMultiplier * .6f);
+                    _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _rigidBody.velocity.y,
+                        Mathf.Lerp(_rigidBody.velocity.z, -6, Time.deltaTime * _zVelocity));
                 }
-
-
             }
         }
 
@@ -82,11 +88,13 @@ public class KnockBackDecelaration : MonoBehaviour
         _slowDown = false;
         _decelerationMultiplier = 0f;
     }
+
     IEnumerator SetHitStopDuration()
     {
         yield return new WaitForSeconds(_hitStopDuration);
         _wasHit = false;
     }
+
     public void SetKnockBackTrue(bool isInKnockBack)
     {
         _isInKnockBack = isInKnockBack;
@@ -99,7 +107,7 @@ public class KnockBackDecelaration : MonoBehaviour
         _startDecelarationMultiplier = velocity;
     }
 
-    internal void SetHitStop(bool wasHit, float duration)
+    public void SetHitStop(bool wasHit, float duration)
     {
         _wasHit = wasHit;
         _hitStopDuration = duration;

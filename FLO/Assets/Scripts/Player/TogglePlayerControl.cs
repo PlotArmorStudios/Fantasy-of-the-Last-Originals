@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class TogglePlayerControl : MonoBehaviour
 {
-    Player _player;
-    Animator _animator;
+    private Player _player;
+    private Animator _animator;
+    
     void Awake()
     {
         _animator = GetComponent<Animator>();

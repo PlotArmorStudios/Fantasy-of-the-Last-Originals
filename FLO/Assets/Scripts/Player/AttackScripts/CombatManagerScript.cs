@@ -5,57 +5,54 @@ using Photon.Pun;
 
 public class CombatManagerScript : MonoBehaviour
 {
+    [Header("Stance 1 Transition Control")] 
+    [SerializeField] private float _S1Transition1Speed = .9f;
+    [SerializeField] private float _S1Transition2Speed = .9f;
 
-    public int _inputCount = 0;
+    [Header("Stance 2 Transition Control")]
+    [SerializeField] private float _S2Transition1Speed = .9f;
+    [SerializeField] private float _S2Transition2Speed = .9f;
 
-    public Player _player;
+    [Header("Stance 3 Transition Control")]
+    [SerializeField] private float _S3Transition1Speed = .9f;
+    [SerializeField] private float _S3Transition2Speed = .9f;
 
-    public bool canReceiveInput;
-    public bool inputReceived;
-    public int m_currentLayer = 0;
+    [Header("Stance 4 Transition Control")]
+    [SerializeField] private float _S4Transition1Speed = .9f;
+    [SerializeField] private float _S4Transition2Speed = .9f;
+    
+    public Player Player { get; private set; }
+    public int InputCount { get; set; }
+    public bool CanReceiveInput { get; set; }
+    public bool InputReceived { get; set; }
 
-    Animator _animator;
-
-    //Transition Speeds for Stance 1 Transitions
-    public float m_S1Transition1Speed = .5f;
-    public float m_S1Transition2Speed = .5f;
-
-    //Transition Speeds for Stance 2 Transitions
-    public float m_S2Transition1Speed = .5f;
-    public float m_S2Transition2Speed = .5f;
-
-    //Transition Speeds for Stance 3 Transitions
-    public float m_S3Transition1Speed = .5f;
-    public float m_S3Transition2Speed = .5f;
-
-    //Transition Speeds for Stance 4 Transitions
-    public float m_S4Transition1Speed = .5f;
-    public float m_S4Transition2Speed = .5f;
-
+    private Animator _animator;
     private PhotonView _view;
+
     // Start is called before the first frame update
     void Start()
     {
         _view = GetComponent<PhotonView>();
         _animator = GetComponent<Animator>();
-        _player = GetComponent<Player>();
+        Player = GetComponent<Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (PauseMenu.Active) return;
-        
-            if (_view.IsMine)
+
+        if (_view.IsMine)
         {
             Attack();
             ReceiveInput();
-            if (!_player.IsJumping)
+            
+            if (!Player.IsJumping)
             {
                 if (Input.GetButtonDown("Light Attack"))
                 {
-                    canReceiveInput = true;
-                    _inputCount++;
+                    CanReceiveInput = true;
+                    InputCount++;
                 }
             }
         }
@@ -67,42 +64,49 @@ public class CombatManagerScript : MonoBehaviour
 
         if (stance == PlayerStance.Stance1)
         {
-            transitionSpeed = m_S1Transition1Speed;
+            transitionSpeed = _S1Transition1Speed;
         }
+
         if (stance == PlayerStance.Stance2)
         {
-            transitionSpeed = m_S2Transition1Speed;
+            transitionSpeed = _S2Transition1Speed;
         }
+
         if (stance == PlayerStance.Stance3)
         {
-            transitionSpeed = m_S3Transition1Speed;
+            transitionSpeed = _S3Transition1Speed;
         }
+
         if (stance == PlayerStance.Stance4)
         {
-            transitionSpeed = m_S4Transition1Speed;
+            transitionSpeed = _S4Transition1Speed;
         }
 
         return transitionSpeed;
     }
+
     public float ReturnTransitionSpeed2(PlayerStance stance)
     {
         float transitionSpeed = 0;
 
         if (stance == PlayerStance.Stance1)
         {
-            transitionSpeed = m_S1Transition2Speed;
+            transitionSpeed = _S1Transition2Speed;
         }
+
         if (stance == PlayerStance.Stance2)
         {
-            transitionSpeed = m_S2Transition2Speed;
+            transitionSpeed = _S2Transition2Speed;
         }
+
         if (stance == PlayerStance.Stance3)
         {
-            transitionSpeed = m_S3Transition2Speed;
+            transitionSpeed = _S3Transition2Speed;
         }
+
         if (stance == PlayerStance.Stance4)
         {
-            transitionSpeed = m_S4Transition2Speed;
+            transitionSpeed = _S4Transition2Speed;
         }
 
         return transitionSpeed;
@@ -110,10 +114,10 @@ public class CombatManagerScript : MonoBehaviour
 
     public void Attack()
     {
-        if (canReceiveInput) //On button press, inputReceived turns true if canReceiveInput is true.
+        if (CanReceiveInput) //On button press, inputReceived turns true if canReceiveInput is true.
         {
-            inputReceived = true;
-            canReceiveInput = false;
+            InputReceived = true;
+            CanReceiveInput = false;
         }
         else
         {
@@ -123,16 +127,18 @@ public class CombatManagerScript : MonoBehaviour
 
     public void ReceiveInput()
     {
-        if (!canReceiveInput) //On button press, canReceiveInput will turn true if canReceiveInput is false
+        if (!CanReceiveInput) //On button press, canReceiveInput will turn true if canReceiveInput is false
         {
-            canReceiveInput = true;
+            CanReceiveInput = true;
         }
         else
         {
-            canReceiveInput = false; //When attack button is pressed, canReceiveInput will turn false if canReceiveInput is already true. If canReceiveInput is false, inputReceived cannot turn true
+            CanReceiveInput =
+                false; //When attack button is pressed, canReceiveInput will turn false if canReceiveInput is already true. If canReceiveInput is false, inputReceived cannot turn true
         }
     }
 
+    //When true, player can interrupt current attack animation. Accessed through animation events.
     public void AttackCancelPoint()
     {
         _animator.SetBool("Attacking", false);
@@ -142,11 +148,11 @@ public class CombatManagerScript : MonoBehaviour
     {
         _animator.SetBool("Attacking", true);
     }
+
     public float GetCurrentAnimatorTime(Animator targetAnim, int layer = 0)
     {
         AnimatorStateInfo animState = targetAnim.GetCurrentAnimatorStateInfo(layer);
         float currentTime = animState.normalizedTime % 1;
         return currentTime;
     }
-
 }
