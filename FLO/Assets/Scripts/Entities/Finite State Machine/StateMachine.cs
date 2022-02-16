@@ -7,6 +7,7 @@ public class StateMachine //Stores a list of states that can be added or removed
     private Dictionary<IState, List<StateTransition>> _stateTransitions = new Dictionary<IState, List<StateTransition>>();
     private List<StateTransition> _anyStateTransitions = new List<StateTransition>();
     private IState _currentState;
+    private StateTransition _transition;
 
     //Add states to the state machine
  
@@ -41,8 +42,8 @@ public class StateMachine //Stores a list of states that can be added or removed
 
     public void Tick()
     {
-        StateTransition transition = CheckForTransition();
-        if(transition != null) SetState(transition.To);
+        _transition = CheckForTransition();
+        if(_transition != null) SetState(_transition.To);
         _currentState.Tick();
     }
 

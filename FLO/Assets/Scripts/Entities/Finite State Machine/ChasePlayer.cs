@@ -9,12 +9,13 @@ public class ChasePlayer : IState
     private Animator _animator;
     private Entity _entity;
 
-    public ChasePlayer(NavMeshAgent navMeshAgent, Player player)
+    public ChasePlayer(Entity entity, Player player, NavMeshAgent navMeshAgent)
     {
-        _navMeshAgent = navMeshAgent;
+        _entity = entity;
         _player = player;
-        _entity = _navMeshAgent.GetComponent<Entity>();
-        _animator = _navMeshAgent.GetComponent<Animator>();
+
+        _navMeshAgent = _entity.NavAgent;
+        _animator = _entity.Animator;
     }
 
     public void Tick()
@@ -30,6 +31,7 @@ public class ChasePlayer : IState
     public void OnExit()
     {
         _navMeshAgent.enabled = false;
+        Debug.Log("Disable navmesh");
     }
 
     void FollowPlayer()

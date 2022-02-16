@@ -6,41 +6,42 @@ using UnityEngine.AI;
 public class Entity : MonoBehaviour
 {
     [SerializeField] EnemyState _enemyState = EnemyState.Idle;
-    [SerializeField] Transform _playerTarget;
     [SerializeField] float _targetDetectRange = 5f;
     [SerializeField] float _attackDelay = 2f;
     [SerializeField] float _attackRange = 2f;
 
 
-    Vector3 _initialPosition;
-    NavMeshAgent _navMeshAgent;
-
-    RigidBodyStunHandler _rigidBodyStunHandler;
-    Animator _animator;
-    EnemyDeathLogic _enemyDeathLogic;
-    private EnemyHealth _health;
-    
-    float _attackTimer;
-    private bool _canResetNavMesh;
+    public NavMeshAgent NavAgent { get; private set; }
+    public Player PlayerTarget { get; private set; }
+    public Animator Animator { get; private set; }
+    public Vector3 InitialPosition { get; private set; }
     public float Health => _health.CurrentHealthValue;
 
-    private void Start()
+    private RigidBodyStunHandler _rigidBodyStunHandler;
+    private EnemyDeathLogic _enemyDeathLogic;
+    private EnemyHealth _health;
+
+    private float _attackTimer;
+    private bool _canResetNavMesh;
+
+    private void Awake()
     {
+        PlayerTarget = FindObjectOfType<Player>();
+        NavAgent = GetComponent<NavMeshAgent>();
+        Animator = GetComponent<Animator>();
+        InitialPosition = transform.position;
+
         _health = GetComponent<EnemyHealth>();
-        _initialPosition = transform.position;
         _enemyDeathLogic = GetComponent<EnemyDeathLogic>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
         _rigidBodyStunHandler = GetComponent<RigidBodyStunHandler>();
-        _animator = GetComponent<Animator>();
-        _playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        if (_navMeshAgent.isActiveAndEnabled && _playerTarget)
+        if (NavAgent.isActiveAndEnabled && PlayerTarget)
         {
-            SetEnemyState();
-            EnemyStateLogicHandler();
+            //SetEnemyState();
+            //EnemyStateLogicHandler();
         }
     }
 
@@ -60,8 +61,8 @@ public class Entity : MonoBehaviour
 
     void SetEnemyState()
     {
-        float enemyToPlayerDistance = Vector3.Distance(transform.position, _playerTarget.position);
-        var startPosition = new Vector3(_initialPosition.x, transform.position.y, _initialPosition.z);
+        float enemyToPlayerDistance = Vector3.Distance(transform.position, PlayerTarget.transform.position);
+        var startPosition = new Vector3(InitialPosition.x, transform.position.y, InitialPosition.z);
 
         if (_enemyDeathLogic.Died)
         {
@@ -70,7 +71,7 @@ public class Entity : MonoBehaviour
 
         if (_enemyState != EnemyState.Death)
         {
-            if (!_animator.IsInTransition(0) && _animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            if (!Animator.IsInTransition(0) && Animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 _enemyState = EnemyState.Attack;
             }
@@ -93,18 +94,18 @@ public class Entity : MonoBehaviour
     {
         if (_enemyState != EnemyState.Death)
         {
-            if (_enemyState == EnemyState.Chase)
-                //FollowPlayer();
-            if (_enemyState == EnemyState.Attack)
-                AttackPlayer();
-            if (_enemyState == EnemyState.Patrol)
-                Patrol();
-            if (_enemyState == EnemyState.Idle)
-                PlayIdleAnimations();
-            if (_enemyState == EnemyState.Defend)
-                RunDefenseAI();
-            if (_enemyState == EnemyState.Return)
-                ReturnToStartPosition();
+            // if (_enemyState == EnemyState.Chase)
+            //     //FollowPlayer();
+            //     if (_enemyState == EnemyState.Attack)
+            //         //AttackPlayer();
+            //         if (_enemyState == EnemyState.Patrol)
+            //             //Patrol();
+            //             if (_enemyState == EnemyState.Idle)
+            //                 //PlayIdleAnimations();
+            //                 if (_enemyState == EnemyState.Defend)
+            //                     //RunDefenseAI();
+            //                     if (_enemyState == EnemyState.Return)
+            //                         //ReturnToStartPosition();
         }
     }
 
@@ -115,8 +116,8 @@ public class Entity : MonoBehaviour
 
     void ReturnToStartPosition()
     {
-        _navMeshAgent.isStopped = false;
-        _navMeshAgent.destination = _initialPosition;
+        NavAgent.isStopped = false;
+        NavAgent.destination = InitialPosition;
     }
 
     void PlayIdleAnimations()
@@ -126,8 +127,8 @@ public class Entity : MonoBehaviour
 
     void Patrol()
     {
-        _navMeshAgent.isStopped = true;
-        _animator.SetBool("Running", false);
+        NavAgent.isStopped = true;
+        Animator.SetBool("Running", false);
     }
 
     void AttackPlayer()
@@ -135,31 +136,31 @@ public class Entity : MonoBehaviour
         if (_attackTimer < _attackDelay)
             _attackTimer += Time.deltaTime;
 
-        _navMeshAgent.isStopped = true;
-        _animator.SetBool("Running", false);
+        NavAgent.isStopped = true;
+        Animator.SetBool("Running", false);
         transform.rotation = Quaternion.Slerp(transform.rotation,
-            Quaternion.LookRotation(_playerTarget.position - transform.position), 5f * Time.deltaTime);
+            Quaternion.LookRotation(PlayerTarget.transform.position - transform.position), 5f * Time.deltaTime);
 
         if (_attackTimer >= _attackDelay)
         {
-            _animator.SetBool("Attacking", true);
+            Animator.SetBool("Attacking", true);
             StartCoroutine(ResetAttackTimer());
         }
         else
-            _animator.SetBool("Attacking", false);
+            Animator.SetBool("Attacking", false);
     }
 
     void FollowPlayer()
     {
-        if (_playerTarget)
+        if (PlayerTarget)
         {
-            _navMeshAgent.isStopped = false;
+            NavAgent.isStopped = false;
             _attackTimer = 0;
-            _animator.SetBool("Attacking", false);
-            _animator.SetBool("Running", true);
+            Animator.SetBool("Attacking", false);
+            Animator.SetBool("Running", true);
             transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(_playerTarget.position - transform.position), 5f * Time.deltaTime);
-            _navMeshAgent.SetDestination(_playerTarget.position);
+                Quaternion.LookRotation(PlayerTarget.transform.position - transform.position), 5f * Time.deltaTime);
+            NavAgent.SetDestination(PlayerTarget.transform.position);
         }
     }
 
