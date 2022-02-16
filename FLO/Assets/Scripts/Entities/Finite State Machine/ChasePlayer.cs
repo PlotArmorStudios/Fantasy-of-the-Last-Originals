@@ -1,18 +1,25 @@
+using UnityEngine;
 using UnityEngine.AI;
 
 public class ChasePlayer : IState
 {
     private readonly NavMeshAgent _navMeshAgent;
     private readonly Player _player;
+    private float _attackTimer;
+    private Animator _animator;
+    private Entity _entity;
 
     public ChasePlayer(NavMeshAgent navMeshAgent, Player player)
     {
         _navMeshAgent = navMeshAgent;
         _player = player;
+        _entity = _navMeshAgent.GetComponent<Entity>();
+        _animator = _navMeshAgent.GetComponent<Animator>();
     }
+
     public void Tick()
     {
-        _navMeshAgent.SetDestination(_player.transform.position);
+        FollowPlayer();
     }
 
     public void OnEnter()
@@ -23,5 +30,19 @@ public class ChasePlayer : IState
     public void OnExit()
     {
         _navMeshAgent.enabled = false;
+    }
+
+    void FollowPlayer()
+    {
+        if (_player)
+        {
+            _navMeshAgent.isStopped = false;
+            _attackTimer = 0;
+            _animator.SetBool("Attacking", false);
+            _animator.SetBool("Running", true);
+            _entity.transform.rotation = Quaternion.Slerp(_entity.transform.rotation,
+                Quaternion.LookRotation(_player.transform.position - _entity.transform.position), 5f * Time.deltaTime);
+            _navMeshAgent.SetDestination(_player.transform.position);
+        }
     }
 }

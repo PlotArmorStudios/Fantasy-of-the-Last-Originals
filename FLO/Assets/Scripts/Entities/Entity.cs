@@ -94,7 +94,7 @@ public class Entity : MonoBehaviour
         if (_enemyState != EnemyState.Death)
         {
             if (_enemyState == EnemyState.Chase)
-                FollowPlayer();
+                //FollowPlayer();
             if (_enemyState == EnemyState.Attack)
                 AttackPlayer();
             if (_enemyState == EnemyState.Patrol)
