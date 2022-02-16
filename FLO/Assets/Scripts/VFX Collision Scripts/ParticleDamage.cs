@@ -9,7 +9,7 @@ public class ParticleDamage : MonoBehaviour
 
     private void OnParticleCollision(GameObject collider)
     {
-        var target = collider.GetComponent<EnemyAI>();
+        var target = collider.GetComponent<Entity>();
         if (target == null)
             return;
         Debug.Log("Coolided with particles");

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UIEnemyHealthBar : UIHealthBar
 {
-    [SerializeField] private EnemyAI _enemy;
+    [SerializeField] private Entity _enemy;
 
     private void Start()
     {

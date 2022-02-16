@@ -24,7 +24,7 @@ public abstract class KnockBackHandler : MonoBehaviour
     public GroundCheck GroundCheck => _groundCheck;
 
     protected EnemyDeathLogic _enemyDeathLogic;
-    protected EnemyAI _enemyAI;
+    protected Entity Entity;
     protected Player _playerLogic;
     protected Animator _animator;
     protected Vector3 ContactPointLaunchLimiter;

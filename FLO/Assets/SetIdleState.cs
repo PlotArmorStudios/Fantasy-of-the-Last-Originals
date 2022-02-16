@@ -18,7 +18,7 @@ public class SetIdleState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponent<EnemyAI>().SetIdle();
+        animator.GetComponent<Entity>().SetIdle();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

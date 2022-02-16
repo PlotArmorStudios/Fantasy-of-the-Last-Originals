@@ -280,7 +280,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1958848708, guid: 3b71f0fddd9d6b44ab15548cc850c2bf, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6312611833220793969, guid: 3b71f0fddd9d6b44ab15548cc850c2bf, type: 3}
       propertyPath: m_RootOrder
@@ -749,15 +749,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 500125247, guid: 63256c7a68019fe4b81d3dda33b08fde, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.060250398
+      value: 0.060250428
       objectReference: {fileID: 0}
     - target: {fileID: 500125247, guid: 63256c7a68019fe4b81d3dda33b08fde, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.026737334
+      value: -0.02673733
       objectReference: {fileID: 0}
     - target: {fileID: 500125247, guid: 63256c7a68019fe4b81d3dda33b08fde, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.002831117
+      value: 0.0028311152
       objectReference: {fileID: 0}
     - target: {fileID: 712215478, guid: 63256c7a68019fe4b81d3dda33b08fde, type: 3}
       propertyPath: m_ChildCameras.Array.size
@@ -785,11 +785,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 836838287, guid: 63256c7a68019fe4b81d3dda33b08fde, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.02673827
+      value: -0.026738303
       objectReference: {fileID: 0}
     - target: {fileID: 836838287, guid: 63256c7a68019fe4b81d3dda33b08fde, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0028221111
+      value: 0.0028221153
       objectReference: {fileID: 0}
     - target: {fileID: 922907759, guid: 63256c7a68019fe4b81d3dda33b08fde, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3607,7 +3607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6688188120052915403, guid: 3b71f0fddd9d6b44ab15548cc850c2bf, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b71f0fddd9d6b44ab15548cc850c2bf, type: 3}
@@ -3921,6 +3921,10 @@ PrefabInstance:
     - target: {fileID: 6688188120052915403, guid: 3b71f0fddd9d6b44ab15548cc850c2bf, type: 3}
       propertyPath: m_Name
       value: First Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688188120052915403, guid: 3b71f0fddd9d6b44ab15548cc850c2bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b71f0fddd9d6b44ab15548cc850c2bf, type: 3}

@@ -26,8 +26,8 @@ public class RigidBodyStunHandler : KnockBackHandler
         if (_groundCheck.UpdateIsGrounded())
         {
             _downPull = _startDownPull;
-            if (_enemyAI != null)
-                _enemyAI.SetIdle();
+            if (Entity != null)
+                Entity.SetIdle();
         }
     }
 

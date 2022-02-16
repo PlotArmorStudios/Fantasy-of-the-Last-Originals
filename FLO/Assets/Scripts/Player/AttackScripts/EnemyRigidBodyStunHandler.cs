@@ -6,7 +6,7 @@ public class EnemyRigidBodyStunHandler : RigidBodyStunHandler
     private void Start()
     {
         _navMesh = GetComponent<NavMeshAgent>();
-        _enemyAI = GetComponent<EnemyAI>();
+        Entity = GetComponent<Entity>();
         _groundCheck = GetComponent<GroundCheck>();
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
