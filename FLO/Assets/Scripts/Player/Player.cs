@@ -43,7 +43,7 @@ public class Player : Character
 
     private Rigidbody _rb;
     private Animator _animator;
-    private CombatManagerScript _combatManager;
+    private CombatManager _combatManager;
 
     private GroundCheck _groundCheck;
     private float _fallTimer;
@@ -65,7 +65,7 @@ public class Player : Character
     
     private void OnEnable()
     {
-        _combatManager = GetComponent<CombatManagerScript>();
+        _combatManager = GetComponent<CombatManager>();
         if (_combatManager.enabled == false)
             _combatManager.enabled = true;
     }

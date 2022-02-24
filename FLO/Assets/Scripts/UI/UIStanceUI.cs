@@ -12,7 +12,7 @@ public class UIStanceUI : MonoBehaviour
     [FormerlySerializedAs("m_mainStanceImage")] [SerializeField] Image _mainStanceImage;
 
     [FormerlySerializedAs("m_controlPanel")] public GameObject _controlPanel;
-    private CombatManagerScript _combatManager;
+    private CombatManager _combatManager;
 
     // Start is called before the first frame update
     void Start()

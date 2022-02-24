@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class S3Transition2Behaviour : StateMachineBehaviour
 {
-    private CombatManagerScript _combatManager;
+    private CombatManager _combatManager;
 
     [PunRPC]
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _combatManager = animator.GetComponent<CombatManagerScript>();
+        _combatManager = animator.GetComponent<CombatManager>();
         
         HandleAttackScream(animator, stateInfo);
     }

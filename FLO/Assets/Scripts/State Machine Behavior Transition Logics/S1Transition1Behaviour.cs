@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class S1Transition1Behaviour : StateMachineBehaviour
 {
-    private CombatManagerScript _combatManager;
+    private CombatManager _combatManager;
     private PhotonView _view;
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _combatManager = animator.GetComponent<CombatManagerScript>();
+        _combatManager = animator.GetComponent<CombatManager>();
         _view = animator.GetComponent<PhotonView>();
         
         HandleAttackScream(animator, stateInfo);
