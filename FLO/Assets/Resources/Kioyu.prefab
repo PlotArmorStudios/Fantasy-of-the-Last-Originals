@@ -7296,6 +7296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6575826d3157d8545ad81933745991a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsJumping: 0
   _playerID: 0
   _layerMask:
     serializedVersion: 2
@@ -7310,7 +7311,6 @@ MonoBehaviour:
   _camera: {fileID: 1450810383}
   CamTransform: {fileID: 0}
   Stance: 0
-  IsJumping: 0
 --- !u!114 &77006572047640341
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,9 +52,9 @@ public abstract class KnockBackHandler : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public abstract void ApplyKnockBack(float attackDefinitionHitStopDuration);
+    public abstract void ApplyHitStop(float attackDefinitionHitStopDuration);
 
-    public abstract void AllowKnockBackToApply(Vector3 attackForce);
+    public abstract void ApplyKnockBack(Vector3 attackForce);
 
     public abstract void SetAirStall(float attackDefinitionAirStallDuration);
 

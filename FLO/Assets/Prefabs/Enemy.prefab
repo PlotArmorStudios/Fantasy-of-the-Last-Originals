@@ -7387,9 +7387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyState: 0
-  _playerTarget: {fileID: 0}
   _targetDetectRange: 5
-  _attackDelay: 2
   _attackRange: 2
 --- !u!114 &5769214997430329452
 MonoBehaviour:
@@ -7526,6 +7524,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ff26b4cbe84e7e8e55a3c8b525893a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _detectionRadius: 5
+  _attackRadius: 2
+  _attackDelay: 5
+  _returnHomeTime: 4
+  _homeRadius: 10
 --- !u!1 &6761636888401643418
 GameObject:
   m_ObjectHideFlags: 0

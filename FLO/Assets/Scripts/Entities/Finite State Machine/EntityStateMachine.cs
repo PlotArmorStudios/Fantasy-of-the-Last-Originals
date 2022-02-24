@@ -1,4 +1,7 @@
+//#define DEBUG_LOG
+
 using System;
+using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,8 +11,10 @@ public class EntityStateMachine : MonoBehaviour
 {
     [SerializeField] private float _detectionRadius = 5f;
     [SerializeField] private float _attackRadius = 2f;
-    [SerializeField] private float _returnHomeDistance = 10f;
-    
+    [SerializeField] private float _attackDelay = 2f;
+    [SerializeField] private float _returnHomeTime = 4f;
+    [SerializeField] private float _homeRadius = 2f;
+
     private StateMachine _stateMachine;
     private NavMeshAgent _navMeshAgent;
     private Player _player;
@@ -21,7 +26,18 @@ public class EntityStateMachine : MonoBehaviour
     private Dead _dead;
     private ReturnHome _returnHome;
     private Patrol _patrol;
+    private Launch _launch;
+    private Hitstun _hitstun;
 
+    public float AttackDelay => _attackDelay;
+    public float ReturnHomeTime => _returnHomeTime;
+    private bool IsHome => Vector3.Distance(_entity.transform.position, _entity.InitialPosition) <= _homeRadius;
+    private float DistanceToPlayer => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position);
+    public bool Invulnerable => false;
+    public bool Hitstun { get; set; }
+    public bool Launch { get; set; }
+    public bool Land { get; set; }
+    public float FallTime => _entity.FallTime;
 
     private void Start()
     {
@@ -34,7 +50,7 @@ public class EntityStateMachine : MonoBehaviour
         InitializeStates();
 
         AddStateTransitions();
-        
+
         //Set default state
         _stateMachine.SetState(_idle);
     }
@@ -48,6 +64,8 @@ public class EntityStateMachine : MonoBehaviour
         _dead = new Dead(_entity);
         _returnHome = new ReturnHome(_entity);
         _patrol = new Patrol(_entity);
+        _launch = new Launch(_entity);
+        _hitstun = new Hitstun(_entity);
     }
 
     private void AddStateTransitions()
@@ -56,59 +74,93 @@ public class EntityStateMachine : MonoBehaviour
             _idle,
             _patrol,
             () => ShouldPatrol());
-        
+
         _stateMachine.AddTransition(
             _patrol,
             _idle,
             () => !ShouldPatrol());
-        
+
         _stateMachine.AddTransition(
             _idle,
             _chasePlayer,
-            () => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _detectionRadius);
-        
+            () => DistanceToPlayer < _detectionRadius);
+
         _stateMachine.AddTransition(
             _patrol,
             _chasePlayer,
-            () => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _detectionRadius);
-        
+            () => DistanceToPlayer < _detectionRadius);
+
         _stateMachine.AddTransition(
             _chasePlayer,
             _attack,
-            () => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) < _attackRadius);
-        
+            () => DistanceToPlayer < _attackRadius);
+
         _stateMachine.AddTransition(
             _attack,
             _chasePlayer,
-            () => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) > _attackRadius);
-        
+            () => DistanceToPlayer > _attackRadius);
+        _stateMachine.AddTransition(
+            _attack,
+            _idle,
+            () => DistanceToPlayer > _attackRadius);
         _stateMachine.AddTransition(
             _chasePlayer,
             _idle,
-            () => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position) > _detectionRadius);
-        
+            () => DistanceToPlayer > _detectionRadius);
+
         _stateMachine.AddTransition(
             _idle,
             _returnHome,
-            () => Vector3.Distance(_navMeshAgent.transform.position, _entity.InitialPosition) > _returnHomeDistance);
-        
+            () => !IsHome && _idle.UpdateReturnHomeTime());
+
         _stateMachine.AddTransition(
             _returnHome,
             _idle,
-            () => Mathf.Approximately(Vector3.Distance(_entity.transform.position, _entity.InitialPosition), 0));
-        
+            () => IsHome);
+
+        _stateMachine.AddTransition(
+            _returnHome,
+            _chasePlayer,
+            () => DistanceToPlayer < _detectionRadius);
+        _stateMachine.AddTransition(
+            _launch,
+            _idle,
+            () => FallTime > 0 && _entity.IsGrounded);
+
         _stateMachine.AddAnyTransition(_dead, () => _entity.Health <= 0);
+        _stateMachine.AddAnyTransition(_launch, () => !Invulnerable && Launch);
+        _stateMachine.AddAnyTransition(_hitstun, () => !Invulnerable && Hitstun);
     }
+
+
 
     private bool ShouldPatrol()
     {
         return false;
     }
 
+    public IEnumerator SetStunFalse()
+    {
+        if (Launch)
+        {
+            yield return new WaitForSeconds(.1f);
+            Launch = false;
+        }
+
+        if (Hitstun)
+        {
+            yield return new WaitForSeconds(.1f);
+            Hitstun = false;
+        }
+    }
 
     private void Update()
     {
+#if DEBUG_LOG
+        Debug.Log("Launch: " + Launch);
+        Debug.Log("Hitstun: " + Hitstun);
+        Debug.Log(FallTime);
+#endif
         _stateMachine.Tick();
-        Debug.Log(Mathf.Approximately(Vector3.Distance(_entity.transform.position, _entity.InitialPosition), 0));
     }
 }

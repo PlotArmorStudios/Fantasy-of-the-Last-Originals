@@ -20,13 +20,14 @@ MonoBehaviour:
   Damage: 10
   AttackRange: 1
   KnockBackStrength: 1
-  KnockUpStrength: 1
+  KnockUpStrength: 2
   StunDuration: 0.1
   AirBorneKnockUp: 1
   LaunchLimiter: 0.2
   DecelerationDuration: 1
   HitStopDuration: 0.01
   AirStallDuration: 0.01
+  DownwardPull: 0
   HitBoxLinger: 0.2
   Effect: {fileID: 106404, guid: ad806be279436784d8fa381a33f38f51, type: 3}
   EffectPositionX: 0
@@ -35,3 +36,6 @@ MonoBehaviour:
   EffectRotationX: 0
   EffectRotationY: 0
   EffectRotationZ: 0
+  EffectScaleX: 0
+  EffectScaleY: 0
+  EffectScaleZ: 0

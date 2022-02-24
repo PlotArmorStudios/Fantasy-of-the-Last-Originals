@@ -26,16 +26,23 @@ public abstract class HandleFallingAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _animator.SetBool("Grounded", RigidBodyStunHandler._groundCheck.IsGrounded);
-
-        if (!_animator.GetBool("Grounded"))
-            _animator.SetFloat("Falling", _rb.velocity.y);
-        else
-            _animator.SetFloat("Falling", 0);
-
-        if (!_groundCheck.IsGrounded && _animator.GetFloat("Falling") < .1)
+        _animator.SetBool("Grounded", _groundCheck.IsGrounded);
+        if (_groundCheck.IsGrounded)
         {
-            var hit = Physics.CheckSphere(new Vector3(transform.position.x, transform.position.y + _sphereYOffSet, transform.position.z), _landingRadius, _layerMask);
+            _animator.SetFloat("Falling", 0);
+            _animator.SetFloat("Raising", 0);
+        }
+        else
+        {
+            _animator.SetFloat("Falling", _rb.velocity.y);
+            _animator.SetFloat("Raising", _rb.velocity.y);
+        }
+
+        if (!_groundCheck.IsGrounded && _rb.velocity.y < .1)
+        {
+            var hit = Physics.CheckSphere(
+                new Vector3(transform.position.x, transform.position.y + _sphereYOffSet, transform.position.z),
+                _landingRadius, _layerMask);
             if (hit)
                 PlayFallAnimation();
         }

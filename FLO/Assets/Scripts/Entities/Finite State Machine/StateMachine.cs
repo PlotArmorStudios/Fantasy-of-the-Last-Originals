@@ -45,6 +45,7 @@ public class StateMachine //Stores a list of states that can be added or removed
         _transition = CheckForTransition();
         if(_transition != null) SetState(_transition.To);
         _currentState.Tick();
+        Debug.Log($"Ticking {_currentState}");
     }
 
     private StateTransition CheckForTransition()

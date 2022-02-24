@@ -20,6 +20,7 @@ public class Dead : IState
     public void OnEnter()
     {
         //Drop loot
+        Debug.Log("Dead");
         _despawnTime = Time.time + DESPAWN_DELAY;
     }
 

@@ -20,7 +20,7 @@ public enum PlayerStance
     Stance4
 }
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     [SerializeField] private PlayerID _playerID;
     [SerializeField] private LayerMask _layerMask;
@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
     public Transform CamTransform;
     public PlayerStance Stance;
 
-    public bool IsJumping;
 
     private Vector3 _movement;
     private Vector3 _heightMovement;
@@ -247,15 +246,15 @@ public class Player : MonoBehaviour
     }
 
     //Landing Functionality
-    void OnCollisionEnter(Collision collisionInfo)
-    {
-        if (collisionInfo.collider.tag == "Ground")
-        {
-            IsJumping = false;
-            _animator.SetBool("Airborne", false);
-            _animator.SetTrigger("Landing");
-        }
-    }
+    // private void OnCollisionEnter(Collision collisionInfo)
+    // {
+    //     if (collisionInfo.collider.tag == "Ground")
+    //     {
+    //         IsJumping = false;
+    //         _animator.SetBool("Airborne", false);
+    //         _animator.SetTrigger("Landing");
+    //     }
+    // }
 
     private void OnDisable()
     {

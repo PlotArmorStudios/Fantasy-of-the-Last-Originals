@@ -32,6 +32,6 @@ public class CrunchEffect : MonoBehaviour, IEffect
         if (PhotonNetwork.IsConnected)
             PhotonNetwork.Instantiate(_crunchEffect.name, transform.position, Quaternion.identity);
         else
-            Instantiate(_crunchEffect, transform.position, Quaternion.identity);
+            Instantiate(_crunchEffect, transform.position, Quaternion.identity, transform);
     }
 }

@@ -45,15 +45,14 @@ public class RigidBodyStunHandler : KnockBackHandler
 
         if (!_groundCheck.UpdateIsGrounded())
         {
-            //ApplyAirStall();
 
             if (_targetSkillTypeUsed == SkillType.LinkSkill)
             {
-                ApplyLinkSkillForces();
+                ApplyLinkSkillGravity();
             }
             else if (_targetSkillTypeUsed != SkillType.LinkSkill)
             {
-                ApplyHookSkillForces();
+                ApplyHookSkillGravity();
             }
         }
         else
@@ -71,7 +70,7 @@ public class RigidBodyStunHandler : KnockBackHandler
         CurrentDownForce = 0;
     }
 
-    private void ApplyHookSkillForces()
+    private void ApplyHookSkillGravity()
     {
         if (IsRaising)
         {
@@ -95,7 +94,7 @@ public class RigidBodyStunHandler : KnockBackHandler
         }
     }
 
-    private void ApplyLinkSkillForces()
+    private void ApplyLinkSkillGravity()
     {
         IsAboveContactPoint = transform.position.y >= ContactPointLaunchLimiter.y;
         if (transform.position.y >= ContactPointLaunchLimiter.y)
@@ -150,7 +149,7 @@ public class RigidBodyStunHandler : KnockBackHandler
     {
         if (ApplyHitStopDuration)
         {
-            StartCoroutine(KnockBackAfterHitStop(KnockBackForce));
+            StartCoroutine(KnockBackAfterHitStop());
         }
     }
 
@@ -160,19 +159,28 @@ public class RigidBodyStunHandler : KnockBackHandler
             _fallAccelerationMultiplier = 5f;
     }
 
-    public override void AllowKnockBackToApply(Vector3 attackForce)
+    public override void ApplyKnockBack(Vector3 attackForce)
     {
         KnockBackForce = attackForce;
+        
         if (_targetSkillTypeUsed == SkillType.LinkSkill)
-        {
             _linkSkillKnockBack = attackForce.z;
-        }
     }
 
-    public override void ApplyKnockBack(float hitStopDuration)
+    public override void ApplyHitStop(float hitStopDuration)
     {
         ApplyHitStopDuration = true;
         HitStopDuration = hitStopDuration;
+    }
+    
+    IEnumerator KnockBackAfterHitStop()
+    {
+        _rb.velocity = Vector3.zero;
+
+        yield return new WaitForSeconds(HitStopDuration);
+        _rb.velocity = KnockBackForce;
+
+        ApplyHitStopDuration = false;
     }
 
     public override void SetContactPoint(SkillType skillType, Vector3 contactPoint)
@@ -203,12 +211,4 @@ public class RigidBodyStunHandler : KnockBackHandler
         AirStall = false;
     }
 
-    IEnumerator KnockBackAfterHitStop(Vector3 knockBack)
-    {
-        _rb.velocity = Vector3.zero;
-        yield return new WaitForSeconds(HitStopDuration);
-        _rb.velocity = KnockBackForce;
-
-        ApplyHitStopDuration = false;
-    }
 }

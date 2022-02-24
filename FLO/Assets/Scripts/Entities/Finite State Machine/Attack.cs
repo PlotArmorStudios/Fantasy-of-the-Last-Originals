@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System;
 
 public class Attack : IState
 {
@@ -18,8 +17,8 @@ public class Attack : IState
     {
         _entity = entity;
         _player = player;
-        
         _animator = _entity.Animator;
+        _attackTimer = 4.5f;
     }
 
     public void Tick()
@@ -29,18 +28,20 @@ public class Attack : IState
 
     public void OnEnter()
     {
+        _animator.SetBool("Running", false);
+        _attackDelay = _entity.StateMachine.AttackDelay;
     }
 
     public void OnExit()
     {
+        _attackTimer = 4.5f;
     }
 
-    void AttackPlayer()
+    private void AttackPlayer()
     {
         if (_attackTimer < _attackDelay)
             _attackTimer += Time.deltaTime;
 
-        _animator.SetBool("Running", false);
         _entity.transform.rotation = Quaternion.Slerp(_entity.transform.rotation,
             Quaternion.LookRotation(_player.transform.position - _entity.transform.position), 5f * Time.deltaTime);
 

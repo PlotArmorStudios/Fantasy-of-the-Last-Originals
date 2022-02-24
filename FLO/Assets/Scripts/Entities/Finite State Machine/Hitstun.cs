@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Hitstun : IState
 {
+    public Hitstun(Entity entity)
+    {
+    }
+
     public void Tick()
     {
     }

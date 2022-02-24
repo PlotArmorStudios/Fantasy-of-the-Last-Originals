@@ -33,7 +33,7 @@ public abstract class HitBox : MonoBehaviour
     void OnEnable()
     {
         GetComponentInParent<AttackDefinitionManager>().ActiveHitBox = this;
-        
+
         GetHitBoxDefinition();
         DisableMeshRendererIfPresent();
         AddSwitchCameraComponent();
@@ -41,7 +41,7 @@ public abstract class HitBox : MonoBehaviour
         ActivateComboGravityPointIfLinkSkill();
 
         SetDefaultHitboxRange();
-        
+
         if (!GetComponent<TriggerStunAnimation>())
             AddProperHitstunComponent();
     }
@@ -118,10 +118,10 @@ public abstract class HitBox : MonoBehaviour
         if (_comboGravityPoint != null)
             if (_comboGravityPoint.gameObject.activeInHierarchy)
                 _comboGravityPoint.gameObject.SetActive(false);
-        
+
         if (GetComponentInParent<AttackDefinitionManager>())
             GetComponentInParent<AttackDefinitionManager>().ActiveHitBox = null;
-        
+
         AttackDefinition = null;
     }
 
@@ -158,13 +158,12 @@ public abstract class HitBox : MonoBehaviour
                 return;
             }
 
-            
+
             GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
             CacheTargetComponents(collider);
-
             _targetStunHandler.DisableComponents();
             TransferInfoToTarget(collider);
-            
+
             _savedTargetID = _newTargetID;
         }
     }
@@ -210,6 +209,19 @@ public abstract class HitBox : MonoBehaviour
 
     private void HandleTargetKnockback(KnockBackHandler targetStunHandler, Vector3 attackDirection)
     {
+        if (AttackDefinition.KnockUpStrength <= 0)
+        {
+            targetStunHandler.GetComponent<EntityStateMachine>().Hitstun = true;
+            Debug.Log("Set hitstun true");
+            StartCoroutine(targetStunHandler.GetComponent<EntityStateMachine>().SetStunFalse());
+        }
+        else if (AttackDefinition.KnockUpStrength > 0)
+        {
+            targetStunHandler.GetComponent<EntityStateMachine>().Launch = true;
+            Debug.Log("Set launch true");
+            StartCoroutine(targetStunHandler.GetComponent<EntityStateMachine>().SetStunFalse());
+        }
+
         if (targetStunHandler._groundCheck.UpdateIsGrounded())
         {
             attackDirection.y = AttackDefinition.KnockUpStrength;
@@ -229,7 +241,6 @@ public abstract class HitBox : MonoBehaviour
     private void ChangeRigidBodySettings()
     {
         _targetRigidBody.isKinematic = false;
-        _targetRigidBody.useGravity = false;
         _targetRigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY
                                                                             | RigidbodyConstraints.FreezeRotationZ;
     }
@@ -251,9 +262,8 @@ public abstract class HitBox : MonoBehaviour
     {
         targetStun.AirBorneKnockUp = AttackDefinition.AirBorneKnockUp;
         targetStun.StunDuration = AttackDefinition.StunDuration;
-        targetStun.ApplyKnockBack(AttackDefinition.HitStopDuration);
-        targetStun.AllowKnockBackToApply(_knockBackPower);
-        //targetStun.SetAirStall(AttackDefinition.AirStallDuration);
+        targetStun.ApplyHitStop(AttackDefinition.HitStopDuration);
+        targetStun.ApplyKnockBack(_knockBackPower);
         targetStun.SetContactPoint(AttackDefinition.SkillType, _comboPoint);
         targetStun.ApplyGroundedAttackPull(AttackDefinition.DownwardPull);
         targetStun.ResetDownForce();

@@ -3,19 +3,21 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Entity : MonoBehaviour
+public class Entity : Character
 {
     [SerializeField] EnemyState _enemyState = EnemyState.Idle;
     [SerializeField] float _targetDetectRange = 5f;
-    [SerializeField] float _attackDelay = 2f;
     [SerializeField] float _attackRange = 2f;
 
 
+    public Rigidbody Rigidbody { get; private set; }
     public NavMeshAgent NavAgent { get; private set; }
     public Player PlayerTarget { get; private set; }
     public Animator Animator { get; private set; }
     public Vector3 InitialPosition { get; private set; }
+    public EntityStateMachine StateMachine { get; private set; }
     public float Health => _health.CurrentHealthValue;
+    public bool IsGrounded => _groundCheck.IsGrounded;
 
     private RigidBodyStunHandler _rigidBodyStunHandler;
     private EnemyDeathLogic _enemyDeathLogic;
@@ -23,14 +25,18 @@ public class Entity : MonoBehaviour
 
     private float _attackTimer;
     private bool _canResetNavMesh;
+    private GroundCheck _groundCheck;
 
     private void Awake()
     {
         PlayerTarget = FindObjectOfType<Player>();
         NavAgent = GetComponent<NavMeshAgent>();
         Animator = GetComponent<Animator>();
+        StateMachine = GetComponent<EntityStateMachine>();
+        Rigidbody = GetComponent<Rigidbody>();
         InitialPosition = transform.position;
 
+        _groundCheck = GetComponent<GroundCheck>();
         _health = GetComponent<EnemyHealth>();
         _enemyDeathLogic = GetComponent<EnemyDeathLogic>();
         _rigidBodyStunHandler = GetComponent<RigidBodyStunHandler>();
@@ -38,13 +44,10 @@ public class Entity : MonoBehaviour
 
     void Update()
     {
-        if (NavAgent.isActiveAndEnabled && PlayerTarget)
-        {
-            //SetEnemyState();
-            //EnemyStateLogicHandler();
-        }
+        if (!_groundCheck.IsGrounded)
+            FallTime += Time.deltaTime;
     }
-
+    
     void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag("Foot") || collider.CompareTag("Hand"))
@@ -131,24 +134,6 @@ public class Entity : MonoBehaviour
         Animator.SetBool("Running", false);
     }
 
-    void AttackPlayer()
-    {
-        if (_attackTimer < _attackDelay)
-            _attackTimer += Time.deltaTime;
-
-        NavAgent.isStopped = true;
-        Animator.SetBool("Running", false);
-        transform.rotation = Quaternion.Slerp(transform.rotation,
-            Quaternion.LookRotation(PlayerTarget.transform.position - transform.position), 5f * Time.deltaTime);
-
-        if (_attackTimer >= _attackDelay)
-        {
-            Animator.SetBool("Attacking", true);
-            StartCoroutine(ResetAttackTimer());
-        }
-        else
-            Animator.SetBool("Attacking", false);
-    }
 
     void FollowPlayer()
     {

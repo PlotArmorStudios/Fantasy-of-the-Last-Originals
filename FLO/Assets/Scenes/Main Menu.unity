@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 15
   m_LinearFogEnd: 350
-  m_AmbientSkyColor: {r: 0.7389706, g: 0.7495436, b: 0.75, a: 1}
-  m_AmbientEquatorColor: {r: 0.60294116, g: 0.60294116, b: 0.60294116, a: 1}
-  m_AmbientGroundColor: {r: 0.24264705, g: 0.24264705, b: 0.24264705, a: 1}
-  m_AmbientIntensity: 2.46
-  m_AmbientMode: 0
+  m_AmbientSkyColor: {r: 2.9960785, g: 2.9960785, b: 2.9960785, a: 1}
+  m_AmbientEquatorColor: {r: 1, g: 1, b: 1, a: 1}
+  m_AmbientGroundColor: {r: 5.278032, g: 5.278032, b: 5.278032, a: 1}
+  m_AmbientIntensity: 1.61
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 99a400087584f4263b1a8979d6007ad4, type: 2}
   m_HaloStrength: 0.5
@@ -33,12 +33,12 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 1024
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0.094
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2003931976}
-  m_IndirectSpecularColor: {r: 0.32293558, g: 0.80933326, b: 0.92864156, a: 1}
+  m_IndirectSpecularColor: {r: 0.046154942, g: 0.11569522, b: 0.13274151, a: 0.094}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -290,10 +290,10 @@ RectTransform:
   m_Father: {fileID: 860375277}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 154, y: -124.799995}
+  m_SizeDelta: {x: 228, y: 147.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &144818783
 MonoBehaviour:
@@ -500,10 +500,10 @@ RectTransform:
   m_Father: {fileID: 860375277}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 154, y: -272.5}
+  m_SizeDelta: {x: 228, y: 147.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &205309343
 MonoBehaviour:
@@ -1572,6 +1572,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -2040,10 +2041,10 @@ RectTransform:
   m_Father: {fileID: 1916075491}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 266.75616, y: -150}
+  m_SizeDelta: {x: 308, y: 397.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &860375278
 MonoBehaviour:
@@ -3451,7 +3452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 37.503, y: -32.13}
+  m_AnchoredPosition: {x: 37.50293, y: -32.130005}
   m_SizeDelta: {x: 502.84, y: 231.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1422503461
@@ -4133,7 +4134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2042691074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4480,6 +4481,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7504471277744446326, guid: c0feee14acf2051438db40bcad760b81, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7504471277744446328, guid: c0feee14acf2051438db40bcad760b81, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.79061455
@@ -4505,6 +4510,10 @@ PrefabInstance:
       value: 38.98
       objectReference: {fileID: 0}
     - target: {fileID: 7504471277744446329, guid: c0feee14acf2051438db40bcad760b81, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504471277744446329, guid: c0feee14acf2051438db40bcad760b81, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
@@ -4518,11 +4527,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7504471277744446329, guid: c0feee14acf2051438db40bcad760b81, type: 3}
       propertyPath: m_Intensity
-      value: 2.13
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504471277744446329, guid: c0feee14acf2051438db40bcad760b81, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7504471277744446329, guid: c0feee14acf2051438db40bcad760b81, type: 3}
       propertyPath: m_Shadows.m_Type
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504471277744446329, guid: c0feee14acf2051438db40bcad760b81, type: 3}
+      propertyPath: m_BounceIntensity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7505863923971264779, guid: c0feee14acf2051438db40bcad760b81, type: 3}
       propertyPath: m_LocalPosition.x
