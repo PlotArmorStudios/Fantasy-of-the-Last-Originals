@@ -18,7 +18,7 @@ public class Idle1Behaviour : StateMachineBehaviour
         animator.SetBool("Attack 2", false);
         animator.SetBool("Attack 3", false);
         
-        animator.GetComponent<Player>().enabled = true;
+        //animator.GetComponent<Player>().enabled = true;
         
         _combatManager.InputCount = 0;
     }

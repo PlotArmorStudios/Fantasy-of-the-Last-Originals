@@ -122,7 +122,7 @@ public class AutoTargetEnemy : MonoBehaviour
             }
         }
 
-        //Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), _rayRotation * 3, Color.blue);
+        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), _rayRotation * 3, Color.blue);
     }
 
     void TurnTowardEnemy()
