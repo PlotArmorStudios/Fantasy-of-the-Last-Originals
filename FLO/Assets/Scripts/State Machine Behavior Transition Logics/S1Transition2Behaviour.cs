@@ -6,12 +6,14 @@ using UnityEngine;
 public class S1Transition2Behaviour : StateMachineBehaviour
 {
     private CombatManager _combatManager;
+    private ToggleStance _stanceToggler;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _combatManager = animator.GetComponent<CombatManager>();
-        
+        _stanceToggler = animator.GetComponent<ToggleStance>();
+
         HandleAttackScream(animator, stateInfo);
     }
 
@@ -83,14 +85,10 @@ public class S1Transition2Behaviour : StateMachineBehaviour
         if (!animator.GetBool("Attack 3") && stateInfo.IsName("S1 Transition 2") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed2(_combatManager.Player.Stance))
         {
             animator.SetBool("Attacking", false);
-            if (animator.GetBool("Stance1"))
-                animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance2"))
-                animator.CrossFadeInFixedTime("Stance 2 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance3"))
-                animator.CrossFadeInFixedTime("Stance 3 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance4"))
-                animator.CrossFadeInFixedTime("Stance 4 Blend Tree", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance1) animator.CrossFadeInFixedTime("Stance 1", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance2) animator.CrossFadeInFixedTime("Stance 2", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance3) animator.CrossFadeInFixedTime("Stance 3", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance4) animator.CrossFadeInFixedTime("Stance 4", .25f, 0);
 
             animator.SetBool("Attack 3", false);
         }

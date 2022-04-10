@@ -22,7 +22,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private float _S4Transition2Speed = .9f;
     
     public Player Player { get; private set; }
-    public int InputCount { get; set; }
+    public int InputCount;
     public bool CanReceiveInput { get; set; }
     public bool InputReceived { get; set; }
 
@@ -125,15 +125,8 @@ public class CombatManager : MonoBehaviour
 
     public void ReceiveInput()
     {
-        if (!CanReceiveInput) //On button press, canReceiveInput will turn true if canReceiveInput is false
-        {
-            CanReceiveInput = true;
-        }
-        else
-        {
-            CanReceiveInput =
-                false; //When attack button is pressed, canReceiveInput will turn false if canReceiveInput is already true. If canReceiveInput is false, inputReceived cannot turn true
-        }
+        if (!CanReceiveInput) CanReceiveInput = true;
+        else CanReceiveInput = false;
     }
 
     //When true, player can interrupt current attack animation. Accessed through animation events.

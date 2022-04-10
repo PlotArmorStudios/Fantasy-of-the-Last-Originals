@@ -6,11 +6,15 @@ using UnityEngine;
 public class S2Transition2Behaviour : StateMachineBehaviour
 {
     private CombatManager _combatManager;
+
+    private ToggleStance _stanceToggler;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _combatManager = animator.GetComponent<CombatManager>();
-        
+        _stanceToggler = animator.GetComponent<ToggleStance>();
+
         HandleAttackScream(animator, stateInfo);
     }
 
@@ -52,25 +56,10 @@ public class S2Transition2Behaviour : StateMachineBehaviour
             //Only transition to next attack if Attack 3 is true, you are in Transition 2 state, and current animator time is greater than value specified in TransitionSpeed variables in CombatManagerScript
             if (animator.GetBool("Attack 3") && stateInfo.IsName("S2 Transition 2"))
             {
-                if (animator.GetBool("Stance1"))
-                {
-                    animator.CrossFade("S1 Attack 3", .25f, 0, 0f);
-                }
-
-                if (animator.GetBool("Stance2"))
-                {
-                    animator.CrossFade("S2 Attack 3", .25f, 0, 0f);
-                }
-
-                if (animator.GetBool("Stance3"))
-                {
-                    animator.CrossFade("S3 Attack 3", .25f, 0, 0f);
-                }
-
-                if (animator.GetBool("Stance4"))
-                {
-                    animator.CrossFade("S4 Attack 3", .25f, 0, 0f);
-                }
+                if (animator.GetBool("Stance1")) animator.CrossFade("S1 Attack 3", .25f, 0, 0f);
+                if (animator.GetBool("Stance2")) animator.CrossFade("S2 Attack 3", .25f, 0, 0f);
+                if (animator.GetBool("Stance3")) animator.CrossFade("S3 Attack 3", .25f, 0, 0f);
+                if (animator.GetBool("Stance4")) animator.CrossFade("S4 Attack 3", .25f, 0, 0f);
 
                 _combatManager.ReceiveInput();
                 _combatManager.InputReceived = false;
@@ -80,14 +69,10 @@ public class S2Transition2Behaviour : StateMachineBehaviour
         if (!animator.GetBool("Attack 3") && stateInfo.IsName("S2 Transition 2") && stateInfo.normalizedTime >
             _combatManager.ReturnTransitionSpeed2(_combatManager.Player.Stance))
         {
-            if (animator.GetBool("Stance1"))
-                animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance2"))
-                animator.CrossFadeInFixedTime("Stance 2 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance3"))
-                animator.CrossFadeInFixedTime("Stance 3 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance4"))
-                animator.CrossFadeInFixedTime("Stance 4 Blend Tree", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance1) animator.CrossFadeInFixedTime("Stance 1", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance2) animator.CrossFadeInFixedTime("Stance 2", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance3) animator.CrossFadeInFixedTime("Stance 3", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance4) animator.CrossFadeInFixedTime("Stance 4", .25f, 0);
 
             animator.SetBool("Attack 3", false);
         }

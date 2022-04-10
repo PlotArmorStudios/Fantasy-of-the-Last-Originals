@@ -7272,6 +7272,7 @@ MonoBehaviour:
   _S3Transition2Speed: 0.9
   _S4Transition1Speed: 0.9
   _S4Transition2Speed: 0.9
+  InputCount: 0
 --- !u!114 &135566279129276547
 MonoBehaviour:
   m_ObjectHideFlags: 0

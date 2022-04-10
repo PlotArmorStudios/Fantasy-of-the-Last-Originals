@@ -7,13 +7,14 @@ public class S1Transition1Behaviour : StateMachineBehaviour
 {
     private CombatManager _combatManager;
     private PhotonView _view;
-    
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    private ToggleStance _stanceToggler;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _combatManager = animator.GetComponent<CombatManager>();
         _view = animator.GetComponent<PhotonView>();
-        
+        _stanceToggler = animator.GetComponent<ToggleStance>();
+
         HandleAttackScream(animator, stateInfo);
     }
     
@@ -33,7 +34,6 @@ public class S1Transition1Behaviour : StateMachineBehaviour
         }
     }
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Play attack 3 as well if attack key was hit three times
@@ -52,22 +52,22 @@ public class S1Transition1Behaviour : StateMachineBehaviour
             {
                 animator.SetBool("Attacking", false);
 
-                if (animator.GetBool("Stance1"))
+                if (_stanceToggler.Stance == PlayerStance.Stance1)
                 {
                     animator.SetBool("Attacking", true);
                     animator.CrossFade("S1 Attack 2", .25f, 0, 0f);
                 }
-                if (animator.GetBool("Stance2"))
+                if (_stanceToggler.Stance == PlayerStance.Stance1)
                 {
                     animator.SetBool("Attacking", true);
                     animator.CrossFade("S2 Attack 2", .25f, 0, 0f);
                 }
-                if (animator.GetBool("Stance3"))
+                if (_stanceToggler.Stance == PlayerStance.Stance1)
                 {
                     animator.SetBool("Attacking", true);
                     animator.CrossFade("S3 Attack 2", .25f, 0, 0f);
                 }
-                if (animator.GetBool("Stance4"))
+                if (_stanceToggler.Stance == PlayerStance.Stance1)
                 {
                     animator.SetBool("Attacking", true);
                     animator.CrossFade("S4 Attack 2", .25f, 0, 0f);
@@ -81,14 +81,10 @@ public class S1Transition1Behaviour : StateMachineBehaviour
         if (!animator.GetBool("Attack 2") && stateInfo.IsName("S1 Transition 1") && stateInfo.normalizedTime > _combatManager.ReturnTransitionSpeed1(_combatManager.Player.Stance))
         {
             animator.SetBool("Attacking", false);
-            if (animator.GetBool("Stance1"))
-                animator.CrossFadeInFixedTime("Stance 1 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance2"))
-                animator.CrossFadeInFixedTime("Stance 2 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance3"))
-                animator.CrossFadeInFixedTime("Stance 3 Blend Tree", .25f, 0);
-            if (animator.GetBool("Stance4"))
-                animator.CrossFadeInFixedTime("Stance 4 Blend Tree", .25f, 0); //THIS IS WHERE YOU LEFT OFF 4/30/21
+            if (_stanceToggler.Stance == PlayerStance.Stance1) animator.CrossFadeInFixedTime("Stance 1", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance2) animator.CrossFadeInFixedTime("Stance 2", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance3) animator.CrossFadeInFixedTime("Stance 3", .25f, 0);
+            if (_stanceToggler.Stance == PlayerStance.Stance4) animator.CrossFadeInFixedTime("Stance 4", .25f, 0);
         }
 
         //*USE THIS TO IMPLEMENT SMOOTH TRANSITIONS FROM STANCE TO STANCE WHILE NOT USING MECANIM TRANSITIONS
