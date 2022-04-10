@@ -20,7 +20,7 @@ public class PlayerStateMachine : MonoBehaviour
         AddStateTransitions();
 
         //Set default state
-        _stateMachine.SetState(_attacking);
+        _stateMachine.SetState(_idling);
     }
 
     private void InitializeStates()
@@ -61,5 +61,6 @@ public class PlayerStateMachine : MonoBehaviour
     private void Update()
     {
         _stateMachine.Tick();
+        Debug.Log(CurrentAnimatorState.AttackToTransitionTo);
     }
 }
