@@ -59,7 +59,7 @@ public class TransitionManager : StateMachineBehaviour
         if (!animator.GetBool($"Attack {_transitionToAttack}") &&
             stateInfo.IsTag("Transition") &&
             stateInfo.normalizedTime >
-            _combatManager.ReturnTransitionSpeed1(_combatManager.Player.Stance))
+            .9f)
         {
             animator.SetBool("Attacking", false);
             animator.CrossFadeInFixedTime($"Stance {_stanceToggler.CurrentStance}", .25f, 0);

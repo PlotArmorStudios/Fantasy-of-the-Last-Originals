@@ -7,7 +7,6 @@ public class InTransition : IState
     private AnimatorStateInfo _stateInfo;
     private CombatManager _combatManager;
     private ToggleStance _stanceToggler;
-    private int _transitionToAttack;
 
     public InTransition(Animator animator)
     {
