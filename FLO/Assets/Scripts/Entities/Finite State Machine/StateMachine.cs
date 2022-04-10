@@ -1,7 +1,9 @@
 //#define DebugStateMachine
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class StateMachine //Stores a list of states that can be added or removed from state machine.
 {
@@ -45,6 +47,7 @@ public class StateMachine //Stores a list of states that can be added or removed
         _currentState.OnEnter();
     }
 
+    [PunRPC]
     public void Tick()
     {
         _transition = CheckForTransition();

@@ -12,15 +12,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField _createInput;
     [SerializeField] private TMP_InputField _joinInput;
 
-    public static NetworkManager instance;
+    public static NetworkManager Instance;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
             gameObject.SetActive(false);
         else
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
     }

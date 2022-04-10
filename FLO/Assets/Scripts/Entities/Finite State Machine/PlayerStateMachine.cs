@@ -1,7 +1,8 @@
 using System;
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerStateMachine : MonoBehaviour
+public class PlayerStateMachine : MonoBehaviourPunCallbacks
 {
     private Animator _animator;
     private StateMachine _stateMachine;
@@ -60,7 +61,13 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
-        _stateMachine.Tick();
+        photonView.RPC("TickStateMachine", RpcTarget.All);
         Debug.Log(CurrentAnimatorState.AttackToTransitionTo);
+    }
+
+    [PunRPC]
+    private void TickStateMachine()
+    {
+        _stateMachine.Tick();
     }
 }

@@ -44,6 +44,8 @@ MonoBehaviour:
   - OnStateUpdate
   - HandleAttackScream
   - PositionVFX
+  - Tick
+  - TickStateMachine
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
