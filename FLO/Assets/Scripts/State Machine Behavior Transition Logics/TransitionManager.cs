@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TransitionManager : StateMachineBehaviour
 {
-    [SerializeField] private int _transitionNumber; //for example, 1
     [SerializeField] private int _transitionToAttack; //for example, 2
 
     private CombatManager _combatManager;

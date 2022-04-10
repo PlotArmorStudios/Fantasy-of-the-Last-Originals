@@ -8,6 +8,6 @@ public class StateIdentity : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        AnimatorStateName.AttackToTransitionTo = _transitionToAttack;
+        CurrentAnimatorState.AttackToTransitionTo = _transitionToAttack;
     }
 }

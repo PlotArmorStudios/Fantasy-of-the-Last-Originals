@@ -46,6 +46,16 @@ public class PlayerStateMachine : MonoBehaviour
             _attacking,
             _inTransition,
             () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Transition"));
+        
+        _stateMachine.AddTransition(
+            _inTransition,
+            _attacking,
+            () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
+        
+        _stateMachine.AddTransition(
+            _inTransition,
+            _idling,
+            () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
     }
 
     private void Update()

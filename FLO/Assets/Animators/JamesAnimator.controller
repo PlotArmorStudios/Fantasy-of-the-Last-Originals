@@ -589,7 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 1
   _transitionToAttack: 2
 --- !u!114 &-6153402870059623482
 MonoBehaviour:
@@ -1430,7 +1429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!1102 &-2417564246000557213
 AnimatorState:
@@ -1685,7 +1683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!1101 &-1819712265005914869
 AnimatorStateTransition:
@@ -1765,7 +1762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!206 &-1698162733335505255
 BlendTree:
@@ -2239,7 +2235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 2
   _transitionToAttack: 3
 --- !u!1102 &196460787188990147
 AnimatorState:
@@ -2306,7 +2301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!206 &466104852025506990
 BlendTree:
@@ -2516,7 +2510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 1
   _transitionToAttack: 2
 --- !u!1101 &1044431417961350608
 AnimatorStateTransition:
@@ -2552,7 +2545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 1
   _transitionToAttack: 2
 --- !u!1102 &1614503249832665088
 AnimatorState:
@@ -3223,7 +3215,7 @@ AnimatorStateMachine:
     m_Position: {x: 150, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3299748806036374756}
-    m_Position: {x: 570, y: 370, z: 0}
+    m_Position: {x: 570, y: 360, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -6203380260137141880}
@@ -3306,7 +3298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 1
   _transitionToAttack: 2
 --- !u!1102 &4592121461739606839
 AnimatorState:
@@ -3592,7 +3583,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!1107 &5974306173529848552
 AnimatorStateMachine:
@@ -3768,7 +3758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 2
   _transitionToAttack: 3
 --- !u!114 &6585950930752574402
 MonoBehaviour:
@@ -3782,7 +3771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 2
   _transitionToAttack: 3
 --- !u!1102 &6665238253517333416
 AnimatorState:
@@ -3871,7 +3859,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!1101 &7154544181404397730
 AnimatorStateTransition:
@@ -3907,7 +3894,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 2
   _transitionToAttack: 3
 --- !u!114 &7221336727290364036
 MonoBehaviour:
@@ -4066,7 +4052,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!1101 &7877571801361040953
 AnimatorStateTransition:
@@ -4337,7 +4322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e5f9c2644afa04dbe654e7fbf87a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionNumber: 0
   _transitionToAttack: 0
 --- !u!1101 &9165479011943269008
 AnimatorStateTransition:
