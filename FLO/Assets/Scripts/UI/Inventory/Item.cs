@@ -16,11 +16,10 @@ public class Item : MonoBehaviour
     public bool WasEquipped { get; set; }
     public ParticleSystem ActivateParticle;
 
-    void Awake()
+    private void OnEnable()
     {
         _player = FindObjectOfType<Player>();
     }
-
 
     void OnTriggerEnter(Collider other)
     {

@@ -1,26 +1,22 @@
-using System;
 using Photon.Pun;
 using UnityEngine;
-using Random = Unity.Mathematics.Random;
 
 public class Attacking : IState
 {
     private readonly Animator _animator;
+    private readonly CombatManager _combatManager;
+    private readonly int _transitionToAttack;
     private AnimatorStateInfo _stateInfo;
-    private CombatManager _combatManager;
-    private ToggleStance _stanceToggler;
-    private int _transitionToAttack;
 
     public Attacking(Animator animator)
     {
         _animator = animator;
-        _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        _stanceToggler = _animator.GetComponent<ToggleStance>();
         _combatManager = _animator.GetComponent<CombatManager>();
     }
 
     public void Tick()
     {
+        _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
         if (_combatManager.InputReceived)
         {
             if (_combatManager.InputCount <= 3)
@@ -35,8 +31,8 @@ public class Attacking : IState
 
     public void OnExit()
     {
+        
     }
-
 
     [PunRPC]
     private static void HandleAttackScream(Animator animator, AnimatorStateInfo stateInfo)

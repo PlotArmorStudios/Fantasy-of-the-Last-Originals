@@ -6,12 +6,12 @@ public class IdleBehaviour : StateMachineBehaviour
 {
     private CombatManager _combatManager;
 
-    private ToggleStance _stanceToggler;
+    private StanceToggler _stanceTogglerToggler;
     
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _combatManager = animator.GetComponent<CombatManager>();
-        _stanceToggler = animator.GetComponent<ToggleStance>();
+        _stanceTogglerToggler = animator.GetComponent<StanceToggler>();
         
         animator.SetBool("Attacking", false);
         animator.SetBool("Attack 2", false);
@@ -22,17 +22,17 @@ public class IdleBehaviour : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_stanceToggler.StanceChanged)
+        if (_stanceTogglerToggler.StanceChanged)
         {
-            animator.CrossFade("Stance " + _stanceToggler.CurrentStance, .25f, 0);
-            _stanceToggler.StanceChanged = false;
+            animator.CrossFade("Stance " + _stanceTogglerToggler.CurrentStance, .25f, 0);
+            _stanceTogglerToggler.StanceChanged = false;
         }
         
         if (_combatManager.InputReceived && _combatManager.InputCount >= 1)
         {
             animator.SetBool("Attacking", true);
 
-            animator.CrossFade($"S{_stanceToggler.CurrentStance} Attack 1", 0f, 0, 0f);
+            animator.CrossFade($"S{_stanceTogglerToggler.CurrentStance} Attack 1", 0f, 0, 0f);
             
             _combatManager.ReceiveInput();
             _combatManager.InputReceived = false;

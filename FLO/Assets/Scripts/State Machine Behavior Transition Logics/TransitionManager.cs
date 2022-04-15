@@ -8,14 +8,14 @@ public class TransitionManager : StateMachineBehaviour
     [SerializeField] private int _transitionToAttack; //for example, 2
 
     private CombatManager _combatManager;
-    private ToggleStance _stanceToggler;
+    private StanceToggler _stanceTogglerToggler;
     private PhotonView _view;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _combatManager = animator.GetComponent<CombatManager>();
         _view = animator.GetComponent<PhotonView>();
-        _stanceToggler = animator.GetComponent<ToggleStance>();
+        _stanceTogglerToggler = animator.GetComponent<StanceToggler>();
 
         HandleAttackScream(animator, stateInfo);
     }
@@ -49,7 +49,7 @@ public class TransitionManager : StateMachineBehaviour
                 stateInfo.IsTag("Transition"))
             {
                 animator.SetBool("Attacking", true);
-                animator.CrossFade($"S{_stanceToggler.CurrentStance} Attack {_transitionToAttack}", .25f, 0, 0f);
+                animator.CrossFade($"S{_stanceTogglerToggler.CurrentStance} Attack {_transitionToAttack}", .25f, 0, 0f);
 
                 _combatManager.ReceiveInput();
                 _combatManager.InputReceived = false;
@@ -62,7 +62,7 @@ public class TransitionManager : StateMachineBehaviour
             .9f)
         {
             animator.SetBool("Attacking", false);
-            animator.CrossFadeInFixedTime($"Stance {_stanceToggler.CurrentStance}", .25f, 0);
+            animator.CrossFadeInFixedTime($"Stance {_stanceTogglerToggler.CurrentStance}", .25f, 0);
         }
     }
 }

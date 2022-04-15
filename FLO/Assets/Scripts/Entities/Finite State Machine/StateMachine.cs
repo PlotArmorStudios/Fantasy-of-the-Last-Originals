@@ -1,4 +1,4 @@
-//#define DebugStateMachine
+#define DebugStateMachine
 
 using System;
 using System.Collections.Generic;

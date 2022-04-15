@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UIStanceUI : MonoBehaviour
 {
     //Stance Icon variables
-    [SerializeField] private ToggleStance _stanceToggler;
+    [FormerlySerializedAs("_stanceToggler")] [SerializeField] private StanceToggler stanceTogglerToggler;
     [SerializeField] Sprite m_stanceImage1, m_stanceImage2, m_stanceImage3, m_stanceImage4;
     [FormerlySerializedAs("m_mainStanceImage")] [SerializeField] Image _mainStanceImage;
 
@@ -34,19 +34,19 @@ public class UIStanceUI : MonoBehaviour
                 _controlPanel.SetActive(false);
             }
         }
-        if (_stanceToggler.Stance == PlayerStance.Stance1)
+        if (stanceTogglerToggler.Stance == PlayerStance.Stance1)
         {
             _mainStanceImage.sprite = m_stanceImage1;
         }
-        if (_stanceToggler.Stance == PlayerStance.Stance2)
+        if (stanceTogglerToggler.Stance == PlayerStance.Stance2)
         {
             _mainStanceImage.sprite = m_stanceImage2;
         }
-        if (_stanceToggler.Stance == PlayerStance.Stance3)
+        if (stanceTogglerToggler.Stance == PlayerStance.Stance3)
         {
             _mainStanceImage.sprite = m_stanceImage3;
         }
-        if (_stanceToggler.Stance == PlayerStance.Stance4)
+        if (stanceTogglerToggler.Stance == PlayerStance.Stance4)
         {
             _mainStanceImage.sprite = m_stanceImage4;
         }

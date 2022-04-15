@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
+    public event Func<bool> OnLand;  
     [SerializeField] LayerMask _groundLayerMask;
     [SerializeField] Transform _feet;
 
