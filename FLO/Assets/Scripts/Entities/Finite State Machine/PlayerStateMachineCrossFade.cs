@@ -7,13 +7,15 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMach
 {
     private Animator _animator;
     private StateMachine _stateMachine;
-
+    private PlayerStateMachineCrossFade Instance;
+    
     private DodgeManeuver _dodge;
     
     private AttackingCrossFade _attackingCrossFade;
     private IdlingCrossfade _idlingCrossfade;
     private InTransitionCrossFade _inTransitionCrossFade;
     private DodgingCrossFade _dodgingCrossFade;
+    private StanceToggler _stanceToggler;
     public bool Hitstun { get; set; }
     public bool Launch { get; set; }
 
@@ -24,7 +26,9 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMach
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
+        Instance = this;
+        _stanceToggler = GetComponent<StanceToggler>();
+        _animator = GetComponentInChildren<Animator>();
         _dodge = GetComponent<DodgeManeuver>();
         _stateMachine = new StateMachine();
 
@@ -38,10 +42,10 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMach
 
     private void InitializeStates()
     {
-        _idlingCrossfade = new IdlingCrossfade(_animator);
-        _attackingCrossFade = new AttackingCrossFade(_animator);
-        _inTransitionCrossFade = new InTransitionCrossFade(_animator);
-        _dodgingCrossFade = new DodgingCrossFade(_animator);
+        _idlingCrossfade = new IdlingCrossfade(Instance);
+        _attackingCrossFade = new AttackingCrossFade(Instance);
+        _inTransitionCrossFade = new InTransitionCrossFade(Instance);
+        _dodgingCrossFade = new DodgingCrossFade(Instance);
     }
     
     private void AddStateTransitions()

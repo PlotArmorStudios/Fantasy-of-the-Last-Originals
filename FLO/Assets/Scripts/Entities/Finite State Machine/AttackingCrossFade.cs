@@ -11,11 +11,11 @@ public class AttackingCrossFade : Dasher, IState
     private readonly int _transitionToAttack;
     private bool _crossFaded;
 
-    public AttackingCrossFade(Animator animator) : base(animator)
+    public AttackingCrossFade(PlayerStateMachineCrossFade stateMachine) : base(stateMachine)
     {
-        _animator = animator;
-        _combatManager = _animator.GetComponent<CombatManager>();
-        _stanceToggler = _animator.GetComponent<StanceToggler>();
+        _animator = stateMachine.GetComponentInChildren<Animator>();
+        _combatManager = stateMachine.GetComponent<CombatManager>();
+        _stanceToggler = stateMachine.GetComponent<StanceToggler>();
     }
 
     public override void Dash() => base.Dash();

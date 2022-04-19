@@ -5,14 +5,14 @@ public class IdlingCrossfade : Dasher, IState
 {
     private readonly Animator _animator;
     private readonly CombatManager _combatManager;
-    private readonly StanceToggler _stanceTogglerToggler;
+    private readonly StanceToggler _stanceToggler;
 
-    public IdlingCrossfade(Animator animator) : base(animator)
+    public IdlingCrossfade(PlayerStateMachineCrossFade stateMachine) : base(stateMachine)
     {
-        _animator = animator;
-        _combatManager = _animator.GetComponent<CombatManager>();
-        _stanceTogglerToggler = _animator.GetComponent<StanceToggler>();
-        _stanceTogglerToggler.OnStanceChanged += ChangeStance;
+        _animator = stateMachine.GetComponentInChildren<Animator>();
+        _stanceToggler = stateMachine.GetComponent<StanceToggler>();
+        _combatManager = stateMachine.GetComponent<CombatManager>();
+        _stanceToggler.OnStanceChanged += ChangeStance;
     }
 
     private void ChangeStance(int stance)
@@ -38,7 +38,7 @@ public class IdlingCrossfade : Dasher, IState
         {
             _animator.SetBool("Attacking", true);
 
-            _animator.CrossFade($"S{_stanceTogglerToggler.CurrentStance} Attack 1", 0f, 0, 0f);
+            _animator.CrossFade($"S{_stanceToggler.CurrentStance} Attack 1", 0f, 0, 0f);
 
             _combatManager.ReceiveInput();
             _combatManager.InputReceived = false;

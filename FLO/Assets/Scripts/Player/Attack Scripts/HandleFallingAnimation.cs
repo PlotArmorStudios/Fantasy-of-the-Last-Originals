@@ -19,7 +19,7 @@ public abstract class HandleFallingAnimation : MonoBehaviour
         _groundCheck = GetComponent<GroundCheck>();
         _layerMask = LayerMask.GetMask("Ground");
         _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         RigidBodyStunHandler = GetComponent<KnockBackHandler>();
     }
 

@@ -4,9 +4,9 @@ public class DodgingCrossFade : Dasher, IState
 {
     private readonly Animator _animator;
 
-    public DodgingCrossFade(Animator animator) : base(animator)
+    public DodgingCrossFade(PlayerStateMachineCrossFade stateMachine) : base(stateMachine)
     {
-        _animator = animator;
+        _animator = stateMachine.GetComponentInChildren<Animator>();
     }
 
     public override void Dash() => base.Dash();

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ToggleBehaviors : MonoBehaviour
@@ -13,6 +14,7 @@ public class ToggleBehaviors : MonoBehaviour
             behavior.enabled = false;
         }
     }
+    
     private void ToggleOn()
     {
         _behaviors = GetComponents<Behaviour>();

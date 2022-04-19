@@ -18,7 +18,7 @@ public class GroundCheck : MonoBehaviour
     private void Start()
     {
         _character = GetComponent<Character>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         _entity = GetComponent<EntityStateMachine>();
     }
 

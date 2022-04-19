@@ -10,11 +10,11 @@ public class InTransitionCrossFade : Dasher, IState
 
     private bool _crossFaded;
 
-    public InTransitionCrossFade(Animator animator) : base(animator)
+    public InTransitionCrossFade(PlayerStateMachineCrossFade stateMachine) : base(stateMachine)
     {
-        _animator = animator;
-        _stanceToggler = _animator.GetComponent<StanceToggler>();
-        _combatManager = _animator.GetComponent<CombatManager>();
+        _animator = stateMachine.GetComponentInChildren<Animator>();
+        _stanceToggler = stateMachine.GetComponent<StanceToggler>();
+        _combatManager = stateMachine.GetComponent<CombatManager>();
         _stanceToggler.OnStanceChanged += ChangeStance;
     }
 

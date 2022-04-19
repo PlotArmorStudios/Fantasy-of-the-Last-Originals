@@ -69,7 +69,7 @@ public class Player : Character
         _view = GetComponent<PhotonView>();
         _dodgeManeuver = GetComponent<DodgeManeuver>();
         _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         _groundCheck = GetComponent<GroundCheck>();
 
         if (_camera) _cameraLogic = _camera.GetComponent<CameraLogic>();

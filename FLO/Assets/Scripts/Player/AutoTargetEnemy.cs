@@ -35,7 +35,7 @@ public class AutoTargetEnemy : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         _enemiesInWorld = GameObject.FindGameObjectsWithTag("Enemy");
     }
 

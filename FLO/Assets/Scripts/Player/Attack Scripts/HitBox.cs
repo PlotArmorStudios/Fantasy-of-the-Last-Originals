@@ -147,7 +147,6 @@ public abstract class HitBox : MonoBehaviour
         {
             //if (collider.isTrigger) return;
 
-
             _newTargetID = collider.GetInstanceID();
 
             //if the new enemy equals the saved enemy, return;
