@@ -14,7 +14,5 @@ public class EnemyRigidBodyStunHandler : RigidBodyStunHandler
 
     public override void DisableComponents()
     {
-        if (_navMesh)
-            _navMesh.enabled = false;
     }
 }

@@ -145,15 +145,13 @@ public abstract class HitBox : MonoBehaviour
 
         foreach (Collider collider in _colliders)
         {
-            //if (collider.isTrigger) return;
+            if (collider.isTrigger) return;
 
             _newTargetID = collider.GetInstanceID();
 
             //if the new enemy equals the saved enemy, return;
             if (_newTargetID == _savedTargetID) return;
-        
 
-            Debug.Log("Hit player");
             GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
             CacheTargetComponents(collider);
             _targetStunHandler.DisableComponents();
@@ -184,9 +182,8 @@ public abstract class HitBox : MonoBehaviour
 
     protected virtual void SetAttackDirection(Collider collider)
     {
-        _attackDirection = collider.transform.position - transform.root.position;
+        _attackDirection = collider.gameObject.transform.position - transform.root.position;
     }
-
 
     protected virtual void OnDrawGizmosSelected()
     {

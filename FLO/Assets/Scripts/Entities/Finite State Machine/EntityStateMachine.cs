@@ -124,6 +124,10 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
             _launch,
             _idle,
             () => FallTime > 0 && _entity.IsGrounded);
+        _stateMachine.AddTransition(
+            _hitstun,
+            _idle,
+            () => !Hitstun);
 
         _stateMachine.AddAnyTransition(_dead, () => _entity.Health <= 0);
         _stateMachine.AddAnyTransition(_launch, () => !Invulnerable && Launch);
