@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class UIInventoryToggle : MonoBehaviour
 {
+    public event Action OnTurnOnInventory;
+    public event Action OnTurnOffInventory;
+    
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private Player _player;
 
@@ -26,45 +29,39 @@ public class UIInventoryToggle : MonoBehaviour
     {
         _storedVCam = _player.GetComponent<StoreAssignedVCamGroup>();
         _storedFreeLook = _storedVCam.GetComponentInChildren<CinemachineFreeLook>();
-        _storeXString = _storedFreeLook.m_XAxis.m_InputAxisName;
-        _storeYString = _storedFreeLook.m_YAxis.m_InputAxisName;
-        _panelState = PanelStates.Off;
+        ToggleInventoryOff();
     }
 
 
     void Update()
     {
         ToggleInventory();
-        _player.enabled = !_inventoryPanel.activeSelf;
+    }
+
+    private void ToggleInventoryOn()
+    {
+        _panelState = PanelStates.On;
+        _storedFreeLook.m_XAxis.m_InputAxisValue = 0f;
+        _storedFreeLook.m_YAxis.m_InputAxisValue = 0f;
+        _storedFreeLook.m_XAxis.m_InputAxisName = null;
+        _storedFreeLook.m_YAxis.m_InputAxisName = null;
+        _inventoryPanel.SetActive(true);
+    }
+
+    private void ToggleInventoryOff()
+    {
+        _panelState = PanelStates.Off;
+        _storedFreeLook.m_XAxis.m_InputAxisName = "Mouse X";
+        _storedFreeLook.m_YAxis.m_InputAxisName = "Mouse Y";
+        _inventoryPanel.SetActive(false);
     }
 
     void ToggleInventory()
     {
-        switch (_panelState)
-        {
-            case PanelStates.Off:
-                _storedFreeLook.m_XAxis.m_InputAxisName = _storeXString;
-                _storedFreeLook.m_YAxis.m_InputAxisName = _storeYString;
-                _inventoryPanel.SetActive(false);
-                break;
-            case PanelStates.On:
-                _storedFreeLook.m_XAxis.m_InputAxisValue = 0f;
-                _storedFreeLook.m_YAxis.m_InputAxisValue = 0f;
-                _storedFreeLook.m_XAxis.m_InputAxisName = null;
-                _storedFreeLook.m_YAxis.m_InputAxisName = null;
-                _inventoryPanel.SetActive(true);
-                break;
-        }
-
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (_panelState == PanelStates.Off)
-                _panelState = PanelStates.On;
-            else if (_panelState == PanelStates.On)
-            {
-                _panelState = PanelStates.Off;
-            }
-
+            if (_panelState == PanelStates.Off) ToggleInventoryOn();
+            else ToggleInventoryOff();
         }
     }
 }

@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class DashingCrossFade : Dasher, IState
+public class DodgingCrossFade : Dasher, IState
 {
     private readonly Animator _animator;
 
-    public DashingCrossFade(Animator animator) : base(animator)
+    public DodgingCrossFade(Animator animator) : base(animator)
     {
         _animator = animator;
     }
@@ -17,9 +17,11 @@ public class DashingCrossFade : Dasher, IState
 
     public void OnEnter()
     {
+        _animator.GetComponent<Player>().enabled = false;
     }
 
     public void OnExit()
     {
+        _animator.GetComponent<Player>().enabled = true;
     }
 }

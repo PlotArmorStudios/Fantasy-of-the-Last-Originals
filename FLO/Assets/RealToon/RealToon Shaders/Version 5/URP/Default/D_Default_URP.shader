@@ -1337,7 +1337,6 @@ DOTS_LiBleSki(input.indices, input.weights, input.position.xyz, input.normalOS.x
 
 				MetaInput metaInput;
 				metaInput.Albedo = RTD_TEX_COL.rgb;
-				metaInput.SpecularColor = float3(0.0, 0.0, 0.0);
 				metaInput.Emission = RTD_SL;
 
 				return MetaFragment(metaInput);

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public class EntityStateMachine : MonoBehaviour
+public class EntityStateMachine : MonoBehaviour, IStateMachine
 {
     [SerializeField] private float _detectionRadius = 5f;
     [SerializeField] private float _attackRadius = 2f;

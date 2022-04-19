@@ -1,21 +1,31 @@
 using System;
+using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks
+public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMachine
 {
     private Animator _animator;
     private StateMachine _stateMachine;
+
+    private DodgeManeuver _dodge;
     
     private AttackingCrossFade _attackingCrossFade;
     private IdlingCrossfade _idlingCrossfade;
     private InTransitionCrossFade _inTransitionCrossFade;
-    private DashingCrossFade _dashingCrossFade;
-    private Dasher _dasher;
+    private DodgingCrossFade _dodgingCrossFade;
+    public bool Hitstun { get; set; }
+    public bool Launch { get; set; }
+
+    public IEnumerator SetStunFalse()
+    {
+        yield break;
+    }
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _dodge = GetComponent<DodgeManeuver>();
         _stateMachine = new StateMachine();
 
         InitializeStates();
@@ -31,8 +41,7 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks
         _idlingCrossfade = new IdlingCrossfade(_animator);
         _attackingCrossFade = new AttackingCrossFade(_animator);
         _inTransitionCrossFade = new InTransitionCrossFade(_animator);
-        _dashingCrossFade = new DashingCrossFade(_animator);
-        _dasher = new Dasher(_animator);
+        _dodgingCrossFade = new DodgingCrossFade(_animator);
     }
     
     private void AddStateTransitions()
@@ -68,12 +77,12 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks
             () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
         
         _stateMachine.AddTransition(
-            _dashingCrossFade,
+            _dodgingCrossFade,
             _idlingCrossfade,
-            () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
+            () => _dodge.Dodging == false);
         
-        _stateMachine.AddAnyTransition(_dashingCrossFade, 
-            ()=>_animator.GetCurrentAnimatorStateInfo(0).IsTag("Dashing"));
+        _stateMachine.AddAnyTransition(_dodgingCrossFade, 
+            ()=>_animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodging"));
     }
 
     private void Update()
@@ -87,4 +96,5 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks
     {
         _stateMachine.Tick();
     }
+
 }

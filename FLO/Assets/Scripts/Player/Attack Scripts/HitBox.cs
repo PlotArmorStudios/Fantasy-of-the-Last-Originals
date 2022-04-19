@@ -22,7 +22,6 @@ public abstract class HitBox : MonoBehaviour
     private int _newTargetID;
 
     private ImpactSoundHandler _targetSound;
-    private NavMeshAgent _targetNavMesh;
     private KnockBackHandler _targetStunHandler;
     private Player _playerLogic;
     private AttackDefinitionManager _attackDefinitionManager;
@@ -32,8 +31,6 @@ public abstract class HitBox : MonoBehaviour
 
     void OnEnable()
     {
-        GetComponentInParent<AttackDefinitionManager>().ActiveHitBox = this;
-
         GetHitBoxDefinition();
         DisableMeshRendererIfPresent();
         AddSwitchCameraComponent();
@@ -99,6 +96,8 @@ public abstract class HitBox : MonoBehaviour
     private void GetHitBoxDefinition()
     {
         _attackDefinitionManager = GetComponentInParent<AttackDefinitionManager>();
+        _attackDefinitionManager.ActiveHitBox = this;
+
         AttackDefinition = _attackDefinitionManager.CurrentAttackDefinition;
     }
 
@@ -146,19 +145,16 @@ public abstract class HitBox : MonoBehaviour
 
         foreach (Collider collider in _colliders)
         {
-            if (collider.isTrigger)
-                return;
+            //if (collider.isTrigger) return;
 
 
             _newTargetID = collider.GetInstanceID();
 
             //if the new enemy equals the saved enemy, return;
-            if (_newTargetID == _savedTargetID)
-            {
-                return;
-            }
+            if (_newTargetID == _savedTargetID) return;
+        
 
-
+            Debug.Log("Hit player");
             GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
             CacheTargetComponents(collider);
             _targetStunHandler.DisableComponents();
@@ -176,13 +172,6 @@ public abstract class HitBox : MonoBehaviour
 
         CheckSkillType();
         DoDamage();
-
-        _playerLogic = collider.GetComponent<Player>();
-
-        if (_playerLogic != null)
-        {
-            _playerLogic.enabled = false;
-        }
 
         _targetSound.PlayHitStunSound();
 
@@ -211,15 +200,15 @@ public abstract class HitBox : MonoBehaviour
     {
         if (AttackDefinition.KnockUpStrength <= 0)
         {
-            targetStunHandler.GetComponent<EntityStateMachine>().Hitstun = true;
+            targetStunHandler.GetComponent<IStateMachine>().Hitstun = true;
             Debug.Log("Set hitstun true");
-            StartCoroutine(targetStunHandler.GetComponent<EntityStateMachine>().SetStunFalse());
+            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().SetStunFalse());
         }
         else if (AttackDefinition.KnockUpStrength > 0)
         {
-            targetStunHandler.GetComponent<EntityStateMachine>().Launch = true;
+            targetStunHandler.GetComponent<IStateMachine>().Launch = true;
             Debug.Log("Set launch true");
-            StartCoroutine(targetStunHandler.GetComponent<EntityStateMachine>().SetStunFalse());
+            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().SetStunFalse());
         }
 
         if (targetStunHandler._groundCheck.UpdateIsGrounded())
@@ -286,6 +275,5 @@ public abstract class HitBox : MonoBehaviour
         _targetRigidBody = collider.GetComponent<Rigidbody>();
         _targetHealthLogic = collider.GetComponent<HealthLogic>();
         _targetSound = collider.GetComponent<ImpactSoundHandler>();
-        _targetNavMesh = collider.GetComponent<NavMeshAgent>();
     }
 }

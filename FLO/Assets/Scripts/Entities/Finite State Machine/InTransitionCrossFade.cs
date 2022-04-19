@@ -30,14 +30,10 @@ public class InTransitionCrossFade : Dasher, IState
 
         if (_combatManager.InputReceived)
         {
-
-        }
-        if (_combatManager.InputReceived)
-        {
             if (_combatManager.InputCount <= 3)
                 _animator.SetBool($"Attack {_combatManager.InputCount}", true);
-            //Play attack 2 if attack key was hit two times (aka if hit while in this state)
 
+            //Play attack 2 if attack key was hit two times (aka if hit while in this state)
             //Only transition to next attack if Attack 2 is true, you are in Transition 1 state, and current animator time is greater than value specified in TransitionSpeed variables in CombatManagerScript
             if (_animator.GetBool($"Attack {CurrentAnimatorState.AttackToTransitionTo}") &&
                 _stateInfo.normalizedTime > .9f)

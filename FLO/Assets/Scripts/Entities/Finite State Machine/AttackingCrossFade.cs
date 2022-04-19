@@ -48,13 +48,14 @@ public class AttackingCrossFade : Dasher, IState
                 _combatManager.InputReceived = false;
             }
         }
-        
+
         if (!_animator.GetBool($"Attack {CurrentAnimatorState.AttackToTransitionTo}") &&
             _stateInfo.normalizedTime > .9f && !_crossFaded)
         {
             _animator.SetBool("Attacking", false);
             _animator.CrossFade($"Stance {_stanceToggler.CurrentStance}", .1f, 0);
             _crossFaded = true;
+            _combatManager.InputReceived = false;
         }
     }
 
@@ -85,6 +86,7 @@ public class AttackingCrossFade : Dasher, IState
 
     public void OnExit()
     {
+        _combatManager.InputReceived = false;
     }
 
     [PunRPC]

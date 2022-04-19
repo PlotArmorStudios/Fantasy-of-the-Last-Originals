@@ -7,19 +7,20 @@ public class RootMotionController : MonoBehaviour
 {
     private AttackPhysics _attackPhysics;
     private Vector3 _newPosition;
+    private Animator _animator;
     public bool StopMovement { get; set; }
 
     private void Start()
     {
         _attackPhysics = GetComponent<AttackPhysics>();
+        _animator = GetComponent<Animator>();
     }
 
     private void OnAnimatorMove()
     {
-        Animator animator = GetComponent<Animator>();
-        if (animator && !StopMovement)
+        if (_animator && !StopMovement)
         {
-            _newPosition = transform.forward * animator.GetFloat("RootMotionZ") * Time.deltaTime;
+            _newPosition = transform.forward * _animator.GetFloat("RootMotionZ") * Time.deltaTime;
 
             transform.position += _newPosition;
         }

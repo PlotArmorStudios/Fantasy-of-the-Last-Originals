@@ -28,17 +28,17 @@ public class Player : Character
     [SerializeField] private float _jumpHeight = 10f;
     [SerializeField] private bool _jump;
     [SerializeField] private bool isGrounded;
-    
+
     [SerializeField] private float _movementSpeed = 5.0f;
     [SerializeField] private float _downPull = 2f;
     [SerializeField] private float _turnSmoothTime = 2f;
     [SerializeField] private float _turnSmoothVelocity = 2f;
 
     [SerializeField] private Camera _camera;
-    
+
     public bool IsGrounded => _groundCheck.IsGrounded;
     public Animator Animator => _animator;
-    
+
     private CameraLogic _cameraLogic;
 
     private Rigidbody _rb;
@@ -47,8 +47,8 @@ public class Player : Character
 
     private GroundCheck _groundCheck;
     private float _fallTimer;
-    
-    private PlayerDash _playerDash;
+
+    private DodgeManeuver _dodgeManeuver;
 
     public Transform CamTransform;
     public PlayerStance Stance;
@@ -62,19 +62,12 @@ public class Player : Character
     private PhotonView _view;
 
     private State _currentState;
-    
-    private void OnEnable()
-    {
-        _combatManager = GetComponent<CombatManager>();
-        if (_combatManager.enabled == false)
-            _combatManager.enabled = true;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
         _view = GetComponent<PhotonView>();
-        _playerDash = GetComponent<PlayerDash>();
+        _dodgeManeuver = GetComponent<DodgeManeuver>();
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _groundCheck = GetComponent<GroundCheck>();
@@ -98,7 +91,7 @@ public class Player : Character
 
         ReadHorizontalAndVerticalInput();
         ApplyMovementInputToAnimator();
-        
+
         if (PlayerJumpedFromGround()) _jump = true;
     }
 
@@ -111,7 +104,7 @@ public class Player : Character
         HandleJumpAnimation();
         RotateInDirectionOfMovement();
     }
-    
+
     private void ApplyMovementInputToAnimator()
     {
         if (_animator)
@@ -142,8 +135,9 @@ public class Player : Character
     {
         //have player face the direction the camera is facing only if they are moving
         //Rotate toward movement direction
+        _movement = new Vector3(_horizontalInput, 0, _verticalInput);
         if (_movement.magnitude >= .3f && !_animator.GetBool("Attacking") &&
-            !_playerDash.Dashing) //only set transform.forward when m_movement vector is diff from vector3.zero
+            !_dodgeManeuver.Dodging) //only set transform.forward when m_movement vector is diff from vector3.zero
         {
             //rotate movement direction based on camera rotation
             float targetAngle = Mathf.Atan2(_movement.x, _movement.z) * Mathf.Rad2Deg + CamTransform.eulerAngles.y;
@@ -158,7 +152,7 @@ public class Player : Character
 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity,
                 _turnSmoothTime);
-            
+
             Vector3 moveDir;
 
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
@@ -182,7 +176,7 @@ public class Player : Character
                 }
                 else if (IsJumping)
                 {
-                    _rb.velocity = Vector3.ClampMagnitude(_rb.velocity, 10f);
+                    //_rb.velocity = Vector3.ClampMagnitude(_rb.velocity, 10f);
                     //aerial mobility
                     _rb.AddForce(.1f * moveDir, ForceMode.VelocityChange);
                 }
@@ -195,7 +189,7 @@ public class Player : Character
             //set airborne false whenever grounded
             if (_groundCheck.IsGrounded)
             {
-                if (!_playerDash.Dashing)
+                if (!_dodgeManeuver.Dodging)
                 {
                     _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
                 }
@@ -218,8 +212,6 @@ public class Player : Character
                 _animator.SetBool("Landing", false);
                 _animator.CrossFadeInFixedTime("Jumping", .2f, 0);
             }
-
-            _movement = new Vector3(_horizontalInput, 0, _verticalInput);
         }
     }
 
@@ -255,9 +247,4 @@ public class Player : Character
     //         _animator.SetTrigger("Landing");
     //     }
     // }
-
-    private void OnDisable()
-    {
-        _combatManager.enabled = false;
-    }
 }
