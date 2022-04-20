@@ -6,9 +6,11 @@ public class IdlingCrossfade : Dasher, IState
     private readonly Animator _animator;
     private readonly CombatManager _combatManager;
     private readonly StanceToggler _stanceToggler;
+    private PlayerStateMachineCrossFade _stateMachine;
 
     public IdlingCrossfade(PlayerStateMachineCrossFade stateMachine) : base(stateMachine)
     {
+        _stateMachine = stateMachine;
         _animator = stateMachine.GetComponentInChildren<Animator>();
         _stanceToggler = stateMachine.GetComponent<StanceToggler>();
         _combatManager = stateMachine.GetComponent<CombatManager>();
@@ -30,6 +32,8 @@ public class IdlingCrossfade : Dasher, IState
         _animator.SetBool("Attack 3", false);
 
         _combatManager.InputCount = 0;
+        _stateMachine.GetComponent<TogglePlayer>().TogglePlayerOn();
+        
     }
 
     public void Tick()

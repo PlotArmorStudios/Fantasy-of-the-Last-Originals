@@ -195,17 +195,9 @@ public abstract class HitBox : MonoBehaviour
     private void HandleTargetKnockback(KnockBackHandler targetStunHandler, Vector3 attackDirection)
     {
         if (AttackDefinition.KnockUpStrength <= 0)
-        {
-            targetStunHandler.GetComponent<IStateMachine>().Hitstun = true;
-            Debug.Log("Set hitstun true");
-            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().SetStunFalse());
-        }
+            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleStun());
         else if (AttackDefinition.KnockUpStrength > 0)
-        {
-            targetStunHandler.GetComponent<IStateMachine>().Launch = true;
-            Debug.Log("Set launch true");
-            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().SetStunFalse());
-        }
+            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleLaunch());
 
         if (targetStunHandler._groundCheck.UpdateIsGrounded())
         {

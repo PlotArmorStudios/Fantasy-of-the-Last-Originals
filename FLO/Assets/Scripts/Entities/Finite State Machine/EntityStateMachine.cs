@@ -32,8 +32,11 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
     private bool IsHome => Vector3.Distance(_entity.transform.position, _entity.InitialPosition) <= _homeRadius;
     private float DistanceToPlayer => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position);
     public bool Invulnerable => false;
-    public bool Hitstun { get; set; }
+    public bool Stun { get; set; }
     public bool Launch { get; set; }
+
+    public float StunTime = .5f;
+
     public bool Land { get; set; }
     public float FallTime => _entity.FallTime;
 
@@ -53,6 +56,7 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
         _stateMachine.SetState(_idle);
     }
 
+    public bool CanChase { get; set; }
 
     private void InitializeStates()
     {
@@ -81,7 +85,7 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
         _stateMachine.AddTransition(
             _idle,
             _chasePlayer,
-            () => DistanceToPlayer < _detectionRadius);
+            () => DistanceToPlayer < _detectionRadius && CanChase);
 
         _stateMachine.AddTransition(
             _patrol,
@@ -127,33 +131,31 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
         _stateMachine.AddTransition(
             _hitstun,
             _idle,
-            () => !Hitstun);
+            () => !Stun);
 
         _stateMachine.AddAnyTransition(_dead, () => _entity.Health <= 0);
         _stateMachine.AddAnyTransition(_launch, () => !Invulnerable && Launch);
-        _stateMachine.AddAnyTransition(_hitstun, () => !Invulnerable && Hitstun);
+        _stateMachine.AddAnyTransition(_hitstun, () => !Invulnerable && Stun);
     }
 
 
+    public IEnumerator ToggleStun()
+    {
+        Stun = true;
+        yield return new WaitForSeconds(.5f);
+        Stun = false;
+    }
 
+    public IEnumerator ToggleLaunch()
+    {
+        Launch = true;
+        yield return new WaitForSeconds(.5f);
+        Launch = false;
+    }
+    
     private bool ShouldPatrol()
     {
         return false;
-    }
-
-    public IEnumerator SetStunFalse()
-    {
-        if (Launch)
-        {
-            yield return new WaitForSeconds(.1f);
-            Launch = false;
-        }
-
-        if (Hitstun)
-        {
-            yield return new WaitForSeconds(.1f);
-            Hitstun = false;
-        }
     }
 
     private void Update()

@@ -4,13 +4,19 @@ using UnityEngine;
 public class Launch : IState
 {
     private Animator _animator;
+    private EntityStateMachine _stateMachine;
+    private Entity _entity;
     public Launch(Entity entity)
     {
+        _entity = entity;
         _animator = entity.Animator;
+        _stateMachine = entity.GetComponent<EntityStateMachine>();
     }
 
     public void Tick()
     {
+        if (_entity.IsGrounded)
+            _stateMachine.Launch = false;
     }
 
     public void OnEnter()

@@ -18,8 +18,8 @@ MonoBehaviour:
   SkillType: 0
   StunType: 0
   Damage: 5
-  AttackRange: 5
-  KnockBackStrength: 5
+  AttackRange: 1
+  KnockBackStrength: 4
   KnockUpStrength: 0
   StunDuration: 5
   AirBorneKnockUp: 1

@@ -6,7 +6,12 @@ public class ToggleEntity : MonoBehaviour
 
     private void Start() => _stateMachine = GetComponent<EntityStateMachine>();
 
-    public void ToggleEntityOff() => _stateMachine.enabled = false;
+    public void ToggleEntityOff()
+    {
+        
+    }
 
-    public void ToggleEntityOn() => _stateMachine.enabled = true;
+    public void ToggleEntityOn()
+    {
+    }
 }

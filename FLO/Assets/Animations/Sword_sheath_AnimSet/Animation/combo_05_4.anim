@@ -26917,17 +26917,17 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: SlideDuration
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.3
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
     functionName: SetAttackDefinition
     data: 
     objectReferenceParameter: {fileID: 11400000, guid: c955528923c7dbb4f8ee24a40e45c073, type: 2}
     floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: SlideDuration
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0.3
     intParameter: 0
     messageOptions: 0
   - time: 0.06666667

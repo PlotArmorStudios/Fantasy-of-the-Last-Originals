@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public interface IStateMachine
 {
-    bool Hitstun { get; set; }
+    bool Stun { get; set; }
     bool Launch { get; set; }
-    IEnumerator SetStunFalse();
+    IEnumerator ToggleStun();
+    IEnumerator ToggleLaunch();
 }
