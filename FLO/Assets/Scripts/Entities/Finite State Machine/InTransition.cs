@@ -17,18 +17,6 @@ public class InTransition : IState
     public void Tick()
     {
         _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-
-        if (_combatManager.InputReceived)
-        {
-            if (_combatManager.InputCount <= 3)
-                _animator.SetBool($"Attack {_combatManager.InputCount}", true);
-        }
-
-        if (!_animator.GetBool($"Attack {CurrentAnimatorState.AttackToTransitionTo}") &&
-            _stateInfo.normalizedTime > .9f)
-        {
-            _animator.SetBool("Attacking", false);
-        }
     }
 
     public void OnEnter()

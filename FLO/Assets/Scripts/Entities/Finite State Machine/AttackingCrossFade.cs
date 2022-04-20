@@ -8,6 +8,7 @@ public class AttackingCrossFade : Dasher, IState
     private AnimatorStateInfo _stateInfo;
     private readonly CombatManager _combatManager;
     private readonly StanceToggler _stanceToggler;
+    private readonly CurrentAnimatorState _animatorState;
     private readonly int _transitionToAttack;
     private bool _crossFaded;
 
@@ -16,6 +17,7 @@ public class AttackingCrossFade : Dasher, IState
         _animator = stateMachine.GetComponentInChildren<Animator>();
         _combatManager = stateMachine.GetComponent<CombatManager>();
         _stanceToggler = stateMachine.GetComponent<StanceToggler>();
+        _animatorState = stateMachine.GetComponent<CurrentAnimatorState>();
     }
 
     public override void Dash() => base.Dash();
@@ -37,19 +39,19 @@ public class AttackingCrossFade : Dasher, IState
             //Play attack 2 if attack key was hit two times (aka if hit while in this state)
 
             //Only transition to next attack if Attack 2 is true, you are in Transition 1 state, and current animator time is greater than value specified in TransitionSpeed variables in CombatManagerScript
-            if (_animator.GetBool($"Attack {CurrentAnimatorState.AttackToTransitionTo}") &&
+            if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
                 _stateInfo.normalizedTime > .9f)
             {
                 _animator.SetBool("Attacking", true);
                 _animator.CrossFade(
-                    $"S{_stanceToggler.CurrentStance} Attack {CurrentAnimatorState.AttackToTransitionTo}", 0f, 0, 0f);
+                    $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0, 0f);
 
                 _combatManager.ReceiveInput();
                 _combatManager.InputReceived = false;
             }
         }
 
-        if (!_animator.GetBool($"Attack {CurrentAnimatorState.AttackToTransitionTo}") &&
+        if (!_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
             _stateInfo.normalizedTime > .9f && !_crossFaded)
         {
             _animator.SetBool("Attacking", false);
@@ -61,10 +63,10 @@ public class AttackingCrossFade : Dasher, IState
 
     private bool Loop()
     {
-        if (_combatManager.InputCount >= 4 && CurrentAnimatorState.LoopToAttack && _stateInfo.normalizedTime > .9f)
+        if (_combatManager.InputCount >= 4 && _animatorState.LoopToAttack && _stateInfo.normalizedTime > .9f)
         {
             _animator.CrossFade(
-                $"S{_stanceToggler.CurrentStance} Attack {CurrentAnimatorState.AttackToLoopTo}", 0f, 0, 0f);
+                $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToLoopTo}", 0f, 0, 0f);
 
             _animator.SetBool("Attacking", false);
             _animator.SetBool("Attack 2", false);

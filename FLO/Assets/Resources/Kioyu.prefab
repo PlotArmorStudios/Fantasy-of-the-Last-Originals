@@ -7431,8 +7431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48ff23cbb3726b48a97d0dbccbf2bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMask: Player
-  _enemyMask: Enemy
+  _playerMask: 
+  _enemyMask: 
   _dashForce: 20
   _dashDuration: 0.1
 --- !u!114 &77006572047640337

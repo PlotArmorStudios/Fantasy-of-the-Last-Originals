@@ -3,10 +3,9 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMachine
+public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
 {
     private Animator _animator;
-    private StateMachine _stateMachine;
     private PlayerStateMachineCrossFade Instance;
 
     private DodgeManeuver _dodge;
@@ -16,11 +15,8 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMach
     private InTransitionCrossFade _inTransitionCrossFade;
     private DodgingCrossFade _dodgingCrossFade;
     private StanceToggler _stanceToggler;
-    public bool Stun { get; set; }
-    public bool Launch { get; set; }
-
-
-    private void Start()
+    
+    protected override void Start()
     {
         Instance = this;
         _stanceToggler = GetComponent<StanceToggler>();
@@ -36,7 +32,7 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMach
         _stateMachine.SetState(_idlingCrossfade);
     }
 
-    private void InitializeStates()
+    protected override void InitializeStates()
     {
         _idlingCrossfade = new IdlingCrossfade(Instance);
         _attackingCrossFade = new AttackingCrossFade(Instance);
@@ -44,7 +40,7 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMach
         _dodgingCrossFade = new DodgingCrossFade(Instance);
     }
 
-    private void AddStateTransitions()
+    protected override void AddStateTransitions()
     {
         _stateMachine.AddTransition(
             _idlingCrossfade,
@@ -95,7 +91,7 @@ public class PlayerStateMachineCrossFade : MonoBehaviourPunCallbacks, IStateMach
         yield break;
     }
 
-    private void Update()
+    protected override void Update()
     {
         //   photonView.RPC("TickStateMachine", RpcTarget.All);
         _stateMachine.Tick();

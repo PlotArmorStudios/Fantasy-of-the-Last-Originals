@@ -5,7 +5,6 @@ using Photon.Pun;
 
 public class CombatManager : MonoBehaviour
 {
-    public Player Player { get; private set; }
     public int InputCount;
     public bool CanReceiveInput { get; set; }
     public bool InputReceived { get; set; }
@@ -13,11 +12,10 @@ public class CombatManager : MonoBehaviour
     protected Animator _animator;
     protected PhotonView _view;
 
-    void Start()
+    protected virtual void Start()
     {
         _view = GetComponent<PhotonView>();
         _animator = GetComponent<Animator>();
-        Player = GetComponent<Player>();
     }
 
     protected void Update()
@@ -27,22 +25,6 @@ public class CombatManager : MonoBehaviour
 
     protected virtual void HandleInput()
     {
-        if (PauseMenu.Active) return;
-
-        if (_view.IsMine)
-        {
-            Attack();
-            ReceiveInput();
-
-            if (!Player.IsJumping)
-            {
-                if (Input.GetButtonDown("Light Attack"))
-                {
-                    CanReceiveInput = true;
-                    InputCount++;
-                }
-            }
-        }
     }
 
     protected virtual void Attack()
@@ -63,20 +45,23 @@ public class CombatManager : MonoBehaviour
         if (!CanReceiveInput) CanReceiveInput = true;
         else CanReceiveInput = false;
     }
-
-    
 }
 
-public class PlayerCombatManager : CombatManager
+public class EntityCombatManager : CombatManager
 {
-    //When true, player can interrupt current attack animation. Accessed through animation events.
-    public void AttackCancelPoint()
-    {
-        _animator.SetBool("Attacking", false);
-    }
+    private bool TriggerAttack;
 
-    public void AttackLockPoint()
+    protected override void HandleInput()
     {
-        _animator.SetBool("Attacking", true);
+        if (PauseMenu.Active) return;
+
+        Attack();
+        ReceiveInput();
+
+        if (TriggerAttack)
+        {
+            CanReceiveInput = true;
+            InputCount = Random.Range(1, 4);
+        }
     }
 }

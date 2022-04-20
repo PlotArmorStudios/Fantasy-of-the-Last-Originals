@@ -19,7 +19,6 @@ public class DodgeManeuver : MonoBehaviour
 
     public bool Dodging { get; private set; }
 
-    // Start is called before the first frame update
     void Start()
     {
         _enemyMaskInt = LayerMask.NameToLayer(_enemyMask);
@@ -28,7 +27,6 @@ public class DodgeManeuver : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Dash"))

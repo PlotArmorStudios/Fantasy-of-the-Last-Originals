@@ -1,6 +1,6 @@
-public static class CurrentAnimatorState
+public class CurrentAnimatorState
 {
-    public static int AttackToTransitionTo;
-    public static bool LoopToAttack;
-    public static int AttackToLoopTo;
+    public int AttackToTransitionTo;
+    public bool LoopToAttack;
+    public int AttackToLoopTo;
 }
