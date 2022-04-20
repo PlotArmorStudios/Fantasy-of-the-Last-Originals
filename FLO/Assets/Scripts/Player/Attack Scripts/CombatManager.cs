@@ -46,22 +46,3 @@ public class CombatManager : MonoBehaviour
         else CanReceiveInput = false;
     }
 }
-
-public class EntityCombatManager : CombatManager
-{
-    private bool TriggerAttack;
-
-    protected override void HandleInput()
-    {
-        if (PauseMenu.Active) return;
-
-        Attack();
-        ReceiveInput();
-
-        if (TriggerAttack)
-        {
-            CanReceiveInput = true;
-            InputCount = Random.Range(1, 4);
-        }
-    }
-}

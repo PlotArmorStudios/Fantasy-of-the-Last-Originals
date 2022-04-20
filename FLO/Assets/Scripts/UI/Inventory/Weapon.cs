@@ -7,19 +7,19 @@ public class Weapon : Item, IHaveAHitBox
     [SerializeField] private HitBox _hitbox;
     
     private Inventory _playerInventory;
-    private StanceToggler _stanceTogglerToggler;
+    private PlayerStanceToggler _stanceToggler;
     
     public HitBox HitBox => _hitbox;
 
     private void Start()
     {
         _playerInventory = _player.GetComponent<Inventory>();
-        _stanceTogglerToggler = _player.GetComponent<StanceToggler>();
+        _stanceToggler = _player.GetComponent<PlayerStanceToggler>();
     }
 
     void Update()
     {
-        if (_stanceTogglerToggler.Stance == PlayerStance.Stance4 && WasEquipped)
+        if (_stanceToggler.Stance == PlayerStance.Stance4 && WasEquipped)
         {
             if (_playerInventory == null)
                 return;

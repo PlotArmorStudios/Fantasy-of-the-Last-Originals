@@ -6,9 +6,9 @@ public class IdlingCrossfade : Dasher, IState
     private readonly Animator _animator;
     private readonly CombatManager _combatManager;
     private readonly StanceToggler _stanceToggler;
-    private PlayerStateMachineCrossFade _stateMachine;
+    private FiniteStateMachine _stateMachine;
 
-    public IdlingCrossfade(PlayerStateMachineCrossFade stateMachine) : base(stateMachine)
+    public IdlingCrossfade(FiniteStateMachine stateMachine) : base(stateMachine)
     {
         _stateMachine = stateMachine;
         _animator = stateMachine.GetComponentInChildren<Animator>();

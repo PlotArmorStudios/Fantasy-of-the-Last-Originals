@@ -28,8 +28,6 @@ public class Idle : IState
         UpdateCanChaseTime();
     }
 
-
-
     public void OnEnter()
     {
         _returnHomeTimer = 0;

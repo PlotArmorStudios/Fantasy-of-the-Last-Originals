@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public class EntityStateMachine : MonoBehaviour, IStateMachine
+public class EntityStateMachine : FiniteStateMachine, IStateMachine
 {
     [SerializeField] private float _detectionRadius = 5f;
     [SerializeField] private float _attackRadius = 2f;
@@ -32,8 +32,6 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
     private bool IsHome => Vector3.Distance(_entity.transform.position, _entity.InitialPosition) <= _homeRadius;
     private float DistanceToPlayer => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position);
     public bool Invulnerable => false;
-    public bool Stun { get; set; }
-    public bool Launch { get; set; }
 
     public float StunTime = .5f;
 
@@ -58,7 +56,7 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
 
     public bool CanChase { get; set; }
 
-    private void InitializeStates()
+    protected override void InitializeStates()
     {
         _idle = new Idle(_entity);
         _chasePlayer = new ChasePlayer(_entity, _player, _navMeshAgent);
@@ -70,7 +68,7 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
         _hitstun = new Hitstun(_entity);
     }
 
-    private void AddStateTransitions()
+    protected override void AddStateTransitions()
     {
         _stateMachine.AddTransition(
             _idle,
@@ -158,7 +156,7 @@ public class EntityStateMachine : MonoBehaviour, IStateMachine
         return false;
     }
 
-    private void Update()
+    protected override void Update()
     {
 #if DEBUG_LOG
         Debug.Log("Launch: " + Launch);

@@ -8,27 +8,24 @@ public class PlayerCombatManager : CombatManager
     {
         Player = GetComponent<Player>();
     }
-    
+
     protected override void HandleInput()
     {
         if (PauseMenu.Active) return;
 
-        if (_view.IsMine)
-        {
-            Attack();
-            ReceiveInput();
+        Attack();
+        ReceiveInput();
 
-            if (!Player.IsJumping)
+        if (!Player.IsJumping)
+        {
+            if (Input.GetButtonDown("Light Attack"))
             {
-                if (Input.GetButtonDown("Light Attack"))
-                {
-                    CanReceiveInput = true;
-                    InputCount++;
-                }
+                CanReceiveInput = true;
+                InputCount++;
             }
         }
     }
-    
+
     //When true, player can interrupt current attack animation. Accessed through animation events.
     public void AttackCancelPoint()
     {

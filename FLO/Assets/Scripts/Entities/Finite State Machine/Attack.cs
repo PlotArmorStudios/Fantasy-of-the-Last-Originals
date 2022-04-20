@@ -47,12 +47,9 @@ public class Attack : IState
 
         if (_attackTimer >= _attackDelay)
         {
-            _animator.SetBool("Attacking", true);
+            //_animator.SetBool("Attacking", true);
+            _entity.GetComponent<EntityCombatManager>().TriggerAttack = true;
             _attackTimer = 0;
-        }
-        else
-        {
-            _animator.SetBool("Attacking", false);
         }
     }
 }
