@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
-public class Attack : IState
+//State 
+public class OnGuard : IState
 {
     private readonly Entity _entity;
     private readonly NavMeshAgent _navMeshAgent;
@@ -18,7 +16,7 @@ public class Attack : IState
     private EntityStanceToggler _stanceToggler;
     private bool _crossFaded;
 
-    public Attack(FiniteStateMachine stateMachine)
+    public OnGuard(FiniteStateMachine stateMachine)
     {
         _stateMachine = stateMachine as EntityStateMachine;
         _combatManager = (EntityCombatManager) _stateMachine.GetComponent<CombatManager>();

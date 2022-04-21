@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-public class IdlingCrossfade : Dasher, IState
+public class IdlingCrossfade : IState
 {
-    private readonly Animator _animator;
-    private readonly CombatManager _combatManager;
-    private readonly StanceToggler _stanceToggler;
-    private FiniteStateMachine _stateMachine;
+    protected readonly Animator _animator;
+    protected CombatManager _combatManager;
+    protected StanceToggler _stanceToggler;
+    protected FiniteStateMachine _stateMachine;
 
-    public IdlingCrossfade(FiniteStateMachine stateMachine) : base(stateMachine)
+    public IdlingCrossfade(FiniteStateMachine stateMachine)
     {
         _stateMachine = stateMachine;
         _animator = stateMachine.GetComponentInChildren<Animator>();
@@ -22,8 +22,6 @@ public class IdlingCrossfade : Dasher, IState
         if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"))
             _animator.CrossFade("Stance " + stance, .25f, 0, 0f, 0f);
     }
-
-    public override void Dash() => base.Dash();
 
     public void OnEnter()
     {

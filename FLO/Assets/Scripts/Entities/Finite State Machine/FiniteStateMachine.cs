@@ -3,6 +3,7 @@ using Photon.Pun;
 public abstract class FiniteStateMachine : MonoBehaviourPunCallbacks
 {
     protected StateMachine _stateMachine;
+    protected FiniteStateMachine Instance;
     public bool Stun { get; set; }
     public bool Launch { get; set; }
     

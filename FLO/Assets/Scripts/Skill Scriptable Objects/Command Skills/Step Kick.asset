@@ -19,7 +19,7 @@ MonoBehaviour:
   StunType: 1
   Damage: 10
   AttackRange: 1.5
-  KnockBackStrength: 2
+  KnockBackStrength: 1
   KnockUpStrength: 2
   StunDuration: 0.3
   AirBorneKnockUp: 1.5

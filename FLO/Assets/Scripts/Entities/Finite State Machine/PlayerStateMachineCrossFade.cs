@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
 {
     private Animator _animator;
-    private PlayerStateMachineCrossFade Instance;
 
     private DodgeManeuver _dodge;
 

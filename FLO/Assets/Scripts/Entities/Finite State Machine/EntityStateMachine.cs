@@ -13,127 +13,147 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     [SerializeField] private float _returnHomeTime = 4f;
     [SerializeField] private float _homeRadius = 2f;
 
-    private StateMachine _stateMachine;
-    private NavMeshAgent _navMeshAgent;
-    private Player _player;
-    private Entity _entity;
+    public StateMachine StateMachine;
+    public NavMeshAgent NavMeshAgent;
+    public Player Player;
+    public Entity Entity;
+    public Animator Animator;
 
-    private Idle _idle;
-    private ChasePlayer _chasePlayer;
-    private Attack _attack;
-    private Dead _dead;
-    private ReturnHome _returnHome;
-    private Patrol _patrol;
-    private Launch _launch;
-    private Hitstun _hitstun;
+    public Idle _idle;
+    public ChasePlayer _chasePlayer;
+    public Attack _attack;
+    public Dead _dead;
+    public ReturnHome _returnHome;
+    public Patrol _patrol;
+    public Launch _launch;
+    public Hitstun _hitstun;
 
     public float AttackDelay => _attackDelay;
     public float ReturnHomeTime => _returnHomeTime;
-    private bool IsHome => Vector3.Distance(_entity.transform.position, _entity.InitialPosition) <= _homeRadius;
-    private float DistanceToPlayer => Vector3.Distance(_navMeshAgent.transform.position, _player.transform.position);
+    private bool IsHome => Vector3.Distance(Entity.transform.position, Entity.InitialPosition) <= _homeRadius;
+    private float DistanceToPlayer => Vector3.Distance(NavMeshAgent.transform.position, Player.transform.position);
     public bool Invulnerable => false;
 
     public float StunTime = .5f;
+    private InTransitionEntity _inTransition;
 
     public bool Land { get; set; }
-    public float FallTime => _entity.FallTime;
+    public float FallTime => Entity.FallTime;
 
     private void Start()
     {
-        _entity = GetComponent<Entity>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _player = FindObjectOfType<Player>();
+        Instance = this;
+        Animator = GetComponent<Animator>();
+        Entity = GetComponent<Entity>();
+        NavMeshAgent = GetComponent<NavMeshAgent>();
+        Player = FindObjectOfType<Player>();
 
-        _stateMachine = new StateMachine();
+        StateMachine = new StateMachine();
 
         InitializeStates();
 
         AddStateTransitions();
 
         //Set default state
-        _stateMachine.SetState(_idle);
+        StateMachine.SetState(_idle);
     }
 
     public bool CanChase { get; set; }
 
     protected override void InitializeStates()
     {
-        _idle = new Idle(_entity);
-        _chasePlayer = new ChasePlayer(_entity, _player, _navMeshAgent);
-        _attack = new Attack(_entity, _player);
-        _dead = new Dead(_entity);
-        _returnHome = new ReturnHome(_entity);
-        _patrol = new Patrol(_entity);
-        _launch = new Launch(_entity);
-        _hitstun = new Hitstun(_entity);
+        _idle = new Idle(Instance);
+        _chasePlayer = new ChasePlayer(Entity, Player, NavMeshAgent);
+        _attack = new Attack(Instance);
+        _inTransition = new InTransitionEntity(Instance);
+        _dead = new Dead(Entity);
+        _returnHome = new ReturnHome(Entity);
+        _patrol = new Patrol(Entity);
+        _launch = new Launch(Entity);
+        _hitstun = new Hitstun(Entity);
     }
 
     protected override void AddStateTransitions()
     {
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _idle,
             _patrol,
             () => ShouldPatrol());
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _patrol,
             _idle,
             () => !ShouldPatrol());
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _idle,
             _chasePlayer,
             () => DistanceToPlayer < _detectionRadius && CanChase);
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _patrol,
             _chasePlayer,
             () => DistanceToPlayer < _detectionRadius);
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _chasePlayer,
             _attack,
             () => DistanceToPlayer < _attackRadius);
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
+            _inTransition,
+            _attack,
+            () => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
+        
+        StateMachine.AddTransition(
+            _inTransition,
+            _idle,
+            () => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
+
+        StateMachine.AddTransition(
+            _attack,
+            _inTransition,
+            () => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Transition"));
+
+        StateMachine.AddTransition(
             _attack,
             _chasePlayer,
             () => DistanceToPlayer > _attackRadius);
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _attack,
             _idle,
             () => DistanceToPlayer > _attackRadius);
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _chasePlayer,
             _idle,
             () => DistanceToPlayer > _detectionRadius);
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _idle,
             _returnHome,
             () => !IsHome && _idle.UpdateReturnHomeTime());
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _returnHome,
             _idle,
             () => IsHome);
 
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _returnHome,
             _chasePlayer,
             () => DistanceToPlayer < _detectionRadius);
-        _stateMachine.AddTransition(
+        StateMachine.AddTransition(
             _launch,
             _idle,
-            () => FallTime > 0 && _entity.IsGrounded);
-        _stateMachine.AddTransition(
+            () => FallTime > 0 && Entity.IsGrounded);
+        StateMachine.AddTransition(
             _hitstun,
             _idle,
             () => !Stun);
 
-        _stateMachine.AddAnyTransition(_dead, () => _entity.Health <= 0);
-        _stateMachine.AddAnyTransition(_launch, () => !Invulnerable && Launch);
-        _stateMachine.AddAnyTransition(_hitstun, () => !Invulnerable && Stun);
+        StateMachine.AddAnyTransition(_dead, () => Entity.Health <= 0);
+        StateMachine.AddAnyTransition(_launch, () => !Invulnerable && Launch);
+        StateMachine.AddAnyTransition(_hitstun, () => !Invulnerable && Stun);
     }
 
 
@@ -150,7 +170,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         yield return new WaitForSeconds(.5f);
         Launch = false;
     }
-    
+
     private bool ShouldPatrol()
     {
         return false;
@@ -163,6 +183,6 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         Debug.Log("Hitstun: " + Hitstun);
         Debug.Log(FallTime);
 #endif
-        _stateMachine.Tick();
+        StateMachine.Tick();
     }
 }

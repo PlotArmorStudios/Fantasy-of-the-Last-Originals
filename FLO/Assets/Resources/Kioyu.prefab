@@ -14292,6 +14292,30 @@ PrefabInstance:
       propertyPath: _linkedPanel
       value: 
       objectReference: {fileID: 1862915582}
+    - target: {fileID: 572846668347746883, guid: d3e0e051c4549694d859fd1be29636ca, type: 3}
+      propertyPath: m_EffectColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 572846668347746883, guid: d3e0e051c4549694d859fd1be29636ca, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 1e-45
+      objectReference: {fileID: 0}
+    - target: {fileID: 572846668347746883, guid: d3e0e051c4549694d859fd1be29636ca, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 572846668347746883, guid: d3e0e051c4549694d859fd1be29636ca, type: 3}
+      propertyPath: m_UseGraphicAlpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 572846668347746883, guid: d3e0e051c4549694d859fd1be29636ca, type: 3}
+      propertyPath: m_EffectDistance.x
+      value: 1e-45
+      objectReference: {fileID: 0}
+    - target: {fileID: 572846668347746883, guid: d3e0e051c4549694d859fd1be29636ca, type: 3}
+      propertyPath: m_EffectDistance.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 572846668447412185, guid: d3e0e051c4549694d859fd1be29636ca, type: 3}
       propertyPath: m_Name
       value: Inventory Slot 20
@@ -19255,6 +19279,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5757989979304780131, guid: ccb6b2310b81980468638c4a920098e3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757989979581732349, guid: ccb6b2310b81980468638c4a920098e3, type: 3}
+      propertyPath: m_EffectColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757989979581732349, guid: ccb6b2310b81980468638c4a920098e3, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 1e-45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757989979581732349, guid: ccb6b2310b81980468638c4a920098e3, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757989979581732349, guid: ccb6b2310b81980468638c4a920098e3, type: 3}
+      propertyPath: m_UseGraphicAlpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757989979581732349, guid: ccb6b2310b81980468638c4a920098e3, type: 3}
+      propertyPath: m_EffectDistance.x
+      value: 1e-45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757989979581732349, guid: ccb6b2310b81980468638c4a920098e3, type: 3}
+      propertyPath: m_EffectDistance.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

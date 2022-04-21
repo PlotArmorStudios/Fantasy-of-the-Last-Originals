@@ -8,12 +8,13 @@ public class EntityCombatManager : CombatManager
     {
         if (PauseMenu.Active) return;
 
-        Attack();
-        ReceiveInput();
+        //Attack();
+        //ReceiveInput();
 
         if (TriggerAttack)
         {
             CanReceiveInput = true;
+            InputReceived = true;
             InputCount = Random.Range(1, 4);
             TriggerAttack = false;
         }
