@@ -31,7 +31,6 @@ public class ChasePlayer : IState
     public void OnExit()
     {
         _navMeshAgent.enabled = false;
-        Debug.Log("Disable navmesh");
     }
 
     void FollowPlayer()

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-//State 
+//State for decision making across the attack, guard, and dodge states
 public class OnGuard : IState
 {
     private readonly Entity _entity;
@@ -33,73 +33,39 @@ public class OnGuard : IState
         _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
         AttackPlayer();
 
-        if (_combatManager.InputReceived && _combatManager.InputCount >= 1)
+        if (_combatManager.InputCount >= 1)
         {
-            _animator.SetBool("Attacking", true);
-
             for (int i = 1; i <= _combatManager.InputCount; i++)
             {
                 _animator.SetBool($"Attack {i}", true);
             }
+            
+            _animator.SetBool("Attacking", true);
 
             _animator.CrossFade($"S{_stanceToggler.CurrentStance} Attack 1", 0f, 0, 0f);
-
-            if (Loop()) return;
-
-            if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
-                _stateInfo.normalizedTime > .9f)
-            {
-                _animator.SetBool("Attacking", true);
-                Debug.Log("Next attack");
-                _animator.CrossFade(
-                    $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0, 0f);
-            }
-
+            _stateMachine.AttackPhase = true;
+            
             _combatManager.ReceiveInput();
             _combatManager.InputReceived = false;
         }
-
-        if (!_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
-            _stateInfo.normalizedTime > .9f && !_crossFaded)
-        {
-            _animator.SetBool("Attacking", false);
-            _animator.CrossFade($"Stance {_stanceToggler.CurrentStance}", .1f, 0);
-            _crossFaded = true;
-            _combatManager.InputReceived = false;
-        }
-    }
-
-    private bool Loop()
-    {
-        if (_combatManager.InputCount >= 4 && _animatorState.LoopToAttack && _stateInfo.normalizedTime > .9f)
-        {
-            Debug.Log("Looooop");
-            _animator.CrossFade(
-                $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToLoopTo}", 0f, 0, 0f);
-
-            _animator.SetBool("Attacking", false);
-            _animator.SetBool("Attack 2", false);
-            _animator.SetBool("Attack 3", false);
-
-            _combatManager.InputCount = 0;
-            _combatManager.InputReceived = false;
-            return true;
-        }
-
-        return false;
     }
 
     public void OnEnter()
     {
         _animator.SetBool("Running", false);
+        _stateMachine.GetComponent<NavMeshAgent>().enabled = true;
         _crossFaded = false;
+        _combatManager.InputCount = 0;
+        _animator.SetBool("Attacking", false);
+        _animator.SetBool("Attack 2", false);
+        _animator.SetBool("Attack 3", false);
+        _attackTimer = 0;
         _attackDelay = _entity.StateMachine.AttackDelay;
     }
 
     public void OnExit()
     {
         _attackTimer = 4.5f;
-        _combatManager.InputReceived = false;
     }
 
     private void AttackPlayer()

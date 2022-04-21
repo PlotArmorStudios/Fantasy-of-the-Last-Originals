@@ -36,9 +36,6 @@ public class AttackingCrossFade : Dasher, IState
         {
             if (Loop()) return;
 
-            //Play attack 2 if attack key was hit two times (aka if hit while in this state)
-
-            //Only transition to next attack if Attack 2 is true, you are in Transition 1 state, and current animator time is greater than value specified in TransitionSpeed variables in CombatManagerScript
             if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
                 _stateInfo.normalizedTime > .9f)
             {

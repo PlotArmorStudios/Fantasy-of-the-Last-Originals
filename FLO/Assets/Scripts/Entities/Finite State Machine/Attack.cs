@@ -33,41 +33,22 @@ public class Attack : IState
     public void Tick()
     {
         _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        AttackPlayer();
+        FocusPlayer();
 
-        if (_combatManager.InputReceived && _combatManager.InputCount >= 1)
+        if (_combatManager.InputReceived)
         {
-            _animator.SetBool("Attacking", true);
-
-            for (int i = 1; i <= _combatManager.InputCount; i++)
-            {
-                _animator.SetBool($"Attack {i}", true);
-            }
-
-            _animator.CrossFade($"S{_stanceToggler.CurrentStance} Attack 1", 0f, 0, 0f);
-
             if (Loop()) return;
 
             if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
                 _stateInfo.normalizedTime > .9f)
             {
                 _animator.SetBool("Attacking", true);
-                Debug.Log("Next attack");
                 _animator.CrossFade(
                     $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0, 0f);
+
+                _combatManager.ReceiveInput();
+                _combatManager.InputReceived = false;
             }
-
-            _combatManager.ReceiveInput();
-            _combatManager.InputReceived = false;
-        }
-
-        if (!_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
-            _stateInfo.normalizedTime > .9f && !_crossFaded)
-        {
-            _animator.SetBool("Attacking", false);
-            _animator.CrossFade($"Stance {_stanceToggler.CurrentStance}", .1f, 0);
-            _crossFaded = true;
-            _combatManager.InputReceived = false;
         }
     }
 
@@ -104,20 +85,9 @@ public class Attack : IState
         _combatManager.InputReceived = false;
     }
 
-    private void AttackPlayer()
+    private void FocusPlayer()
     {
-        if (_attackTimer < _attackDelay)
-            _attackTimer += Time.deltaTime;
-
-
         _entity.transform.rotation = Quaternion.Slerp(_entity.transform.rotation,
             Quaternion.LookRotation(_player.transform.position - _entity.transform.position), 5f * Time.deltaTime);
-
-        if (_attackTimer >= _attackDelay)
-        {
-            _combatManager.TriggerAttack = true;
-            Debug.Log("Trigger attack");
-            _attackTimer = 0;
-        }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 public class EntityStateMachine : FiniteStateMachine, IStateMachine
 {
     [SerializeField] private float _detectionRadius = 5f;
-    [SerializeField] private float _attackRadius = 2f;
+    [SerializeField] private float _guardRadius = 2f;
     [SerializeField] private float _attackDelay = 2f;
     [SerializeField] private float _returnHomeTime = 4f;
     [SerializeField] private float _homeRadius = 2f;
@@ -27,12 +27,15 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     public Patrol _patrol;
     public Launch _launch;
     public Hitstun _hitstun;
+    public OnGuard _onGuard;
 
     public float AttackDelay => _attackDelay;
     public float ReturnHomeTime => _returnHomeTime;
     private bool IsHome => Vector3.Distance(Entity.transform.position, Entity.InitialPosition) <= _homeRadius;
     private float DistanceToPlayer => Vector3.Distance(NavMeshAgent.transform.position, Player.transform.position);
     public bool Invulnerable => false;
+    
+    public bool AttackPhase { get; set; }
 
     public float StunTime = .5f;
     private InTransitionEntity _inTransition;
@@ -71,6 +74,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         _patrol = new Patrol(Entity);
         _launch = new Launch(Entity);
         _hitstun = new Hitstun(Entity);
+        _onGuard = new OnGuard(Instance);
     }
 
     protected override void AddStateTransitions()
@@ -97,8 +101,23 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
 
         StateMachine.AddTransition(
             _chasePlayer,
+            _onGuard,
+            () => DistanceToPlayer < _guardRadius);
+        
+        StateMachine.AddTransition(
+            _onGuard,
+            _chasePlayer,
+            () => DistanceToPlayer > _guardRadius);
+        
+        StateMachine.AddTransition(
+            _onGuard,
             _attack,
-            () => DistanceToPlayer < _attackRadius);
+            () => AttackPhase);
+        
+        StateMachine.AddTransition(
+            _attack,
+            _onGuard,
+            () => !AttackPhase);
 
         StateMachine.AddTransition(
             _inTransition,
@@ -107,22 +126,14 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         
         StateMachine.AddTransition(
             _inTransition,
-            _idle,
-            () => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
+            _onGuard,
+            () => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") || !AttackPhase);
 
         StateMachine.AddTransition(
             _attack,
             _inTransition,
             () => Animator.GetCurrentAnimatorStateInfo(0).IsTag("Transition"));
 
-        StateMachine.AddTransition(
-            _attack,
-            _chasePlayer,
-            () => DistanceToPlayer > _attackRadius);
-        StateMachine.AddTransition(
-            _attack,
-            _idle,
-            () => DistanceToPlayer > _attackRadius);
         StateMachine.AddTransition(
             _chasePlayer,
             _idle,
@@ -155,6 +166,8 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         StateMachine.AddAnyTransition(_launch, () => !Invulnerable && Launch);
         StateMachine.AddAnyTransition(_hitstun, () => !Invulnerable && Stun);
     }
+
+
 
 
     public IEnumerator ToggleStun()

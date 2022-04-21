@@ -7,10 +7,12 @@ public class InTransitionEntity : IState
     private readonly StanceToggler _stanceToggler;
     private AnimatorStateInfo _stateInfo;
     private readonly CurrentAnimatorState _animatorState;
+    private EntityStateMachine _stateMachine;
     private bool _crossFaded;
 
     public InTransitionEntity(FiniteStateMachine stateMachine)
     {
+        _stateMachine = stateMachine as EntityStateMachine;
         _animator = stateMachine.GetComponentInChildren<Animator>();
         _stanceToggler = stateMachine.GetComponent<StanceToggler>();
         _combatManager = stateMachine.GetComponent<CombatManager>();
@@ -27,13 +29,19 @@ public class InTransitionEntity : IState
     {
         _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
-            _stateInfo.normalizedTime > .9f)
+        if (_combatManager.InputReceived)
         {
-            _animator.SetBool("Attacking", true);
-            _animator.CrossFade(
-                $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0,
-                0f);
+            if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
+                _stateInfo.normalizedTime > .9f)
+            {
+                _animator.SetBool("Attacking", true);
+                _animator.CrossFade(
+                    $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0,
+                    0f);
+
+                _combatManager.ReceiveInput();
+                _combatManager.InputReceived = false;
+            }
         }
 
         if (!_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
@@ -41,6 +49,7 @@ public class InTransitionEntity : IState
         {
             _animator.SetBool("Attacking", false);
             _animator.CrossFade($"Stance {_stanceToggler.CurrentStance}", .1f, 0);
+            _stateMachine.AttackPhase = false;
             _crossFaded = true;
         }
     }
@@ -52,5 +61,6 @@ public class InTransitionEntity : IState
 
     public void OnExit()
     {
+        _stateMachine.AttackPhase = false;
     }
 }
