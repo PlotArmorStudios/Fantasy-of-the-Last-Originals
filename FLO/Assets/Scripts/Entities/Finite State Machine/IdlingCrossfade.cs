@@ -30,8 +30,7 @@ public class IdlingCrossfade : IState
         _animator.SetBool("Attack 3", false);
 
         _combatManager.InputCount = 0;
-        _stateMachine.GetComponent<TogglePlayer>().TogglePlayerOn();
-        
+        //_stateMachine.GetComponent<TogglePlayer>().TogglePlayerOn();
     }
 
     public void Tick()

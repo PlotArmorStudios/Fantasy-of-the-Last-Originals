@@ -53,7 +53,6 @@ public class OnGuard : IState
     public void OnEnter()
     {
         _animator.SetBool("Running", false);
-        _stateMachine.GetComponent<NavMeshAgent>().enabled = true;
         _crossFaded = false;
         _combatManager.InputCount = 0;
         _animator.SetBool("Attacking", false);

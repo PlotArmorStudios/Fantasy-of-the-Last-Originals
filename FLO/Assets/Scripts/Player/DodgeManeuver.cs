@@ -17,7 +17,7 @@ public class DodgeManeuver : MonoBehaviour
     private int _enemyMaskInt;
     private int _playerMaskInt;
 
-    public bool Dodging { get; private set; }
+    public bool Dodging { get; set; }
 
     void Start()
     {
@@ -32,7 +32,13 @@ public class DodgeManeuver : MonoBehaviour
         if (Input.GetButtonDown("Dash"))
         {
             StartCoroutine(Dodge());
+            _animator.SetBool("Attacking", false);
         }
+    }
+
+    public void ToggleDodge()
+    {
+        StartCoroutine(SetDodgeTrue());
     }
 
     public void ToggleDodge(int dodging)
@@ -40,18 +46,21 @@ public class DodgeManeuver : MonoBehaviour
         Dodging = dodging == 1;
         Debug.Log("Dodging is: " + Dodging);
     }
-    
+
+    IEnumerator SetDodgeTrue()
+    {
+        yield return new WaitForSeconds(_dashDuration);
+        Dodging = false;
+    }
+
+
     IEnumerator Dodge()
     {
         _animator.SetTrigger("Dodge");
 
         PassThroughEnemies(true);
-
-        yield return new WaitForSeconds(.1f);
-
-        PassThroughEnemies(false);
-
         yield return new WaitForSeconds(_dashDuration);
+        PassThroughEnemies(false);
     }
 
     private void PassThroughEnemies(bool pass)

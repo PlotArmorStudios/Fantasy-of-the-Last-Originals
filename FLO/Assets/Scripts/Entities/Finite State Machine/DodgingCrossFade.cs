@@ -18,6 +18,8 @@ public class DodgingCrossFade : Dasher, IState
     public void OnEnter()
     {
         _animator.GetComponent<Player>().enabled = false;
+        _animator.GetComponent<DodgeManeuver>().Dodging = true;
+        _animator.GetComponent<DodgeManeuver>().ToggleDodge();
     }
 
     public void OnExit()

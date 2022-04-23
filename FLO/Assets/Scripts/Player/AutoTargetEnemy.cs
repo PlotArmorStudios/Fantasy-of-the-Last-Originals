@@ -17,8 +17,15 @@ public class AutoTargetEnemy : MonoBehaviour
     private Vector3 _direction;
     private RaycastHit _rayHit;
 
-    public GameObject NearestEnemy { get { return _nearestEnemy; } }
-    public GameObject TargetedEnemy { get { return _targetedEnemy; } }
+    public GameObject NearestEnemy
+    {
+        get { return _nearestEnemy; }
+    }
+
+    public GameObject TargetedEnemy
+    {
+        get { return _targetedEnemy; }
+    }
 
     public bool EnemyInRange { get; private set; }
     public bool _canTargetNearestEnemy;
@@ -29,12 +36,14 @@ public class AutoTargetEnemy : MonoBehaviour
     private float _turnSmoothVelocity;
     private Vector3 _turnTowardDirection;
     private Quaternion _lookRotation;
+    private DodgeManeuver _dodgeManeuver;
 
     public GameObject Enemy { get; private set; }
-    
+
     // Start is called before the first frame update
     private void Start()
     {
+        _dodgeManeuver = GetComponent<DodgeManeuver>();
         _animator = GetComponentInChildren<Animator>();
         _enemiesInWorld = GameObject.FindGameObjectsWithTag("Enemy");
     }
@@ -47,16 +56,16 @@ public class AutoTargetEnemy : MonoBehaviour
             EnemyInRange = Vector3.Distance(transform.position, _targetedEnemy.transform.position) <= _targetDistance;
             Debug.DrawLine(transform.position, _targetedEnemy.transform.position, Color.yellow);
         }
-        
+
         StoreEnemiesInArray();
         FindNearestEnemy();
         CreateEnemyDetectingRay();
-        
+
         Enemy = _nearestEnemy;
 
         Debug.DrawLine(transform.position, _nearestEnemy.transform.position, Color.red);
-
     }
+
     private void FixedUpdate()
     {
         ToggleTargetedEnemy();
@@ -67,6 +76,7 @@ public class AutoTargetEnemy : MonoBehaviour
     {
         _enemiesInWorld = GameObject.FindGameObjectsWithTag("Enemy");
     }
+
     private void CreateEnemyDetectingRay()
     {
         float horizontal = Input.GetAxis("Horizontal_P1");
@@ -85,6 +95,7 @@ public class AutoTargetEnemy : MonoBehaviour
             if (_nearestEnemy != null)
                 TargetNearestEnemy();
         }
+
         if (_direction.magnitude >= .1)
         {
             TargetEnemyWithRayCast();
@@ -96,7 +107,6 @@ public class AutoTargetEnemy : MonoBehaviour
 
         if (_targetedEnemy == null)
             _targetedWithRay = false;
-
     }
 
     void TargetNearestEnemy()
@@ -111,7 +121,8 @@ public class AutoTargetEnemy : MonoBehaviour
 
     void TargetEnemyWithRayCast()
     {
-        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), _rayRotation, out _rayHit, 3f, _layerMask))
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z),
+            _rayRotation, out _rayHit, 3f, _layerMask))
         {
             var enemy = _rayHit.collider.gameObject;
 
@@ -122,7 +133,8 @@ public class AutoTargetEnemy : MonoBehaviour
             }
         }
 
-        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), _rayRotation * 3, Color.blue);
+        Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z),
+            _rayRotation * 3, Color.blue);
     }
 
     void TurnTowardEnemy()
@@ -133,10 +145,10 @@ public class AutoTargetEnemy : MonoBehaviour
             {
                 _turnTowardDirection = (_targetedEnemy.transform.position - transform.position).normalized;
                 _lookRotation = Quaternion.LookRotation(new Vector3(_turnTowardDirection.x, 0, _turnTowardDirection.z));
-                transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * _rotationSpeed);
+                transform.rotation =
+                    Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * _rotationSpeed);
             }
         }
-
     }
 
 
@@ -146,7 +158,7 @@ public class AutoTargetEnemy : MonoBehaviour
         foreach (GameObject enemy in _enemiesInWorld)
         {
             float distanceToEnemy = Vector3.Distance(enemy.transform.position, transform.position);
-            
+
             if (distanceToEnemy < nearestDistance)
             {
                 nearestDistance = distanceToEnemy;
@@ -155,4 +167,3 @@ public class AutoTargetEnemy : MonoBehaviour
         }
     }
 }
-

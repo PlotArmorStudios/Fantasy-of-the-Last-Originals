@@ -9,9 +9,10 @@ public class RootMotionController : MonoBehaviour
     private Vector3 _newPosition;
     private Animator _animator;
     public bool StopMovement { get; set; }
-
+    private DodgeManeuver _dodgeManeuver;
     private void Start()
     {
+        _dodgeManeuver = GetComponent<DodgeManeuver>();
         _attackPhysics = GetComponent<AttackPhysics>();
         _animator = GetComponent<Animator>();
     }
