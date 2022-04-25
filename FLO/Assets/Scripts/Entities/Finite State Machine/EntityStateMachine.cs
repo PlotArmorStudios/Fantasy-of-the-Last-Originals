@@ -1,6 +1,7 @@
 //#define DEBUG_LOG
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -32,8 +33,9 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     public float AttackDelay => _attackDelay;
     public float ReturnHomeTime => _returnHomeTime;
     private bool IsHome => Vector3.Distance(Entity.transform.position, Entity.InitialPosition) <= _homeRadius;
-    private float DistanceToPlayer => Vector3.Distance(NavMeshAgent.transform.position, Player.transform.position);
+    public float DistanceToPlayer => Vector3.Distance(NavMeshAgent.transform.position, Player.transform.position);
     public bool Invulnerable => false;
+    public float GuardRadius => _guardRadius;
     
     public bool AttackPhase { get; set; }
 
@@ -107,7 +109,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         StateMachine.AddTransition(
             _onGuard,
             _chasePlayer,
-            () => DistanceToPlayer > _guardRadius);
+            () => DistanceToPlayer > _guardRadius + 3);
         
         StateMachine.AddTransition(
             _onGuard,
