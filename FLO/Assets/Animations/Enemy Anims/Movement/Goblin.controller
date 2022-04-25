@@ -598,38 +598,38 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -820482484482307029}
-    m_Position: {x: 80, y: -100, z: 0}
+    m_Position: {x: -30, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2430038960321903952}
-    m_Position: {x: 170, y: 310, z: 0}
+    m_Position: {x: -30, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6259396160595290536}
-    m_Position: {x: 360, y: 0, z: 0}
+    m_Position: {x: 170, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3039285395842768482}
     m_Position: {x: -40, y: -280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8036418272425079352}
-    m_Position: {x: 40, y: -440, z: 0}
+    m_Position: {x: -40, y: -340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -807154529038759518}
-    m_Position: {x: 80, y: 50, z: 0}
+    m_Position: {x: -30, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8522710849781594282}
-    m_Position: {x: 40, y: -210, z: 0}
+    m_Position: {x: -40, y: -240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5066565281550702710}
-    m_Position: {x: 30, y: -150, z: 0}
+    m_Position: {x: -40, y: -200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4610167410470071608}
-    m_Position: {x: 210, y: -350, z: 0}
+    m_Position: {x: -50, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6422216922799510368}
-    m_Position: {x: 350, y: -190, z: 0}
+    m_Position: {x: 180, y: -140, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 1254184587702553762}
-    m_Position: {x: 350, y: -100, z: 0}
+    m_Position: {x: -40, y: 80, z: 0}
   m_AnyStateTransitions:
   - {fileID: 6768968808470924057}
   - {fileID: -3081050749688230929}
@@ -638,7 +638,7 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 40, y: -350, z: 0}
+  m_AnyStatePosition: {x: -30, y: -150, z: 0}
   m_EntryPosition: {x: 240, y: 110, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -749,6 +749,24 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: On Guard Movement Y
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: RootMotionZ
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: RootMotionX
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: RootMotionY
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0

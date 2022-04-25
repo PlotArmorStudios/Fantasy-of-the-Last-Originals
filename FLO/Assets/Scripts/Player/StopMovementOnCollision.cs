@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class StopMovementOnCollision : MonoBehaviour
 {
-    [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private RootMotionController _rootMotion;
-    private DodgeManeuver _dodgeManeuver;
-    private bool _shouldStop;
-    private Collider[] _touching;
+    [SerializeField] protected LayerMask _layerMask;
+    [SerializeField] protected RootMotionController _rootMotion;
+    protected DodgeManeuver _dodgeManeuver;
+    protected bool _shouldStop;
+    protected Collider[] _touching;
     public bool ShouldStop => _shouldStop;
 
     private void Start()
@@ -17,7 +17,7 @@ public class StopMovementOnCollision : MonoBehaviour
         _dodgeManeuver = GetComponentInParent<DodgeManeuver>();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (_dodgeManeuver.Dodging)
         {

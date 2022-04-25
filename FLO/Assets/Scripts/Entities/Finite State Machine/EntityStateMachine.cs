@@ -109,7 +109,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         StateMachine.AddTransition(
             _onGuard,
             _chasePlayer,
-            () => DistanceToPlayer > _guardRadius + 3);
+            () => DistanceToPlayer > _guardRadius + 1);
         
         StateMachine.AddTransition(
             _onGuard,
@@ -139,7 +139,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         StateMachine.AddTransition(
             _chasePlayer,
             _idle,
-            () => DistanceToPlayer > _detectionRadius);
+            () => DistanceToPlayer > _detectionRadius * 3);
 
         StateMachine.AddTransition(
             _idle,
@@ -170,7 +170,11 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     }
 
 
-
+    public void InjectCoroutine(IEnumerator coroutine)
+    {
+        StopCoroutine(coroutine);
+        StartCoroutine(coroutine);
+    }
 
     public IEnumerator ToggleStun()
     {
