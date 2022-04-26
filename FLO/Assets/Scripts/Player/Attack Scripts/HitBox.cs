@@ -7,15 +7,16 @@ public abstract class HitBox : MonoBehaviour
     public AttackDefinition AttackDefinition { get; set; }
     public Transform EffectPosition;
 
-    private Transform _comboGravityPoint;
-
     private Rigidbody _targetRigidBody;
-    private float _defaultKnockUpStrength = 1.2f;
-
-
-    private HealthLogic _targetHealthLogic;
+    
+    //Target knock back control
+    private Transform _comboGravityPoint;
     private KnockBackDecelaration _knockBackDecelarationHandler;
 
+    private HealthLogic _targetHealthLogic;
+
+    //Knock back metrics
+    private float _defaultKnockUpStrength = 1.2f;
     private Vector3 _knockBackPower;
     private Vector3 _comboPoint;
     private int _savedTargetID;

@@ -94,7 +94,6 @@ public class OnGuard : IState
         }
     }
 
-
     private IEnumerator StopXMovementInIntervals()
     {
         _stopXInterval = Random.Range(.5f, 2f);
