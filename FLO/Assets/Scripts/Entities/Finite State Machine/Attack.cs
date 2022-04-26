@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[System.Serializable]
 public class Attack : IState
 {
     private readonly Entity _entity;
@@ -39,16 +40,21 @@ public class Attack : IState
         {
             if (Loop()) return;
 
-            if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
-                _stateInfo.normalizedTime > .9f)
-            {
-                _animator.SetBool("Attacking", true);
-                _animator.CrossFade(
-                    $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0, 0f);
+            TriggerAttack();
+        }
+    }
 
-                _combatManager.ReceiveInput();
-                _combatManager.InputReceived = false;
-            }
+    public void TriggerAttack()
+    {
+        if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
+            _stateInfo.normalizedTime > .9f)
+        {
+            _animator.SetBool("Attacking", true);
+            _animator.CrossFade(
+                $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0, 0f);
+
+            _combatManager.ReceiveInput();
+            _combatManager.InputReceived = false;
         }
     }
 

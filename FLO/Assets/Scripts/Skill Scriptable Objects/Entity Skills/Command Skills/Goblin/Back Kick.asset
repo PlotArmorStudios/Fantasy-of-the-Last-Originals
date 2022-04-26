@@ -18,7 +18,7 @@ MonoBehaviour:
   SkillType: 1
   StunType: 0
   Damage: 10
-  AttackRange: 0.36
+  AttackRange: 2
   KnockBackStrength: 1
   KnockUpStrength: 0
   StunDuration: 0.1

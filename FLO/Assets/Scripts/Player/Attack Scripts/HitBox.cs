@@ -164,6 +164,30 @@ public abstract class HitBox : MonoBehaviour
 
     public abstract Collider[] OverlapPhysics();
 
+    protected virtual void SetAttackDirection(Collider collider)
+    {
+        Transform transformPointer = FindHitboxParent();
+        
+        _attackDirection = collider.gameObject.transform.position - transformPointer.position;
+
+        Debug.DrawRay(transform.root.position, _attackDirection, Color.blue, 3);
+    }
+
+    private Transform FindHitboxParent()
+    {
+        Transform transformPointer = transform;
+
+        while (transformPointer.parent != null)
+        {
+            if (transformPointer.parent.GetComponent<CombatManager>())
+            {
+                return transformPointer;
+            }
+        }
+
+        return null;
+    }
+
     protected virtual void TransferInfoToTarget(Collider collider)
     {
         SetAttackDirection(collider);
@@ -181,14 +205,10 @@ public abstract class HitBox : MonoBehaviour
         ApplyKnockBackDeceleration();
     }
 
-    protected virtual void SetAttackDirection(Collider collider)
-    {
-        _attackDirection = collider.gameObject.transform.position - transform.root.position;
-    }
-
+    
     protected virtual void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = new Color(1, 0, 0, .5f);
         if (AttackDefinition)
             Gizmos.DrawSphere(transform.position, AttackDefinition.AttackRange);
     }

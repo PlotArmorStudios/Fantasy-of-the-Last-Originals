@@ -168,7 +168,7 @@ public class OnGuard : IState
         if (_attackTimer >= _attackDelay)
         {
             _combatManager.TriggerAttack = true;
-            Debug.Log("Trigger attack");
+            //Debug.Log("Trigger attack");
             _attackTimer = 0;
         }
     }
