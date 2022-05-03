@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 910480575}
   - component: {fileID: 910480574}
   - component: {fileID: 910480573}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: Enemy Distance Collider Front (1)
   m_TagString: Distance Collider
   m_Icon: {fileID: 0}
