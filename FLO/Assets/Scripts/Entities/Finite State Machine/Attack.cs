@@ -34,7 +34,7 @@ public class Attack : IState
     public void Tick()
     {
         _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        //FocusPlayer();
+        FocusPlayer();
 
         if (_combatManager.InputReceived)
         {

@@ -8,7 +8,7 @@ public abstract class HitBox : MonoBehaviour
     public Transform EffectPosition;
 
     private Rigidbody _targetRigidBody;
-    
+
     //Target knock back control
     private Transform _comboGravityPoint;
     private KnockBackDecelaration _knockBackDecelarationHandler;
@@ -167,7 +167,7 @@ public abstract class HitBox : MonoBehaviour
     protected virtual void SetAttackDirection(Collider collider)
     {
         Transform transformPointer = FindHitboxParent();
-        
+
         _attackDirection = collider.gameObject.transform.position - transformPointer.position;
 
         Debug.DrawRay(transform.root.position, _attackDirection, Color.blue, 3);
@@ -176,16 +176,8 @@ public abstract class HitBox : MonoBehaviour
     private Transform FindHitboxParent()
     {
         Transform transformPointer = transform;
-
-        while (transformPointer.parent != null)
-        {
-            if (transformPointer.parent.GetComponent<CombatManager>())
-            {
-                return transformPointer;
-            }
-        }
-
-        return null;
+        transformPointer = GetComponentInParent<CombatManager>().transform;
+        return transformPointer;
     }
 
     protected virtual void TransferInfoToTarget(Collider collider)
@@ -205,7 +197,7 @@ public abstract class HitBox : MonoBehaviour
         ApplyKnockBackDeceleration();
     }
 
-    
+
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1, 0, 0, .5f);
