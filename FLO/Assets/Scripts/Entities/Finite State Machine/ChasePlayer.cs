@@ -1,48 +1,51 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChasePlayer : IState
+namespace GoblinStateMachine
 {
-    private readonly NavMeshAgent _navMeshAgent;
-    private readonly Player _player;
-    private float _attackTimer;
-    private Animator _animator;
-    private Entity _entity;
-
-    public ChasePlayer(Entity entity, Player player, NavMeshAgent navMeshAgent)
+    public class ChasePlayer : IState
     {
-        _entity = entity;
-        _player = player;
+        private readonly NavMeshAgent _navMeshAgent;
+        private readonly Player _player;
+        private float _attackTimer;
+        private Animator _animator;
+        private Entity _entity;
 
-        _navMeshAgent = _entity.NavAgent;
-        _animator = _entity.Animator;
-    }
+        public ChasePlayer(Entity entity, Player player, NavMeshAgent navMeshAgent)
+        {
+            _entity = entity;
+            _player = player;
 
-    public void Tick()
-    {
-        FollowPlayer();
-    }
+            _navMeshAgent = _entity.NavAgent;
+            _animator = _entity.Animator;
+        }
 
-    public void OnEnter()
-    {
-        _navMeshAgent.enabled = true;
-        
-        _animator.CrossFade("Running", .25f);
-        _animator.SetBool("Running", true);
-        _animator.SetBool("Attacking", false);
-    }
+        public void Tick()
+        {
+            FollowPlayer();
+        }
 
-    public void OnExit()
-    {
-        _navMeshAgent.enabled = false;
-    }
+        public void OnEnter()
+        {
+            _navMeshAgent.enabled = true;
 
-    void FollowPlayer()
-    {
-        _navMeshAgent.isStopped = false;
-        _entity.transform.rotation = Quaternion.Slerp(_entity.transform.rotation,
-            Quaternion.LookRotation(_player.transform.position - _entity.transform.position), 5f * Time.deltaTime);
-        
-        _navMeshAgent.SetDestination(_player.transform.position);
+            _animator.CrossFade("Running", .25f);
+            _animator.SetBool("Running", true);
+            _animator.SetBool("Attacking", false);
+        }
+
+        public void OnExit()
+        {
+            _navMeshAgent.enabled = false;
+        }
+
+        void FollowPlayer()
+        {
+            _navMeshAgent.isStopped = false;
+            _entity.transform.rotation = Quaternion.Slerp(_entity.transform.rotation,
+                Quaternion.LookRotation(_player.transform.position - _entity.transform.position), 5f * Time.deltaTime);
+
+            _navMeshAgent.SetDestination(_player.transform.position);
+        }
     }
 }
