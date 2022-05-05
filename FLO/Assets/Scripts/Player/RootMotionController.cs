@@ -48,6 +48,6 @@ public class RootMotionController : MonoBehaviour
     {
         _newPosition = transform.up * _animator.GetFloat("RootMotionY") * Time.deltaTime;
 
-        _rigidbody.transform.position += _newPosition;
+        transform.position += _newPosition;
     }
 }
