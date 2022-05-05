@@ -41,7 +41,7 @@ public class InTransitionCrossFade : Dasher, IState
             {
                 _animator.SetBool("Attacking", true);
                 _animator.CrossFade(
-                    $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0,
+                    $"{_animatorState.AltitudeState} S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0,
                     0f);
 
                 _combatManager.ReceiveInput();

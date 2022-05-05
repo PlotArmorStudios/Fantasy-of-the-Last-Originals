@@ -7,20 +7,25 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
 {
     private Animator _animator;
 
+    private Player _player;
     private DodgeManeuver _dodge;
-
+    private GroundCheck _groundCheck;
+    
     private AttackingCrossFade _attackingCrossFade;
     private IdlingCrossfade _idlingCrossfade;
     private InTransitionCrossFade _inTransitionCrossFade;
     private DodgingCrossFade _dodgingCrossFade;
     private StanceToggler _stanceToggler;
-    
+    private AirborneCrossFade _airborneCrossFade;
+    private AirborneAttackCrossFade _airborneAttackCrossFade;
+
     protected override void Start()
     {
         Instance = this;
         _stanceToggler = GetComponent<StanceToggler>();
         _animator = GetComponentInChildren<Animator>();
         _dodge = GetComponent<DodgeManeuver>();
+        _player = GetComponent<Player>();
         _stateMachine = new StateMachine();
 
         InitializeStates();
@@ -37,12 +42,29 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
         _attackingCrossFade = new AttackingCrossFade(Instance);
         _inTransitionCrossFade = new InTransitionCrossFade(Instance);
         _dodgingCrossFade = new DodgingCrossFade(Instance);
+        _airborneCrossFade = new AirborneCrossFade(Instance);
+        _airborneAttackCrossFade = new AirborneAttackCrossFade(Instance);
     }
 
     protected override void AddStateTransitions()
     {
         _stateMachine.AddTransition(
             _idlingCrossfade,
+            _attackingCrossFade,
+            () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
+
+        _stateMachine.AddTransition(
+            _idlingCrossfade,
+            _airborneCrossFade,
+            () => _player.IsJumping);
+
+        _stateMachine.AddTransition(
+            _airborneCrossFade,
+            _idlingCrossfade,
+            () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
+
+        _stateMachine.AddTransition(
+            _airborneCrossFade,
             _attackingCrossFade,
             () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
 
@@ -92,7 +114,6 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
 
     protected override void Update()
     {
-        //   photonView.RPC("TickStateMachine", RpcTarget.All);
         _stateMachine.Tick();
     }
 

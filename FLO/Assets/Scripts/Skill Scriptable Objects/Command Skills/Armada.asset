@@ -25,7 +25,8 @@ MonoBehaviour:
   AirBorneKnockUp: 1
   LaunchLimiter: 0.1
   DecelerationDuration: 1
-  HitStopDuration: 0.01
+  HitStopDuration: 0.1
+  DelayBeforeHitStop: 0.05
   AirStallDuration: 0.01
   DownwardPull: 0
   HitBoxLinger: 0.2

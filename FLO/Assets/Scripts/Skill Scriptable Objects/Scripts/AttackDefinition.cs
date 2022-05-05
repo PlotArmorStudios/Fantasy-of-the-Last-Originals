@@ -19,6 +19,7 @@ public class AttackDefinition : ScriptableObject
 
     public float DecelerationDuration = 5f;
     public float HitStopDuration = .2f;
+    public float DelayBeforeHitStop = .2f;
     public float AirStallDuration = .8f;
     public float DownwardPull;
 

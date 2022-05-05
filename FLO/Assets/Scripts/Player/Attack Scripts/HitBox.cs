@@ -157,9 +157,14 @@ public abstract class HitBox : MonoBehaviour
             CacheTargetComponents(collider);
             _targetStunHandler.DisableComponents();
             TransferInfoToTarget(collider);
-
+            TriggerTargetEffects();
             _savedTargetID = _newTargetID;
         }
+    }
+
+    private void TriggerTargetEffects()
+    {
+        _targetStunHandler.GetComponent<ParticleHitEffects>().TriggerHitEffects();
     }
 
     public abstract Collider[] OverlapPhysics();
@@ -188,6 +193,7 @@ public abstract class HitBox : MonoBehaviour
         DoDamage();
 
         _targetSound.PlayHitStunSound();
+        _targetStunHandler.GetComponent<HitStop>().Stop(AttackDefinition.HitStopDuration, AttackDefinition.DelayBeforeHitStop);
 
         ChangeRigidBodySettings();
 

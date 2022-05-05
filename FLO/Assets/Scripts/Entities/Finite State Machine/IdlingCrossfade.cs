@@ -7,6 +7,7 @@ public class IdlingCrossfade : IState
     protected CombatManager _combatManager;
     protected StanceToggler _stanceToggler;
     protected FiniteStateMachine _stateMachine;
+    private readonly CurrentAnimatorState _animatorState;
 
     public IdlingCrossfade(FiniteStateMachine stateMachine)
     {
@@ -14,13 +15,15 @@ public class IdlingCrossfade : IState
         _animator = stateMachine.GetComponentInChildren<Animator>();
         _stanceToggler = stateMachine.GetComponent<StanceToggler>();
         _combatManager = stateMachine.GetComponent<CombatManager>();
+        _animatorState = stateMachine.GetComponent<CurrentAnimatorState>();
+
         _stanceToggler.OnStanceChanged += ChangeStance;
     }
 
-    private void ChangeStance(int stance)
+    private void ChangeStance(int stanceNumber)
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"))
-            _animator.CrossFade("Stance " + stance, .25f, 0, 0f, 0f);
+            _animator.CrossFade("Stance " + stanceNumber, .25f, 0, 0f, 0f);
     }
 
     public void OnEnter()
@@ -28,9 +31,8 @@ public class IdlingCrossfade : IState
         _animator.SetBool("Attacking", false);
         _animator.SetBool("Attack 2", false);
         _animator.SetBool("Attack 3", false);
-
+        _animatorState.AltitudeState = "Grounded";
         _combatManager.InputCount = 0;
-        //_stateMachine.GetComponent<TogglePlayer>().TogglePlayerOn();
     }
 
     public void Tick()
@@ -39,7 +41,8 @@ public class IdlingCrossfade : IState
         {
             _animator.SetBool("Attacking", true);
 
-            _animator.CrossFade($"S{_stanceToggler.CurrentStance} Attack 1", 0f, 0, 0f);
+            _animator.CrossFade($"{_animatorState.AltitudeState} S{_stanceToggler.CurrentStance} Attack 1", 0f, 0, 0f);
+            //_animator.CrossFade($"S{_stanceToggler.CurrentStance} Attack 1", 0f, 0, 0f);
 
             _combatManager.ReceiveInput();
             _combatManager.InputReceived = false;

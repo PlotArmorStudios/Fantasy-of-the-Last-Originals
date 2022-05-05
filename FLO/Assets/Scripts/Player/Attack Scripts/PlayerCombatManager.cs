@@ -16,13 +16,10 @@ public class PlayerCombatManager : CombatManager
         Attack();
         ReceiveInput();
 
-        if (!Player.IsJumping)
+        if (Input.GetButtonDown("Light Attack"))
         {
-            if (Input.GetButtonDown("Light Attack"))
-            {
-                CanReceiveInput = true;
-                InputCount++;
-            }
+            CanReceiveInput = true;
+            InputCount++;
         }
     }
 

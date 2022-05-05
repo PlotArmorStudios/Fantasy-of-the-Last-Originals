@@ -45,7 +45,6 @@ public class RigidBodyStunHandler : KnockBackHandler
 
         if (!_groundCheck.UpdateIsGrounded())
         {
-
             if (_targetSkillTypeUsed == SkillType.LinkSkill)
             {
                 ApplyLinkSkillGravity();
@@ -89,22 +88,22 @@ public class RigidBodyStunHandler : KnockBackHandler
                                  _weight); //down force is going to decrease over time, and decrease more over time due to fallmult
 
             if (CurrentDownForce > 3) CurrentDownForce = 3;
-
             if (CurrentDownForce < 0) CurrentDownForce = 0f;
         }
     }
 
     private void ApplyLinkSkillGravity()
     {
-        IsAboveContactPoint = transform.position.y >= ContactPointLaunchLimiter.y;
-        if (transform.position.y >= ContactPointLaunchLimiter.y)
+        IsAboveContactPoint = _rb.transform.position.y >= ContactPointLaunchLimiter.y;
+
+        if (_rb.transform.position.y >= ContactPointLaunchLimiter.y)
         {
             _fallAccelerationMultiplier += Time.deltaTime * 3f;
 
             CurrentDownForce = _downPull * _fallAccelerationMultiplier *
                                ((_fallAccelerationMultiplier * _fallAccelerationNormalizer) * _weight);
         }
-        else if (transform.position.y < ContactPointLaunchLimiter.y)
+        else if (_rb.transform.position.y < ContactPointLaunchLimiter.y)
         {
             if (IsRaising)
             {
@@ -162,7 +161,7 @@ public class RigidBodyStunHandler : KnockBackHandler
     public override void ApplyKnockBack(Vector3 attackForce)
     {
         KnockBackForce = attackForce;
-        
+
         if (_targetSkillTypeUsed == SkillType.LinkSkill)
             _linkSkillKnockBack = attackForce.z;
     }
@@ -172,7 +171,7 @@ public class RigidBodyStunHandler : KnockBackHandler
         ApplyHitStopDuration = true;
         HitStopDuration = hitStopDuration;
     }
-    
+
     IEnumerator KnockBackAfterHitStop()
     {
         _rb.velocity = Vector3.zero;
@@ -210,5 +209,4 @@ public class RigidBodyStunHandler : KnockBackHandler
         yield return new WaitForSeconds(airStallDuration);
         AirStall = false;
     }
-
 }

@@ -11,13 +11,13 @@ public class PlayerStanceToggler : StanceToggler
 
     protected override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.E))
             ChangeStance(PlayerStance.Stance1, 1);
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.R))
             ChangeStance(PlayerStance.Stance2, 2);
         if (Input.GetKeyDown(KeyCode.F))
             ChangeStance(PlayerStance.Stance3, 3);
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.V))
             ChangeStance(PlayerStance.Stance4, 4);
     }
 

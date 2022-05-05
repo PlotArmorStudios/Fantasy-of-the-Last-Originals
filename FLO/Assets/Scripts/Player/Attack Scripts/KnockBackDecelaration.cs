@@ -88,13 +88,6 @@ public class KnockBackDecelaration : MonoBehaviour
         _slowDown = false;
         _decelerationMultiplier = 0f;
     }
-
-    IEnumerator SetHitStopDuration()
-    {
-        yield return new WaitForSeconds(_hitStopDuration);
-        _wasHit = false;
-    }
-
     public void SetKnockBackTrue(bool isInKnockBack)
     {
         _isInKnockBack = isInKnockBack;
@@ -105,12 +98,6 @@ public class KnockBackDecelaration : MonoBehaviour
     {
         _attackForce = velocity;
         _startDecelarationMultiplier = velocity;
-    }
-
-    public void SetHitStop(bool wasHit, float duration)
-    {
-        _wasHit = wasHit;
-        _hitStopDuration = duration;
     }
 
     public void SetDecelerationDuration(float duration)

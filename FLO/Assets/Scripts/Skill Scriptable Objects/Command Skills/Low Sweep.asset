@@ -24,9 +24,10 @@ MonoBehaviour:
   StunDuration: 0.3
   AirBorneKnockUp: 3
   LaunchLimiter: 0.5
-  DecelerationDuration: 1
-  HitStopDuration: 0.01
-  AirStallDuration: 0.01
+  DecelerationDuration: 4
+  HitStopDuration: 0.1
+  DelayBeforeHitStop: 0.05
+  AirStallDuration: 4
   DownwardPull: 0
   HitBoxLinger: 0.2
   Effect: {fileID: 1789270911803724, guid: 3f0def245cefa134c838d34a7f6d2556, type: 3}

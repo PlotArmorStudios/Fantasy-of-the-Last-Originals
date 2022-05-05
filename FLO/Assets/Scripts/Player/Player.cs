@@ -62,6 +62,9 @@ public class Player : Character
     private PhotonView _view;
 
     private State _currentState;
+    private bool _negateGravity;
+    private bool _applyUpForce;
+    private float _upForce;
 
     // Start is called before the first frame update
     void Start()
@@ -101,6 +104,7 @@ public class Player : Character
         if (PauseMenu.Active) return;
 
         ApplyGravity();
+        ApplyUpForce();
         HandleJumpAnimation();
         RotateInDirectionOfMovement();
     }
@@ -215,6 +219,39 @@ public class Player : Character
         }
     }
 
+    public void NegateGravity(float delay)
+    {
+        StartCoroutine(StopGravity(delay));
+    }
+
+    public void ApplyUpForce()
+    {
+        if (_applyUpForce)
+        {
+            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y + _upForce, _rb.velocity.z);
+        }
+    }
+
+    public void ApplyUpwardForce(float force)
+    {
+        _upForce = force;
+        StartCoroutine(ReverseGravity());
+    }
+
+    private IEnumerator ReverseGravity()
+    {
+        _applyUpForce = true;
+        yield return new WaitForSeconds(.2f);
+        _applyUpForce = false;
+    }
+
+    private IEnumerator StopGravity(float reapplyDelay)
+    {
+        _negateGravity = true;
+        yield return new WaitForSeconds(reapplyDelay);
+        _negateGravity = false;
+    }
+
     private void ApplyGravity()
     {
         if (!_groundCheck.IsGrounded)
@@ -222,12 +259,20 @@ public class Player : Character
             _fallTimer += Time.deltaTime;
             var downForce = _downPull * _fallTimer * _fallTimer;
 
-            if (downForce > 10f)
+            if (downForce > 3f)
             {
-                downForce = 10f;
+                downForce = 3f;
             }
 
-            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - downForce, _rb.velocity.z);
+            if (_negateGravity)
+            {
+                _rb.velocity = Vector3.zero;
+                downForce = 0;
+            }
+            else
+            {
+                _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - downForce, _rb.velocity.z);
+            }
 
             _animator.SetBool("Airborne", true);
         }

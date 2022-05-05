@@ -20,8 +20,6 @@ public class AttackingCrossFade : Dasher, IState
         _animatorState = stateMachine.GetComponent<CurrentAnimatorState>();
     }
 
-    public override void Dash() => base.Dash();
-
     public void Tick()
     {
         _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
@@ -41,21 +39,21 @@ public class AttackingCrossFade : Dasher, IState
             {
                 _animator.SetBool("Attacking", true);
                 _animator.CrossFade(
-                    $"S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0, 0f);
+                    $"{_animatorState.AltitudeState} S{_stanceToggler.CurrentStance} Attack {_animatorState.AttackToTransitionTo}", 0f, 0, 0f);
 
                 _combatManager.ReceiveInput();
                 _combatManager.InputReceived = false;
             }
         }
 
-        if (!_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
-            _stateInfo.normalizedTime > .9f && !_crossFaded)
-        {
-            _animator.SetBool("Attacking", false);
-            _animator.CrossFade($"Stance {_stanceToggler.CurrentStance}", .1f, 0);
-            _crossFaded = true;
-            _combatManager.InputReceived = false;
-        }
+        // if (!_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
+        //     _stateInfo.normalizedTime > .9f && !_crossFaded)
+        // {
+        //     _animator.SetBool("Attacking", false);
+        //     _animator.CrossFade($"Stance {_stanceToggler.CurrentStance}", .1f, 0);
+        //     _crossFaded = true;
+        //     _combatManager.InputReceived = false;
+        // }
     }
 
     private bool Loop()
