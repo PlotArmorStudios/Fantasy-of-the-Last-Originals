@@ -7,10 +7,10 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
 {
     private Animator _animator;
 
-    private Player _player;
+    public Player Player;
     private DodgeManeuver _dodge;
     private GroundCheck _groundCheck;
-    
+
     private AttackingCrossFade _attackingCrossFade;
     private IdlingCrossfade _idlingCrossfade;
     private InTransitionCrossFade _inTransitionCrossFade;
@@ -25,7 +25,7 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
         _stanceToggler = GetComponent<StanceToggler>();
         _animator = GetComponentInChildren<Animator>();
         _dodge = GetComponent<DodgeManeuver>();
-        _player = GetComponent<Player>();
+        Player = GetComponent<Player>();
         _stateMachine = new StateMachine();
 
         InitializeStates();
@@ -43,7 +43,6 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
         _inTransitionCrossFade = new InTransitionCrossFade(Instance);
         _dodgingCrossFade = new DodgingCrossFade(Instance);
         _airborneCrossFade = new AirborneCrossFade(Instance);
-        _airborneAttackCrossFade = new AirborneAttackCrossFade(Instance);
     }
 
     protected override void AddStateTransitions()
@@ -56,12 +55,12 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
         _stateMachine.AddTransition(
             _idlingCrossfade,
             _airborneCrossFade,
-            () => _player.IsJumping);
+            () => Player.IsJumping || Player.IsFalling);
 
         _stateMachine.AddTransition(
             _airborneCrossFade,
             _idlingCrossfade,
-            () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
+            () => Player.FallTime > 0 && Player.IsGrounded);
 
         _stateMachine.AddTransition(
             _airborneCrossFade,
@@ -87,6 +86,11 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
             _inTransitionCrossFade,
             _idlingCrossfade,
             () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"));
+
+        _stateMachine.AddTransition(
+            _inTransitionCrossFade,
+            _airborneCrossFade,
+            () => Player.IsFalling);
 
         _stateMachine.AddTransition(
             _inTransitionCrossFade,

@@ -4,150 +4,149 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
-public class Inventory : MonoBehaviour
+namespace InventoryScripts
 {
-    public event Action<int> OnItemChanged;
-    public event Action<Item> ItemPickedUp;
-
-    [SerializeField] Transform _rightHand;
-    [SerializeField] private Transform _scabbard;
-    [SerializeField] private Transform _sheathRoot;
-
-    private Item[] _items = new Item[DEFAULT_INVENTORY_SIZE];
-    private Transform _itemRoot;
-    
-    public UIInventorySlot[] Slots { get; set; }
-
-    public const int DEFAULT_INVENTORY_SIZE = 28;
-    public Item ActiveItem { get; private set; }
-    public List<Item> Items => _items.ToList();
-    
-    public int Count => _items.Count(t => t != null);
-    public Weapon ActiveWeapon { get; set; }
-
-
-    private void Awake()
+    public class Inventory : MonoBehaviour
     {
-        _itemRoot = new GameObject("Items").transform;
-        _itemRoot.transform.SetParent(transform);
-    }
+        public event Action<int> OnItemChanged;
+        public event Action<Item> ItemPickedUp;
 
+        [SerializeField] Transform _rightHand;
+        [SerializeField] private Transform _scabbard;
+        [SerializeField] private Transform _sheathRoot;
 
-    public void PickUp(Item item, int? slot = null)
-    {
-        Debug.Log($"Picked Up {item.gameObject.name}");
-        
-        if (slot.HasValue == false) slot = FindFirstMatchingSlotType(item);
-        if (slot.HasValue == false) return;
-        
+        private Item[] _items = new Item[DEFAULT_INVENTORY_SIZE];
+        private Transform _itemRoot;
 
-        _items[slot.Value] = item;
-        item.transform.SetParent(_itemRoot);
-        ItemPickedUp?.Invoke(item);
-        item.WasPickedUp = true;
-        
-        StartCoroutine(SetInactive(item));
-    }
+        public UIInventorySlot[] Slots { get; set; }
 
-    private bool InventoryIsFull()
-    {
-        if (_items.Length == Slots.Length) return true;
+        public const int DEFAULT_INVENTORY_SIZE = 28;
+        public Item ActiveItem { get; private set; }
+        public List<Item> Items => _items.ToList();
 
-        return false;
-    }
+        public int Count => _items.Count(t => t != null);
+        public Weapon ActiveWeapon { get; set; }
 
-    private int? FindFirstMatchingSlotType(Item item)
-    {
-        for (int i = 0; i < _items.Length; i++)
+        private void Awake()
         {
-            if (_items[i] == null)
+            _itemRoot = new GameObject("Items").transform;
+            _itemRoot.transform.SetParent(transform);
+        }
+
+        public void PickUp(Item item, int? slot = null)
+        {
+            Debug.Log($"Picked Up {item.gameObject.name}");
+
+            if (slot.HasValue == false) slot = FindFirstMatchingSlotType(item);
+            if (slot.HasValue == false) return;
+
+            _items[slot.Value] = item;
+            item.transform.SetParent(_itemRoot);
+            ItemPickedUp?.Invoke(item);
+            item.WasPickedUp = true;
+
+            StartCoroutine(SetInactive(item));
+        }
+
+        private bool InventoryIsFull()
+        {
+            if (_items.Length == Slots.Length) return true;
+
+            return false;
+        }
+
+        private int? FindFirstMatchingSlotType(Item item)
+        {
+            for (int i = 0; i < _items.Length; i++)
             {
-                return i;
+                if (_items[i] == null)
+                {
+                    return i;
+                }
             }
+
+            return null;
         }
 
-        return null;
-    }
-
-    private bool IsAvailableWeaponSlot()
-    {
-        for (int i = 0; i < Slots.Length; i++)
+        private bool IsAvailableWeaponSlot()
         {
-            if (Slots[i].SlotType == SlotType.Weapon && Slots[i].IsEmpty)
-                return true;
-        }
-
-        return false;
-    }
-
-    private bool IsAvailableGeneralSlot()
-    {
-        for (int i = 0; i < Slots.Length; i++)
-        {
-            if (Slots[i].SlotType == SlotType.General)
-                if (Slots[i].IsEmpty)
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                if (Slots[i].SlotType == SlotType.Weapon && Slots[i].IsEmpty)
                     return true;
+            }
+
+            return false;
         }
 
-        return false;
-    }
-
-    private int? FindFirstAvailableSlot()
-    {
-        for (int i = 0; i < _items.Length; i++)
+        private bool IsAvailableGeneralSlot()
         {
-            if (_items[i] == null)
-                return i;
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                if (Slots[i].SlotType == SlotType.General)
+                    if (Slots[i].IsEmpty)
+                        return true;
+            }
+
+            return false;
         }
 
-        return null;
-    }
+        private int? FindFirstAvailableSlot()
+        {
+            for (int i = 0; i < _items.Length; i++)
+            {
+                if (_items[i] == null)
+                    return i;
+            }
 
-    private IEnumerator SetInactive(Item item)
-    {
-        yield return new WaitForSeconds(.01f);
+            return null;
+        }
 
-        item.gameObject.SetActive(false);
-    }
+        private IEnumerator SetInactive(Item item)
+        {
+            yield return new WaitForSeconds(.01f);
 
-    public void Equip(Item item)
-    {
-        item.transform.SetParent(_rightHand);
-        item.transform.localPosition = Vector3.zero;
-        item.transform.localRotation = Quaternion.identity;
-        item.WasEquipped = true;
-        ActiveItem = item;
-    }
+            item.gameObject.SetActive(false);
+        }
 
-    public void UnSheathWeapon(Item item)
-    {
-        item.transform.SetParent(_rightHand);
-        item.transform.localPosition = Vector3.zero;
-        item.transform.localRotation = Quaternion.identity;
-    }
-    
-    public void SheathWeapon(Item item)
-    {
-        item.transform.SetParent(_sheathRoot);
-        item.transform.localPosition = Vector3.zero;
-        item.transform.localRotation = Quaternion.identity;
+        public void Equip(Item item)
+        {
+            item.transform.SetParent(_rightHand);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+            item.WasEquipped = true;
+            ActiveItem = item;
+        }
 
-        ActiveItem = null;
-    }
+        public void UnSheathWeapon(Item item)
+        {
+            item.transform.SetParent(_rightHand);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+        }
 
-    public void Move(int sourceSlot, int destinationSlot)
-    {
-        var destinationItem = _items[destinationSlot];
-        _items[destinationSlot] = _items[sourceSlot];
-        _items[sourceSlot] = destinationItem;
+        public void SheathWeapon(Item item)
+        {
+            item.transform.SetParent(_sheathRoot);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
 
-        OnItemChanged?.Invoke(destinationSlot);
-        OnItemChanged?.Invoke(sourceSlot);
-    }
+            ActiveItem = null;
+        }
 
-    public Item GetItemInSlot(int slot)
-    {
-        return _items[slot];
+        public void Move(int sourceSlot, int destinationSlot)
+        {
+            var destinationItem = _items[destinationSlot];
+            _items[destinationSlot] = _items[sourceSlot];
+            _items[sourceSlot] = destinationItem;
+
+            OnItemChanged?.Invoke(destinationSlot);
+            OnItemChanged?.Invoke(sourceSlot);
+        }
+
+        public Item GetItemInSlot(int slot)
+        {
+            return _items[slot];
+        }
     }
 }

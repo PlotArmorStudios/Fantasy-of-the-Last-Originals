@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using InventoryScripts;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -9,17 +10,11 @@ public class Item : MonoBehaviour
     [SerializeField] private Sprite _icon;
     [SerializeField] private SlotType _slotType;
 
-    protected Player _player;
     public Sprite Icon => _icon;
     public SlotType SlotType => _slotType;
     public bool WasPickedUp { get; set; }
     public bool WasEquipped { get; set; }
     public ParticleSystem ActivateParticle;
-
-    private void OnEnable()
-    {
-        _player = FindObjectOfType<Player>();
-    }
 
     void OnTriggerEnter(Collider other)
     {

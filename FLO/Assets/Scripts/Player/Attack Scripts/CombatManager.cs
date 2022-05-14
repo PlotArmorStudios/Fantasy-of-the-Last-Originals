@@ -8,6 +8,7 @@ public class CombatManager : MonoBehaviour
     public int InputCount;
     public bool CanReceiveInput { get; set; }
     public bool InputReceived { get; set; }
+    public Controller Controller { get; set; }
 
     protected Animator _animator;
     protected PhotonView _view;

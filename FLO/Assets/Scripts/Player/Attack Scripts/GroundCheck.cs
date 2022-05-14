@@ -65,9 +65,3 @@ public class GroundCheck : MonoBehaviour
         _entity.Land = false;
     }
 }
-
-public class Character : MonoBehaviour
-{
-    public bool IsJumping;
-    public float FallTime { get; set; }
-}

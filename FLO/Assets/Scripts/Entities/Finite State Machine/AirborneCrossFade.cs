@@ -36,6 +36,10 @@ public class AirborneCrossFade : IState
         _animator.SetBool("Attack 2", false);
         _animator.SetBool("Attack 3", false);
         _animatorState.AltitudeState = "Airborne";
+        
+        if(_stateMachine.Player.IsFalling)
+            _animator.CrossFade("Airborne", .75f, 0);
+
         _combatManager.InputCount = 0;
     }
 

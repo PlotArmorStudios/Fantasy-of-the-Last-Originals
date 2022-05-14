@@ -16,7 +16,7 @@ public class AutoTargetEnemy : MonoBehaviour
     private Vector3 _rayRotation;
     private Vector3 _direction;
     private RaycastHit _rayHit;
-
+    private Player _player;
     public GameObject NearestEnemy
     {
         get { return _nearestEnemy; }
@@ -43,6 +43,7 @@ public class AutoTargetEnemy : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        _player = GetComponent<Player>();
         _dodgeManeuver = GetComponent<DodgeManeuver>();
         _animator = GetComponentInChildren<Animator>();
         _enemiesInWorld = GameObject.FindGameObjectsWithTag("Enemy");
@@ -79,8 +80,8 @@ public class AutoTargetEnemy : MonoBehaviour
 
     private void CreateEnemyDetectingRay()
     {
-        float horizontal = Input.GetAxis("Horizontal_P1");
-        float vertical = Input.GetAxis("Vertical_P1");
+        float horizontal = Input.GetAxis($"Horizontal {_player.PlayerNumber}");
+        float vertical = Input.GetAxis($"Vertical {_player.PlayerNumber}");
         _direction = new Vector3(horizontal, 0f, vertical);
 
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using InventoryScripts;
 using UnityEngine;
 
 public class UIInventoryPanel : MonoBehaviour

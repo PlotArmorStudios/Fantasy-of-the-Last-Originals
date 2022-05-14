@@ -1,5 +1,6 @@
 public enum SlotType
 {
     General,
-    Weapon
+    Weapon,
+    Skill
 }

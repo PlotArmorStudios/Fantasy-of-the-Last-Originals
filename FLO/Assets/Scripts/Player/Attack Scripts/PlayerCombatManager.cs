@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerCombatManager : CombatManager
 {
     public Player Player { get; private set; }
-
+    
     protected override void Start()
     {
         Player = GetComponent<Player>();
@@ -16,7 +16,7 @@ public class PlayerCombatManager : CombatManager
         Attack();
         ReceiveInput();
 
-        if (Input.GetButtonDown("Light Attack"))
+        if (Controller.Attack)
         {
             CanReceiveInput = true;
             InputCount++;

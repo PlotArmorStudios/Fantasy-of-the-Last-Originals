@@ -1,14 +1,14 @@
 using System;
+using InventoryScripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIInventorySlot : MonoBehaviour, IPointerDownHandler,
     IEndDragHandler,
     IDragHandler, 
     IPointerEnterHandler,
-    IPointerExitHandler
+    IPointerExitHandler, ISelectableUI
 {
     public event Action<UIInventorySlot> OnSlotClicked;
 
@@ -35,6 +35,7 @@ public class UIInventorySlot : MonoBehaviour, IPointerDownHandler,
         _sortIndex = hotKeyNumber;
         gameObject.name = "Inventory Slot " + hotKeyNumber;
     }
+    
     public virtual void SetItem(Item item)
     {
         Item = item;

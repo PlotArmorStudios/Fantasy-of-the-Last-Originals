@@ -31587,24 +31587,24 @@ AnimationClip:
     floatParameter: 0.3
     intParameter: 0
     messageOptions: 0
-  - time: 0.033333335
-    functionName: ApplyUpwordForce
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 10
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.06666667
+  - time: 0
     functionName: SetAttackDefinition
     data: 
     objectReferenceParameter: {fileID: 11400000, guid: 1e2667d193dfd7c44b69c9aa946dab4e, type: 2}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.031372547
+    functionName: ApplyUpwardForce
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 10
+    intParameter: 0
+    messageOptions: 0
   - time: 0.16666667
     functionName: PlayVFX
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11400000, guid: 1e2667d193dfd7c44b69c9aa946dab4e, type: 2}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
