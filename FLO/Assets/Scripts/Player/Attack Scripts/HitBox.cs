@@ -68,7 +68,8 @@ public abstract class HitBox : MonoBehaviour
 
     private void FindComboGravityPoint()
     {
-        _comboGravityPoint = transform.root.gameObject.transform.Find("Combo Gravity Point");
+        Debug.Log("Hit enemy 6 return parent direction");
+        _comboGravityPoint = GetComponentInParent(typeof(ComboGravityPoint),true).transform;
     }
 
     private void AddSwitchCameraComponent()
@@ -153,17 +154,22 @@ public abstract class HitBox : MonoBehaviour
             //if the new enemy equals the saved enemy, return;
             if (_newTargetID == _savedTargetID) return;
 
+            Debug.Log("Hit enemy 1");
             GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
             CacheTargetComponents(collider);
             _targetStunHandler.DisableComponents();
             TransferInfoToTarget(collider);
             TriggerTargetEffects();
+            Debug.Log("Hit enemy 3");
+
             _savedTargetID = _newTargetID;
         }
     }
 
     private void TriggerTargetEffects()
     {
+        Debug.Log("Hit enemy 5 trigger effects");
+
         _targetStunHandler.GetComponent<ParticleHitEffects>().TriggerHitEffects();
     }
 
@@ -173,7 +179,9 @@ public abstract class HitBox : MonoBehaviour
     {
         Transform transformPointer = FindHitboxParent();
 
+        Debug.Log("Hit enemy 7 before set direction");
         _attackDirection = collider.gameObject.transform.position - transformPointer.position;
+        Debug.Log("Hit enemy 8 after set direction");
 
         Debug.DrawRay(transform.root.position, _attackDirection, Color.blue, 3);
     }
@@ -182,25 +190,38 @@ public abstract class HitBox : MonoBehaviour
     {
         Transform transformPointer = transform;
         transformPointer = GetComponentInParent<CombatManager>().transform;
+        Debug.Log("Hit enemy 6 return parent direction");
         return transformPointer;
     }
 
     protected virtual void TransferInfoToTarget(Collider collider)
     {
+        Debug.Log("Hit enemy 4 info transfer");
+
         SetAttackDirection(collider);
 
+        Debug.Log("Hit enemy 9");
         CheckSkillType();
+
+        Debug.Log("Hit enemy 15 narrowed ");
         DoDamage();
 
+        Debug.Log("Hit enemy 10");
         _targetSound.PlayHitStunSound();
-        _targetStunHandler.GetComponent<HitStop>().Stop(AttackDefinition.HitStopDuration, AttackDefinition.DelayBeforeHitStop);
+        _targetStunHandler.GetComponent<HitStop>()
+            .Stop(AttackDefinition.HitStopDuration, AttackDefinition.DelayBeforeHitStop);
 
+        Debug.Log("Hit enemy 11");
         ChangeRigidBodySettings();
 
+        Debug.Log("Hit enemy 12");
         HandleTargetKnockback(_targetStunHandler, _attackDirection);
+        Debug.Log("Hit enemy 13");
 
         ApplyKnockBack(_targetStunHandler);
+        Debug.Log("Hit enemy 14");
         ApplyKnockBackDeceleration();
+        Debug.Log("Hit enemy 15");
     }
 
 
@@ -277,6 +298,8 @@ public abstract class HitBox : MonoBehaviour
 
     void CacheTargetComponents(Collider collider)
     {
+        Debug.Log("Hit enemy 2");
+
         _targetStunHandler = collider.GetComponent<KnockBackHandler>();
         _knockBackDecelarationHandler = collider.GetComponent<KnockBackDecelaration>();
         _targetRigidBody = collider.GetComponent<Rigidbody>();
