@@ -6,6 +6,7 @@ using Photon.Pun;
 public class CombatManager : MonoBehaviour
 {
     public int InputCount;
+    [SerializeField] 
     public bool CanReceiveInput { get; set; }
     public bool InputReceived { get; set; }
     public Controller Controller { get; set; }
