@@ -15,14 +15,12 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
     private IdlingCrossfade _idlingCrossfade;
     private InTransitionCrossFade _inTransitionCrossFade;
     private DodgingCrossFade _dodgingCrossFade;
-    private StanceToggler _stanceToggler;
     private AirborneCrossFade _airborneCrossFade;
     private AirborneAttackCrossFade _airborneAttackCrossFade;
-
+    
     protected override void Start()
     {
         Instance = this;
-        _stanceToggler = GetComponent<StanceToggler>();
         _animator = GetComponentInChildren<Animator>();
         _dodge = GetComponent<DodgeManeuver>();
         Player = GetComponent<Player>();
@@ -43,6 +41,7 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
         _inTransitionCrossFade = new InTransitionCrossFade(Instance);
         _dodgingCrossFade = new DodgingCrossFade(Instance);
         _airborneCrossFade = new AirborneCrossFade(Instance);
+        _airborneAttackCrossFade = new AirborneAttackCrossFade(Instance);
     }
 
     protected override void AddStateTransitions()
@@ -58,13 +57,18 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
             () => Player.IsJumping || Player.IsFalling);
 
         _stateMachine.AddTransition(
+            _attackingCrossFade,
             _airborneCrossFade,
-            _idlingCrossfade,
-            () => Player.FallTime > 0 && Player.IsGrounded);
+            () => Player.IsFalling);
 
         _stateMachine.AddTransition(
             _airborneCrossFade,
-            _attackingCrossFade,
+            _idlingCrossfade,
+            () => Player.IsGrounded);
+
+        _stateMachine.AddTransition(
+            _airborneCrossFade,
+            _airborneAttackCrossFade,
             () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"));
 
         _stateMachine.AddTransition(
@@ -74,6 +78,11 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
 
         _stateMachine.AddTransition(
             _attackingCrossFade,
+            _inTransitionCrossFade,
+            () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Transition"));
+        
+        _stateMachine.AddTransition(
+            _airborneAttackCrossFade,
             _inTransitionCrossFade,
             () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Transition"));
 
@@ -105,6 +114,7 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
         _stateMachine.AddAnyTransition(_dodgingCrossFade,
             () => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Dodging"));
     }
+
 
     public IEnumerator ToggleStun()
     {

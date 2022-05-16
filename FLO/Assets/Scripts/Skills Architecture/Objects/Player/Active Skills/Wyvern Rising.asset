@@ -30,12 +30,12 @@ MonoBehaviour:
   AirStallDuration: 0.8
   DownwardPull: 0
   HitBoxLinger: 0.2
-  Effect: {fileID: 1893723492503102, guid: bf9f848a24682054e9fddc30f1184e46, type: 3}
+  Effect: {fileID: 1840690549904964, guid: a8a6ba91edbeef2439175ecf0e08e6fb, type: 3}
   EffectPositionX: 0
-  EffectPositionY: 0
+  EffectPositionY: 0.7
   EffectPositionZ: 0
-  EffectRotationX: 0
-  EffectRotationY: 0
+  EffectRotationX: 30
+  EffectRotationY: -90
   EffectRotationZ: 0
   EffectScaleX: 0
   EffectScaleY: 0

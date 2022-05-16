@@ -20,6 +20,7 @@ namespace Skills
         public event Action<Skill> OnSkillAttained;
 
         [SerializeField] private List<Skill> _skillsToEquip;
+        
         public const int DEFAULT_SKILLINVENTORY_SIZE = 10;
 
         private Skill[] _activeSkills = new Skill[DEFAULT_SKILLINVENTORY_SIZE];
@@ -119,42 +120,6 @@ namespace Skills
             return null;
         }
 
-        private int? FindFirstMatchingSlotType(Skill ISkill)
-        {
-            for (int i = 0; i < _activeSkills.Length; i++)
-            {
-                if (_activeSkills[i] == null)
-                {
-                    return i;
-                }
-            }
-
-            return null;
-        }
-
-        private bool IsAvailableGeneralSlot()
-        {
-            for (int i = 0; i < Slots.Length; i++)
-            {
-                if (Slots[i].SlotType == SlotType.General)
-                    if (Slots[i].IsEmpty)
-                        return true;
-            }
-
-            return false;
-        }
-
-        private int? FindFirstAvailableSlot()
-        {
-            for (int i = 0; i < _activeSkills.Length; i++)
-            {
-                if (_activeSkills[i] == null)
-                    return i;
-            }
-
-            return null;
-        }
-
         private IEnumerator SetInactive(ISkillObject ISkill)
         {
             var skill = ISkill as SkillObject;
@@ -172,11 +137,6 @@ namespace Skills
             skill.WasEquipped = true;
             Debug.Log($"Skill is now in skill tree");
             //ActiveSkills.Add(iSkill.Skill);
-        }
-
-        public void Equip(Skill iSkill)
-        {
-            ActiveSkills.Add(iSkill);
         }
 
         public void Move(int sourceSlot, int destinationSlot)

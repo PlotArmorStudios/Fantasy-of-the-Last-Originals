@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -52,6 +53,7 @@ public abstract class KnockBackHandler : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    public abstract IEnumerator ApplyAirLock();
     public abstract void ApplyHitStop(float attackDefinitionHitStopDuration);
 
     public abstract void ApplyKnockBack(Vector3 attackForce);

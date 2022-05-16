@@ -33,4 +33,9 @@ public class PlayerCombatManager : CombatManager
     {
         _animator.SetBool("Attacking", true);
     }
+
+    public void ResetInput()
+    {
+        InputCount = 0;
+    }
 }
