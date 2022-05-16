@@ -53,7 +53,7 @@ public class Player : Character
     private PlayerCombatManager _combatManager;
 
     private GroundCheck _groundCheck;
-    private float _fallTimer;
+    public float FallTimer { get; set; }
 
     private DodgeManeuver _dodgeManeuver;
 
@@ -302,17 +302,15 @@ public class Player : Character
             if (_negateGravity)
             {
                 _rb.velocity = Vector3.zero;
-                _fallTimer += 0;
+                FallTimer += 0;
             }
             else
             {
-                _fallTimer += Time.deltaTime;
-                var downForce = _weight * _fallTimer * _fallTimer;
+                FallTimer += Time.deltaTime;
+                var downForce = _weight * FallTimer * FallTimer;
 
                 if (downForce > 3f)
-                {
                     downForce = 3f;
-                }
 
                 _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - downForce, _rb.velocity.z);
 
@@ -324,19 +322,8 @@ public class Player : Character
         }
         else
         {
-            _fallTimer = 0;
+            FallTimer = 0;
             IsFalling = false;
         }
     }
-
-    //Landing Functionality
-    // private void OnCollisionEnter(Collision collisionInfo)
-    // {
-    //     if (collisionInfo.collider.tag == "Ground")
-    //     {
-    //         IsJumping = false;
-    //         _animator.SetBool("Airborne", false);
-    //         _animator.SetTrigger("Landing");
-    //     }
-    // }
 }

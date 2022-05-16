@@ -15,5 +15,5 @@ MonoBehaviour:
   SkillName: Wyvern Rising
   _icon: {fileID: 21300000, guid: aa2085bf1fe4a9d43955c6347e42de1c, type: 3}
   CoolDownTime: 4
-  ActiveTime: 1
+  ActiveTime: 0.5
   TempIndex: 111

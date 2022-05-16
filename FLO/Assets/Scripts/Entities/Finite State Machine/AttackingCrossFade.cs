@@ -45,15 +45,6 @@ public class AttackingCrossFade : Dasher, IState
                 _combatManager.InputReceived = false;
             }
         }
-
-        // if (!_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&
-        //     _stateInfo.normalizedTime > .9f && !_crossFaded)
-        // {
-        //     _animator.SetBool("Attacking", false);
-        //     _animator.CrossFade($"Stance {_stanceToggler.CurrentStance}", .1f, 0);
-        //     _crossFaded = true;
-        //     _combatManager.InputReceived = false;
-        // }
     }
 
     private bool Loop()
@@ -102,3 +93,4 @@ public class AttackingCrossFade : Dasher, IState
         }
     }
 }
+

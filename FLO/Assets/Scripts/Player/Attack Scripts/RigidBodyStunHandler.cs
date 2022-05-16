@@ -7,6 +7,7 @@ using UnityEngine;
 public class RigidBodyStunHandler : KnockBackHandler
 {
     private bool IsAboveContactPoint;
+    private float LaunchPosition { get; set; }
 
     void Start()
     {
@@ -38,6 +39,18 @@ public class RigidBodyStunHandler : KnockBackHandler
         CalculateKnockBackPhysics();
     }
 
+    public void AirLock()
+    {
+        
+    }
+    public override IEnumerator ApplyAirLock()
+    {
+        var newPosition = _rb.transform.position;
+        newPosition.y += LaunchPosition;
+        _rb.transform.position = Vector3.Lerp(_rb.transform.position, newPosition, Time.deltaTime);
+        yield return null;
+    }
+    
     private void CalculateKnockBackPhysics()
     {
         //Limit Down force

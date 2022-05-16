@@ -18,7 +18,6 @@ public abstract class FiniteStateMachine : MonoBehaviourPunCallbacks
 
     protected abstract void InitializeStates();
 
-
     protected abstract void AddStateTransitions();
 
     protected abstract void Update();
