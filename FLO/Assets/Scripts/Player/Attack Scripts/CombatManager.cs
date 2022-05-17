@@ -5,8 +5,8 @@ using Photon.Pun;
 
 public class CombatManager : MonoBehaviour
 {
+    [field: SerializeField] public Transform ComboGravityPoint; 
     public int InputCount;
-    [SerializeField] 
     public bool CanReceiveInput { get; set; }
     public bool InputReceived { get; set; }
     public Controller Controller { get; set; }

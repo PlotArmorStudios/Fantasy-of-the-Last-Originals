@@ -68,8 +68,8 @@ public abstract class HitBox : MonoBehaviour
 
     private void FindComboGravityPoint()
     {
-        Debug.Log("Hit enemy 6 return parent direction");
-        _comboGravityPoint = GetComponentInParent(typeof(ComboGravityPoint),true).transform;
+        _comboGravityPoint = GetComponentInParent<CombatManager>().ComboGravityPoint;
+        Debug.Log("Hit enemy 9.5 grab combo gravity point");
     }
 
     private void AddSwitchCameraComponent()

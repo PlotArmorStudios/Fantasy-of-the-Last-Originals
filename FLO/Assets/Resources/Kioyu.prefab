@@ -7189,6 +7189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d37aea4fac94a21af14591a7e8181a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ComboGravityPoint: {fileID: 0}
   InputCount: 0
 --- !u!114 &3740585945332586878
 MonoBehaviour:
