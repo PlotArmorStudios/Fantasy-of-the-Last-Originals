@@ -7190,6 +7190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ComboGravityPoint: {fileID: 0}
+  GravityCenter: {fileID: 0}
   InputCount: 0
 --- !u!114 &3740585945332586878
 MonoBehaviour:
@@ -7774,18 +7775,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54a97b32cf448b927bacd275f52133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _feet: {fileID: 1937149043480429290}
-  _startDownPull: 0
-  _downPull: 0
-  _weight: 4
-  _fallAccelerationMultiplier: 0
-  _fallDecelerationMultiplier: 0
-  _fallDecelerationNormalizer: 0
-  _fallAccelerationNormalizer: 0.5
-  _groundCheck: {fileID: 820021447}
+  StartDownPull: 0.6
+  DownPull: 2
+  Weight: 0.5
+  FallAccelerationMultiplier: 0
+  FallDecelerationMultiplier: 0
+  FallDecelerationNormalizer: 0
+  FallAccelerationNormalizer: 0.5
+  TargetSkillTypeUsed: 0
+  Rigidbody: {fileID: 0}
+  GroundCheck: {fileID: 0}
+  Entity: {fileID: 0}
+  ContactPointLaunchLimiter: {x: 0, y: 0, z: 0}
+  KnockBackForce: {x: 0, y: 0, z: 0}
+  ApplyHitStopDuration: 0
+  CanResetNavAgent: 0
+  Trajectory: {x: 0, y: 0, z: 0}
 --- !u!114 &8595903750413299007
 MonoBehaviour:
   m_ObjectHideFlags: 0

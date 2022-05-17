@@ -153,6 +153,7 @@ public abstract class HitBox : MonoBehaviour
 
             //if the new enemy equals the saved enemy, return;
             if (_newTargetID == _savedTargetID) return;
+            _savedTargetID = _newTargetID;
 
             Debug.Log("Hit enemy 1");
             GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
@@ -161,8 +162,6 @@ public abstract class HitBox : MonoBehaviour
             TransferInfoToTarget(collider);
             TriggerTargetEffects();
             Debug.Log("Hit enemy 3");
-
-            _savedTargetID = _newTargetID;
         }
     }
 
@@ -239,7 +238,7 @@ public abstract class HitBox : MonoBehaviour
         else if (AttackDefinition.KnockUpStrength > 0)
             StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleLaunch());
 
-        if (targetStunHandler._groundCheck.UpdateIsGrounded())
+        if (targetStunHandler.GroundCheck.UpdateIsGrounded())
         {
             attackDirection.y = AttackDefinition.KnockUpStrength;
             _knockBackPower = new Vector3(attackDirection.x,

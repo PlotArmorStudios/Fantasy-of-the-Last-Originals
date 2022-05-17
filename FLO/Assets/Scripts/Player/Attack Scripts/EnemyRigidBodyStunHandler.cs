@@ -5,11 +5,9 @@ public class EnemyRigidBodyStunHandler : RigidBodyStunHandler
 {
     private void Start()
     {
-        _navMesh = GetComponent<NavMeshAgent>();
         Entity = GetComponent<Entity>();
-        _groundCheck = GetComponent<GroundCheck>();
-        _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        GroundCheck = GetComponent<GroundCheck>();
+        Rigidbody = GetComponent<Rigidbody>();
     }
 
     public override void DisableComponents()

@@ -1,150 +1,33 @@
+//#define CalculatePhysics
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[RequireComponent(typeof(Rigidbody))]
 public class RigidBodyStunHandler : KnockBackHandler
 {
     private bool IsAboveContactPoint;
     private float LaunchPosition { get; set; }
 
-    void Start()
+    public void AirLock(Transform airLockPosition)
     {
-        _trajectory = new Vector3(0, 0, 0);
-    }
-
-    private void OnValidate()
-    {
-        if (!GetComponent<Rigidbody>())
-        {
-            gameObject.AddComponent<Rigidbody>();
-        }
-    }
-
-    void Update()
-    {
-        if (_groundCheck.UpdateIsGrounded())
-        {
-            _downPull = _startDownPull;
-            if (Entity != null)
-                Entity.SetIdle();
-        }
-    }
-
-    void FixedUpdate()
-    {
-        LimitFallAccelerationMultiplier();
-        ApplyHitStop();
-        CalculateKnockBackPhysics();
-    }
-
-    public void AirLock()
-    {
-        
+        StartCoroutine(ApplyAirLock());
     }
     public override IEnumerator ApplyAirLock()
     {
-        var newPosition = _rb.transform.position;
+        var newPosition = Rigidbody.transform.position;
         newPosition.y += LaunchPosition;
-        _rb.transform.position = Vector3.Lerp(_rb.transform.position, newPosition, Time.deltaTime);
+        Rigidbody.transform.position = Vector3.Lerp(Rigidbody.transform.position, newPosition, Time.deltaTime);
         yield return null;
     }
     
-    private void CalculateKnockBackPhysics()
-    {
-        //Limit Down force
-        if (CurrentDownForce > 3) CurrentDownForce = 3;
-
-        if (!_groundCheck.UpdateIsGrounded())
-        {
-            if (_targetSkillTypeUsed == SkillType.LinkSkill)
-            {
-                ApplyLinkSkillGravity();
-            }
-            else if (_targetSkillTypeUsed != SkillType.LinkSkill)
-            {
-                ApplyHookSkillGravity();
-            }
-        }
-        else
-        {
-            NullifyGravity();
-        }
-
-        _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - CurrentDownForce, _rb.velocity.z);
-    }
-
-    private void NullifyGravity()
-    {
-        _fallAccelerationMultiplier = 0;
-        _fallDecelerationMultiplier = 0;
-        CurrentDownForce = 0;
-    }
-
-    private void ApplyHookSkillGravity()
-    {
-        if (IsRaising)
-        {
-            _fallAccelerationMultiplier += Time.deltaTime * 4f;
-
-            CurrentDownForce = _fallAccelerationMultiplier *
-                               ((_fallAccelerationMultiplier * _fallAccelerationNormalizer) * _weight);
-        }
-
-        else if (IsFalling)
-        {
-            _fallDecelerationMultiplier += Time.deltaTime * _weight;
-
-            CurrentDownForce += Time.deltaTime *
-                                ((_fallDecelerationMultiplier * _fallDecelerationNormalizer) *
-                                 _weight); //down force is going to decrease over time, and decrease more over time due to fallmult
-
-            if (CurrentDownForce > 3) CurrentDownForce = 3;
-            if (CurrentDownForce < 0) CurrentDownForce = 0f;
-        }
-    }
-
-    private void ApplyLinkSkillGravity()
-    {
-        IsAboveContactPoint = _rb.transform.position.y >= ContactPointLaunchLimiter.y;
-
-        if (_rb.transform.position.y >= ContactPointLaunchLimiter.y)
-        {
-            _fallAccelerationMultiplier += Time.deltaTime * 3f;
-
-            CurrentDownForce = _downPull * _fallAccelerationMultiplier *
-                               ((_fallAccelerationMultiplier * _fallAccelerationNormalizer) * _weight);
-        }
-        else if (_rb.transform.position.y < ContactPointLaunchLimiter.y)
-        {
-            if (IsRaising)
-            {
-                _fallAccelerationMultiplier += Time.deltaTime * 3f;
-
-                CurrentDownForce = _downPull * _fallAccelerationMultiplier *
-                                   ((_fallAccelerationMultiplier * _fallAccelerationNormalizer) * _weight);
-            }
-            else if (IsFalling)
-            {
-                _fallDecelerationMultiplier = _fallAccelerationMultiplier > 2f ? 100f : 0f;
-                _fallDecelerationMultiplier += Time.deltaTime * _weight;
-                CurrentDownForce -=
-                    Time.deltaTime *
-                    ((_fallDecelerationMultiplier * _fallDecelerationNormalizer) *
-                     _weight); //down force is going to decrease over time, and decrease more over time due to fallmult
-
-                if (CurrentDownForce < 0) CurrentDownForce = 0f;
-            }
-        }
-    }
-
     private void ApplyAirStall()
     {
         if (AirStall)
         {
-            _fallAccelerationMultiplier = 0;
-            _fallDecelerationMultiplier = 0;
+            FallAccelerationMultiplier = 0;
+            FallDecelerationMultiplier = 0;
             CurrentDownForce = 0;
             StartCoroutine(ResetAirStall(AirStallDuration));
         }
@@ -152,31 +35,26 @@ public class RigidBodyStunHandler : KnockBackHandler
 
     public override void ApplyGroundedAttackPull(float attackPull)
     {
-        if (!_groundCheck.IsGrounded)
-            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y - attackPull, _rb.velocity.z);
+        if (!GroundCheck.IsGrounded)
+            Rigidbody.velocity = new Vector3(Rigidbody.velocity.x, Rigidbody.velocity.y - attackPull, Rigidbody.velocity.z);
     }
 
 
-    private void ApplyHitStop()
+    public void ApplyHitStop()
     {
         if (ApplyHitStopDuration)
-        {
             StartCoroutine(KnockBackAfterHitStop());
-        }
     }
 
-    private void LimitFallAccelerationMultiplier()
+    public void LimitFallAccelerationMultiplier()
     {
-        if (_fallAccelerationMultiplier > 5f)
-            _fallAccelerationMultiplier = 5f;
+        if (FallAccelerationMultiplier > 5f)
+            FallAccelerationMultiplier = 5f;
     }
 
     public override void ApplyKnockBack(Vector3 attackForce)
     {
         KnockBackForce = attackForce;
-
-        if (_targetSkillTypeUsed == SkillType.LinkSkill)
-            _linkSkillKnockBack = attackForce.z;
     }
 
     public override void ApplyHitStop(float hitStopDuration)
@@ -187,17 +65,17 @@ public class RigidBodyStunHandler : KnockBackHandler
 
     IEnumerator KnockBackAfterHitStop()
     {
-        _rb.velocity = Vector3.zero;
+        Rigidbody.velocity = Vector3.zero;
 
         yield return new WaitForSeconds(HitStopDuration);
-        _rb.velocity = KnockBackForce;
+        Rigidbody.velocity = KnockBackForce;
 
         ApplyHitStopDuration = false;
     }
 
     public override void SetContactPoint(SkillType skillType, Vector3 contactPoint)
     {
-        _targetSkillTypeUsed = skillType;
+        TargetSkillTypeUsed = skillType;
         ContactPointLaunchLimiter = contactPoint;
     }
 
@@ -214,7 +92,7 @@ public class RigidBodyStunHandler : KnockBackHandler
 
     public override void SetDownPull(float downPull)
     {
-        _downPull = downPull;
+        DownPull = downPull;
     }
 
     IEnumerator ResetAirStall(float airStallDuration)

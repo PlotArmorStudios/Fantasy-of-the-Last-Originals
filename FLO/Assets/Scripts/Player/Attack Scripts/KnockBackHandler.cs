@@ -5,52 +5,42 @@ using UnityEngine.AI;
 
 public abstract class KnockBackHandler : MonoBehaviour
 {
-    [SerializeField] protected LayerMask _groundLayerMask;
-    [SerializeField] protected Transform _feet;
+    [Header("Gravity")] [SerializeField] public float StartDownPull = .6f;
+    [SerializeField] public float DownPull = 2f;
+    [SerializeField] public float Weight = .5f;
+    [SerializeField] public float FallAccelerationMultiplier;
+    [SerializeField] public float FallDecelerationMultiplier;
+    [SerializeField] public float FallDecelerationNormalizer;
+    [SerializeField] public float FallAccelerationNormalizer = .5f;
 
-    [Header("Gravity")] [SerializeField] protected float _startDownPull = .6f;
-    [SerializeField] protected float _downPull = 2f;
-    [SerializeField] protected float _weight = .5f;
-    [SerializeField] protected float _fallAccelerationMultiplier;
-    [SerializeField] protected float _fallDecelerationMultiplier;
-    [SerializeField] protected float _fallDecelerationNormalizer;
-    [SerializeField] protected float _fallAccelerationNormalizer = .5f;
+    public SkillType TargetSkillTypeUsed;
 
-    protected SkillType _targetSkillTypeUsed;
+    public Rigidbody Rigidbody;
 
-    protected NavMeshAgent _navMesh;
-    protected Rigidbody _rb;
+    public GroundCheck GroundCheck;
 
-    public GroundCheck _groundCheck;
-    public GroundCheck GroundCheck => _groundCheck;
-
-    protected EnemyDeathLogic _enemyDeathLogic;
-    protected Entity Entity;
-    protected Player _playerLogic;
-    protected Animator _animator;
-    protected Vector3 ContactPointLaunchLimiter;
-    protected Vector3 KnockBackForce;
+    public Entity Entity;
+    public Vector3 ContactPointLaunchLimiter;
+    public Vector3 KnockBackForce;
     public float StunDuration { get; set; }
-    protected float AttackTimer { get; set; }
-    protected float CurrentDownForce { get; set; }
-    protected float HitStopDuration { get; set; }
-    protected float AirStallDuration { get; set; }
+    public float AttackTimer { get; set; }
+    public float CurrentDownForce { get; set; }
+    public float HitStopDuration { get; set; }
+    public float AirStallDuration { get; set; }
     public float AirBorneKnockUp { get; set; }
-    protected float GroundAttackPull { get; set; }
-    protected bool ApplyHitStopDuration;
-    protected bool AirStall { get; set; }
-    protected float _linkSkillKnockBack;
-    protected bool CanResetNavAgent;
-    protected bool IsRaising => _rb.velocity.y > 0;
-    protected bool IsFalling => _rb.velocity.y <= 0;
+    public float GroundAttackPull { get; set; }
+    public bool ApplyHitStopDuration;
+    public bool AirStall { get; set; }
+    public bool CanResetNavAgent;
+    public bool IsRaising => Rigidbody.velocity.y > 0;
+    public bool IsFalling => Rigidbody.velocity.y <= 0;
 
-    protected Vector3 _trajectory;
+    public Vector3 Trajectory;
 
     private void Start()
     {
-        _groundCheck = GetComponent<GroundCheck>();
-        _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        GroundCheck = GetComponent<GroundCheck>();
+        Rigidbody = GetComponent<Rigidbody>();
     }
 
     public abstract IEnumerator ApplyAirLock();

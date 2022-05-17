@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using EntityStates;
 using GoblinStateMachine;
 using UnityEngine;
 using UnityEngine.AI;

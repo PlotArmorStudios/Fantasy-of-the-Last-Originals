@@ -2647,6 +2647,7 @@ GameObject:
   - component: {fileID: 6753013807834203782}
   - component: {fileID: 2104633012}
   - component: {fileID: 2104633013}
+  - component: {fileID: 3193061265282864356}
   m_Layer: 3
   m_Name: Goblin
   m_TagString: Enemy
@@ -7612,7 +7613,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6688188120052915403}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2dc4232b195aff4aac26c2af4b48f44, type: 3}
   m_Name: 
@@ -7734,18 +7735,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3671047b81c7401390dd36450d40b6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _feet: {fileID: 1447275211}
-  _startDownPull: 2
-  _downPull: 0.5
-  _weight: 3
-  _fallAccelerationMultiplier: 0
-  _fallDecelerationMultiplier: 0
-  _fallDecelerationNormalizer: 0.5
-  _fallAccelerationNormalizer: 0.5
-  _groundCheck: {fileID: 1112429338058564837}
+  StartDownPull: 0.6
+  DownPull: 2
+  Weight: 0.5
+  FallAccelerationMultiplier: 0
+  FallDecelerationMultiplier: 0
+  FallDecelerationNormalizer: 0
+  FallAccelerationNormalizer: 0.5
+  TargetSkillTypeUsed: 0
+  Rigidbody: {fileID: 0}
+  GroundCheck: {fileID: 0}
+  Entity: {fileID: 0}
+  ContactPointLaunchLimiter: {x: 0, y: 0, z: 0}
+  KnockBackForce: {x: 0, y: 0, z: 0}
+  ApplyHitStopDuration: 0
+  CanResetNavAgent: 0
+  Trajectory: {x: 0, y: 0, z: 0}
 --- !u!114 &7653841190446533801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7767,6 +7772,8 @@ MonoBehaviour:
   Player: {fileID: 0}
   Entity: {fileID: 0}
   Animator: {fileID: 0}
+  _launch:
+    _weight: 0
   _onGuard:
     _movementX: 0
     _movementY: 0
@@ -7856,6 +7863,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89582a0aa9734252b3dd3b7992079544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ComboGravityPoint: {fileID: 0}
+  GravityCenter: {fileID: 0}
   InputCount: 0
 --- !u!114 &6753013807834203782
 MonoBehaviour:
@@ -7895,6 +7904,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitEffects:
   - {fileID: 1543023433767034262}
+--- !u!114 &3193061265282864356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6688188120052915403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d76e8240b5e24209a94184135e778ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6761636888401643418
 GameObject:
   m_ObjectHideFlags: 0
