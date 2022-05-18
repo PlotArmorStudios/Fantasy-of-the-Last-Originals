@@ -48,15 +48,9 @@ public abstract class KnockBackHandler : MonoBehaviour
 
     public abstract void ApplyKnockBack(Vector3 attackForce);
 
-    public abstract void SetAirStall(float attackDefinitionAirStallDuration);
-
-    public abstract void SetContactPoint(SkillType attackDefinitionSkillType, Vector3 comboPoint);
-
     public abstract void ApplyGroundedAttackPull(float attackDefinitionDownwardPull);
 
     public abstract void ResetDownForce();
-
-    public abstract void SetDownPull(float enemyGravityResetValue);
 
     public virtual void DisableComponents()
     {

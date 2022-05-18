@@ -1,12 +1,14 @@
+//#define RunLinkSkillCode
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CalculateKnockBack : MonoBehaviour
 {
-        private RigidBodyStunHandler _stunHandler;
-        private bool IsAboveContactPoint;
-        private float LaunchPosition { get; set; }
+    private RigidBodyStunHandler _stunHandler;
+    private bool IsAboveContactPoint;
+    private float LaunchPosition { get; set; }
 
     void Start()
     {
@@ -43,24 +45,23 @@ public class CalculateKnockBack : MonoBehaviour
     {
         //Limit Down force
         if (_stunHandler.CurrentDownForce > 3) _stunHandler.CurrentDownForce = 3;
+        if (_stunHandler.CurrentDownForce < 0) _stunHandler.CurrentDownForce = 0f;
 
         if (!_stunHandler.GroundCheck.UpdateIsGrounded())
         {
+#if RunLinkSkillCode
             if (_stunHandler.TargetSkillTypeUsed == SkillType.LinkSkill)
-            {
                 ApplyLinkSkillGravity();
-            }
-            else if (_stunHandler.TargetSkillTypeUsed != SkillType.LinkSkill)
-            {
+#endif
                 ApplyHookSkillGravity();
-            }
         }
         else
         {
             NullifyGravity();
         }
 
-        _stunHandler.Rigidbody.velocity = new Vector3(_stunHandler.Rigidbody.velocity.x, _stunHandler.Rigidbody.velocity.y - _stunHandler.CurrentDownForce, _stunHandler.Rigidbody.velocity.z);
+        _stunHandler.Rigidbody.velocity = new Vector3(_stunHandler.Rigidbody.velocity.x,
+            _stunHandler.Rigidbody.velocity.y - _stunHandler.CurrentDownForce, _stunHandler.Rigidbody.velocity.z);
     }
 
     private void NullifyGravity()
@@ -77,19 +78,23 @@ public class CalculateKnockBack : MonoBehaviour
             _stunHandler.FallAccelerationMultiplier += Time.fixedDeltaTime * 4f;
 
             _stunHandler.CurrentDownForce = _stunHandler.FallAccelerationMultiplier *
-                                            ((_stunHandler.FallAccelerationMultiplier * _stunHandler.FallAccelerationNormalizer) * _stunHandler.Weight);
+                                            ((_stunHandler.FallAccelerationMultiplier *
+                                              _stunHandler.FallAccelerationNormalizer) * _stunHandler.Weight);
         }
-
         else if (_stunHandler.IsFalling)
         {
             _stunHandler.FallDecelerationMultiplier += Time.fixedDeltaTime * _stunHandler.Weight;
 
             _stunHandler.CurrentDownForce = .1f;
-            if (_stunHandler.CurrentDownForce > 3) _stunHandler.CurrentDownForce = 3f;
-            if (_stunHandler.CurrentDownForce < 0) _stunHandler.CurrentDownForce = 0f;
         }
     }
-    
+
+    #region StashedLinkSkillCode
+
+    /// <summary>
+    ///CAN BE REMOVED
+    /// </summary>
+#if RunLinkSkillCode
     private void ApplyLinkSkillGravity()
     {
         IsAboveContactPoint = _stunHandler.Rigidbody.transform.position.y >= _stunHandler.ContactPointLaunchLimiter.y;
@@ -123,11 +128,16 @@ public class CalculateKnockBack : MonoBehaviour
             }
         }
     }
+#endif
+
+    #endregion
+
     public void ApplyHitStop()
     {
         if (_stunHandler.ApplyHitStopDuration)
             StartCoroutine(KnockBackAfterHitStop());
     }
+
     IEnumerator KnockBackAfterHitStop()
     {
         _stunHandler.Rigidbody.velocity = Vector3.zero;
@@ -135,6 +145,6 @@ public class CalculateKnockBack : MonoBehaviour
         yield return new WaitForSeconds(_stunHandler.HitStopDuration);
         _stunHandler.Rigidbody.velocity = _stunHandler.KnockBackForce;
 
-        _stunHandler. ApplyHitStopDuration = false;
+        _stunHandler.ApplyHitStopDuration = false;
     }
 }

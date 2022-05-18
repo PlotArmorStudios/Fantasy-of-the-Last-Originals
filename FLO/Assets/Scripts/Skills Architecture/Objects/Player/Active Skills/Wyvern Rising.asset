@@ -19,8 +19,8 @@ MonoBehaviour:
   StunType: 1
   Damage: 10
   AttackRange: 1
-  KnockBackStrength: 6
-  KnockUpStrength: 2
+  KnockBackStrength: 0
+  KnockUpStrength: 3
   StunDuration: 0.1
   AirBorneKnockUp: 1
   LaunchLimiter: 1
@@ -40,3 +40,6 @@ MonoBehaviour:
   EffectScaleX: 0
   EffectScaleY: 0
   EffectScaleZ: 0
+  ShakeCam: 0
+  ShakeIntensity: 0
+  ShakeTime: 0

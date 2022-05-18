@@ -15,7 +15,7 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 8
-  SkillType: 0
+  SkillType: 1
   StunType: 1
   Damage: 10
   AttackRange: 1

@@ -44,26 +44,9 @@ public class RigidBodyStunHandler : KnockBackHandler
         ApplyHitStopDuration = true;
         HitStopDuration = hitStopDuration;
     }
-
-    public override void SetContactPoint(SkillType skillType, Vector3 contactPoint)
-    {
-        TargetSkillTypeUsed = skillType;
-        ContactPointLaunchLimiter = contactPoint;
-    }
-
-    public override void SetAirStall(float airStallDuration)
-    {
-        AirStall = true;
-        AirStallDuration = airStallDuration;
-    }
-
+    
     public override void ResetDownForce()
     {
         CurrentDownForce = 0;
-    }
-
-    public override void SetDownPull(float downPull)
-    {
-        DownPull = downPull;
     }
 }

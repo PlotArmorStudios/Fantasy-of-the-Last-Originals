@@ -217,9 +217,15 @@ public abstract class HitBox : MonoBehaviour
     private void HandleTargetKnockback(KnockBackHandler targetStunHandler, Vector3 attackDirection)
     {
         if (AttackDefinition.KnockUpStrength <= 0)
-            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleStun());
+        {
+            //StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleStun());
+            targetStunHandler.GetComponent<IStateMachine>().Stun = true;
+        }
         else if (AttackDefinition.KnockUpStrength > 0)
-            StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleLaunch());
+        {
+            //StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleLaunch());
+            targetStunHandler.GetComponent<IStateMachine>().Launch = true;
+        }
 
         if (targetStunHandler.GroundCheck.UpdateIsGrounded())
         {
@@ -259,11 +265,11 @@ public abstract class HitBox : MonoBehaviour
 
     private void ApplyKnockBack(KnockBackHandler targetStun)
     {
+        targetStun.Rigidbody.velocity = Vector3.zero;
         targetStun.AirBorneKnockUp = AttackDefinition.AirBorneKnockUp;
         targetStun.StunDuration = AttackDefinition.StunDuration;
         targetStun.ApplyHitStop(AttackDefinition.HitStopDuration);
         targetStun.ApplyKnockBack(_knockBackPower);
-        targetStun.SetContactPoint(AttackDefinition.SkillType, _comboPoint);
         targetStun.ApplyGroundedAttackPull(AttackDefinition.DownwardPull);
         targetStun.ResetDownForce();
     }
