@@ -22,28 +22,10 @@ public class RigidBodyStunHandler : KnockBackHandler
         yield return null;
     }
     
-    private void ApplyAirStall()
-    {
-        if (AirStall)
-        {
-            FallAccelerationMultiplier = 0;
-            FallDecelerationMultiplier = 0;
-            CurrentDownForce = 0;
-            StartCoroutine(ResetAirStall(AirStallDuration));
-        }
-    }
-
     public override void ApplyGroundedAttackPull(float attackPull)
     {
         if (!GroundCheck.IsGrounded)
             Rigidbody.velocity = new Vector3(Rigidbody.velocity.x, Rigidbody.velocity.y - attackPull, Rigidbody.velocity.z);
-    }
-
-
-    public void ApplyHitStop()
-    {
-        if (ApplyHitStopDuration)
-            StartCoroutine(KnockBackAfterHitStop());
     }
 
     public void LimitFallAccelerationMultiplier()
@@ -61,16 +43,6 @@ public class RigidBodyStunHandler : KnockBackHandler
     {
         ApplyHitStopDuration = true;
         HitStopDuration = hitStopDuration;
-    }
-
-    IEnumerator KnockBackAfterHitStop()
-    {
-        Rigidbody.velocity = Vector3.zero;
-
-        yield return new WaitForSeconds(HitStopDuration);
-        Rigidbody.velocity = KnockBackForce;
-
-        ApplyHitStopDuration = false;
     }
 
     public override void SetContactPoint(SkillType skillType, Vector3 contactPoint)
@@ -93,11 +65,5 @@ public class RigidBodyStunHandler : KnockBackHandler
     public override void SetDownPull(float downPull)
     {
         DownPull = downPull;
-    }
-
-    IEnumerator ResetAirStall(float airStallDuration)
-    {
-        yield return new WaitForSeconds(airStallDuration);
-        AirStall = false;
     }
 }

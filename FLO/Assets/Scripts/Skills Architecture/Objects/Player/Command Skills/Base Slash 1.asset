@@ -40,3 +40,6 @@ MonoBehaviour:
   EffectScaleX: 0
   EffectScaleY: 0
   EffectScaleZ: 0
+  ShakeCam: 1
+  ShakeIntensity: 2
+  ShakeTime: 0.34

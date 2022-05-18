@@ -8,6 +8,7 @@ public class AttackDefinition : ScriptableObject
     public SkillType SkillType = SkillType.LinkSkill;
     public StunType StunType = StunType.HitStun;
 
+    [Header("Knock Back Control")]
     public float Damage = 10f;
     public float AttackRange = 1f;
     public float KnockBackStrength = 6f;
@@ -23,6 +24,7 @@ public class AttackDefinition : ScriptableObject
     public float AirStallDuration = .8f;
     public float DownwardPull;
 
+    [Header("HitBox Control")]
     public float HitBoxLinger = .2f;
     
     [Header("Effects")]
@@ -39,4 +41,9 @@ public class AttackDefinition : ScriptableObject
     public float EffectScaleX;
     public float EffectScaleY;
     public float EffectScaleZ;
+    
+    [Header("Camera Shake Control")]
+    public bool ShakeCam;
+    public float ShakeIntensity;
+    public float ShakeTime;
 }

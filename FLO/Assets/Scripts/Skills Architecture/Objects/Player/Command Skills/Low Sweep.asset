@@ -15,12 +15,12 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 8
-  SkillType: 0
+  SkillType: 1
   StunType: 1
   Damage: 25
-  AttackRange: 1.5
-  KnockBackStrength: 2
-  KnockUpStrength: 2.31
+  AttackRange: 1
+  KnockBackStrength: 1.5
+  KnockUpStrength: 1.5
   StunDuration: 0.3
   AirBorneKnockUp: 3
   LaunchLimiter: 0.5
@@ -40,3 +40,6 @@ MonoBehaviour:
   EffectScaleX: 0
   EffectScaleY: 0
   EffectScaleZ: 0
+  ShakeCam: 1
+  ShakeIntensity: 2
+  ShakeTime: 0.34

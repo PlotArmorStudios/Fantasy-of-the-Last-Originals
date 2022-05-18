@@ -7,8 +7,9 @@ public class PlayerAttackDefinitionManager : AttackDefinitionManager
 {
     private Inventory _inventory;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         _inventory = GetComponent<Inventory>();
     }
 

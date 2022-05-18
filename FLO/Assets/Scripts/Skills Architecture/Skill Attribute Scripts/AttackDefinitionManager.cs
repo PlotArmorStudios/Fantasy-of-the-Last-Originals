@@ -11,9 +11,10 @@ public abstract class AttackDefinitionManager : MonoBehaviour
     public GameObject ActiveObject;
     private GameObject _effect;
     private PhotonView _view;
-
-    private void Start()
+    private StoreAssignedVCamGroup _vCams;
+    protected virtual void Start()
     {
+        _vCams = GetComponent<StoreAssignedVCamGroup>();
         _view = PhotonView.Get(this);
     }
 
@@ -65,6 +66,9 @@ public abstract class AttackDefinitionManager : MonoBehaviour
         if (_effect.GetComponent<ActiveObject>())
             ActiveObject = _effect.gameObject;
 
+        if(CurrentAttackDefinition.ShakeCam)
+            _vCams.ShakeCams(CurrentAttackDefinition.ShakeIntensity, CurrentAttackDefinition.ShakeTime);
+        
         if (_effect.GetComponent<EffectAttackDefinitionManager>())
             _effect.GetComponent<EffectAttackDefinitionManager>().AssignedPlayer = (PlayerAttackDefinitionManager) this;
     }

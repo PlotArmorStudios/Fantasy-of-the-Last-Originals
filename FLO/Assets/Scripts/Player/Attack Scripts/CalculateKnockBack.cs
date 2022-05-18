@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CalculateKnockBack : MonoBehaviour
@@ -33,7 +35,7 @@ public class CalculateKnockBack : MonoBehaviour
     void FixedUpdate()
     {
         _stunHandler.LimitFallAccelerationMultiplier();
-        _stunHandler.ApplyHitStop();
+        ApplyHitStop();
         CalculateKnockBackPhysics();
     }
 
@@ -82,11 +84,8 @@ public class CalculateKnockBack : MonoBehaviour
         {
             _stunHandler.FallDecelerationMultiplier += Time.fixedDeltaTime * _stunHandler.Weight;
 
-            _stunHandler.CurrentDownForce += Time.fixedDeltaTime *
-                                             ((_stunHandler.FallDecelerationMultiplier * _stunHandler.FallDecelerationNormalizer) *
-                                              _stunHandler.Weight); //down force is going to decrease over time, and decrease more over time due to fallmult
-
-            if (_stunHandler.CurrentDownForce > 3) _stunHandler.CurrentDownForce = 3;
+            _stunHandler.CurrentDownForce = .1f;
+            if (_stunHandler.CurrentDownForce > 3) _stunHandler.CurrentDownForce = 3f;
             if (_stunHandler.CurrentDownForce < 0) _stunHandler.CurrentDownForce = 0f;
         }
     }
@@ -124,5 +123,18 @@ public class CalculateKnockBack : MonoBehaviour
             }
         }
     }
+    public void ApplyHitStop()
+    {
+        if (_stunHandler.ApplyHitStopDuration)
+            StartCoroutine(KnockBackAfterHitStop());
+    }
+    IEnumerator KnockBackAfterHitStop()
+    {
+        _stunHandler.Rigidbody.velocity = Vector3.zero;
 
+        yield return new WaitForSeconds(_stunHandler.HitStopDuration);
+        _stunHandler.Rigidbody.velocity = _stunHandler.KnockBackForce;
+
+        _stunHandler. ApplyHitStopDuration = false;
+    }
 }
