@@ -8,7 +8,8 @@ public class IdlingCrossfade : IState
     protected StanceToggler _stanceToggler;
     protected FiniteStateMachine _stateMachine;
     private readonly CurrentAnimatorState _animatorState;
-
+    private AutoTargetEnemy _autoTargeter;
+    
     public IdlingCrossfade(FiniteStateMachine stateMachine)
     {
         _stateMachine = stateMachine;
@@ -16,7 +17,8 @@ public class IdlingCrossfade : IState
         _stanceToggler = stateMachine.GetComponent<StanceToggler>();
         _combatManager = stateMachine.GetComponent<CombatManager>();
         _animatorState = stateMachine.GetComponent<CurrentAnimatorState>();
-
+        _autoTargeter = stateMachine.GetComponent<AutoTargetEnemy>();
+        
         _stanceToggler.OnStanceChanged += ChangeStance;
     }
 

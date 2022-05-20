@@ -160,7 +160,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         StateMachine.AddTransition(
             _launch,
             _idle,
-            () => FallTime > 0 && Entity.IsGrounded);
+            () => Entity.IsGrounded);
         StateMachine.AddTransition(
             _hitstun,
             _idle,

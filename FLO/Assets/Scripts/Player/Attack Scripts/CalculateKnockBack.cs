@@ -27,11 +27,7 @@ public class CalculateKnockBack : MonoBehaviour
     void Update()
     {
         if (_stunHandler.GroundCheck.UpdateIsGrounded())
-        {
             _stunHandler.DownPull = _stunHandler.StartDownPull;
-            if (_stunHandler.Entity != null)
-                _stunHandler.Entity.SetIdle();
-        }
     }
 
     void FixedUpdate()

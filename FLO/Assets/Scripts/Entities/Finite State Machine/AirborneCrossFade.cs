@@ -7,6 +7,7 @@ public class AirborneCrossFade : IState
     private readonly StanceToggler _stanceToggler;
     private readonly CombatManager _combatManager;
     private readonly CurrentAnimatorState _animatorState;
+    private readonly AutoTargetEnemy _autoTargeter;
 
     public AirborneCrossFade(FiniteStateMachine stateMachine)
     {
@@ -15,6 +16,7 @@ public class AirborneCrossFade : IState
         _stanceToggler = stateMachine.GetComponent<StanceToggler>();
         _combatManager = stateMachine.GetComponent<CombatManager>();
         _animatorState = stateMachine.GetComponent<CurrentAnimatorState>();
+        _autoTargeter = stateMachine.GetComponent<AutoTargetEnemy>();
     }
     
     public void Tick()

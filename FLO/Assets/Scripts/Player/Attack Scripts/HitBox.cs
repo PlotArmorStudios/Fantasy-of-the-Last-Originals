@@ -29,7 +29,6 @@ public abstract class HitBox : MonoBehaviour
     protected Vector3 _attackDirection;
     protected Collider[] _colliders;
 
-
     void OnEnable()
     {
         GetHitBoxDefinition();
@@ -154,7 +153,6 @@ public abstract class HitBox : MonoBehaviour
             if (_newTargetID == _savedTargetID) return;
             _savedTargetID = _newTargetID;
 
-            Debug.Log("Hit enemy 1");
             GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
             CacheTargetComponents(collider);
             _targetStunHandler.DisableComponents();

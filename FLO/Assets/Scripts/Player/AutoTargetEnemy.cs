@@ -28,7 +28,6 @@ public class AutoTargetEnemy : MonoBehaviour
     }
 
     public bool EnemyInRange { get; private set; }
-    public bool _canTargetNearestEnemy;
 
     private float _enemyDistance;
     private bool _targetedWithRay;
@@ -49,7 +48,6 @@ public class AutoTargetEnemy : MonoBehaviour
         _enemiesInWorld = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (_targetedEnemy != null)
@@ -63,6 +61,7 @@ public class AutoTargetEnemy : MonoBehaviour
         CreateEnemyDetectingRay();
 
         Enemy = _nearestEnemy;
+        
         if (_targetedEnemy != null)
             Debug.DrawLine(transform.position, _nearestEnemy.transform.position, Color.red);
     }
@@ -92,15 +91,13 @@ public class AutoTargetEnemy : MonoBehaviour
     private void ToggleTargetedEnemy()
     {
         if (_targetedWithRay == false)
-        {
             if (_nearestEnemy != null)
                 TargetNearestEnemy();
-        }
 
         if (_direction.magnitude >= .1)
-        {
             TargetEnemyWithRayCast();
-        }
+        else
+            TargetNearestEnemy();
 
         if (_targetedEnemy != null)
             if (Vector3.Distance(transform.position, _targetedEnemy.transform.position) > _targetDistance)
@@ -112,11 +109,11 @@ public class AutoTargetEnemy : MonoBehaviour
 
     void TargetNearestEnemy()
     {
-        if (Vector3.Distance(transform.position, _nearestEnemy.transform.position) <= _targetDistance)
-        {
+        var yRange = Mathf.Abs(_nearestEnemy.transform.position.y - transform.position.y);
+        var yIsInRange = yRange >= 0 && yRange <= 1;
+        if (yIsInRange && Vector3.Distance(transform.position, _nearestEnemy.transform.position) <= _targetDistance)
             _targetedEnemy = _nearestEnemy;
-        }
-        else
+        else if(!yIsInRange)
             _targetedEnemy = null;
     }
 
@@ -126,11 +123,18 @@ public class AutoTargetEnemy : MonoBehaviour
             _rayRotation, out _rayHit, 3f, _layerMask))
         {
             var enemy = _rayHit.collider.gameObject;
+            var yRange = Mathf.Abs(_nearestEnemy.transform.position.y - transform.position.y);
 
-            if (Vector3.Distance(transform.position, enemy.transform.position) <= _targetDistance)
+            var yIsInRange = yRange >= 0 && yRange <= 1;
+            if (yIsInRange && Vector3.Distance(transform.position, enemy.transform.position) <= _targetDistance)
             {
                 _targetedEnemy = _rayHit.collider.gameObject;
                 _targetedWithRay = true;
+            }
+            else if(!yIsInRange)
+            {
+                _targetedEnemy = null;
+                _targetedWithRay = false;
             }
         }
 

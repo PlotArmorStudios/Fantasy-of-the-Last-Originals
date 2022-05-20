@@ -30,7 +30,7 @@ MonoBehaviour:
   AirStallDuration: 0.01
   DownwardPull: 0
   HitBoxLinger: 0.2
-  Effect: {fileID: 100004, guid: faf48322d54c2374086aff327604a90b, type: 3}
+  Effect: {fileID: 100004, guid: 0ac99dc4fb9c9954a8ddc6e8d55cdc9d, type: 3}
   EffectPositionX: 0
   EffectPositionY: 0
   EffectPositionZ: 0
@@ -40,3 +40,6 @@ MonoBehaviour:
   EffectScaleX: 0
   EffectScaleY: 0
   EffectScaleZ: 0
+  ShakeCam: 0
+  ShakeIntensity: 0
+  ShakeTime: 0

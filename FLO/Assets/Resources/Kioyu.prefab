@@ -7350,7 +7350,6 @@ MonoBehaviour:
   _targetDistance: 15
   _rotationSpeed: 100
   _camTransform: {fileID: 1450810377}
-  _canTargetNearestEnemy: 0
 --- !u!114 &77006572047640329
 MonoBehaviour:
   m_ObjectHideFlags: 0

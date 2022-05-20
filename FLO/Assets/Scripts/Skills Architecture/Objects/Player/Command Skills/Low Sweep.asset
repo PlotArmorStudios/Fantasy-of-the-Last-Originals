@@ -16,11 +16,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   SkillType: 1
-  StunType: 1
+  StunType: 0
   Damage: 25
   AttackRange: 1
-  KnockBackStrength: 1.5
-  KnockUpStrength: 1.5
+  KnockBackStrength: 3
+  KnockUpStrength: 0
   StunDuration: 0.3
   AirBorneKnockUp: 3
   LaunchLimiter: 0.5

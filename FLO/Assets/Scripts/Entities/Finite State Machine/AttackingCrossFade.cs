@@ -11,7 +11,6 @@ public class AttackingCrossFade : Dasher, IState
     private readonly CurrentAnimatorState _animatorState;
     private readonly int _transitionToAttack;
     private bool _crossFaded;
-
     public AttackingCrossFade(FiniteStateMachine stateMachine) : base(stateMachine)
     {
         _animator = stateMachine.GetComponentInChildren<Animator>();
@@ -66,13 +65,13 @@ public class AttackingCrossFade : Dasher, IState
         return false;
     }
 
-    public void OnEnter()
+    public virtual void OnEnter()
     {
         _crossFaded = false;
         HandleAttackScream(_animator, _stateInfo);
     }
 
-    public void OnExit()
+    public virtual void OnExit()
     {
         _combatManager.InputReceived = false;
     }
