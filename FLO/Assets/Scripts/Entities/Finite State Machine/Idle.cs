@@ -43,6 +43,11 @@ public class Idle : IState
         UpdateCanChaseTime();
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _returnHomeTimer = 0;

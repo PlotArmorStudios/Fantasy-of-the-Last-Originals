@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace EntityStates
@@ -6,34 +7,12 @@ namespace EntityStates
     [System.Serializable]
     public class Launch : IState
     {
-        [SerializeField] private float _weight = 3f;
         private EntityStateMachine _stateMachine;
         private Entity _entity;
         private Animator _animator;
         private Rigidbody _rigidbody;
 
-        //Physics Calculations
-        public bool IsRaising => _rigidbody.velocity.y > 0;
-        public bool IsFalling => _rigidbody.velocity.y < 0;
-        public float CurrentDownForce { get; set; }
-
-        private float _fallAccelerationMultiplier;
-        private float _fallDecelerationMultiplier;
-        private float _fallAccelerationNormalizer;
-        private float _fallDecelerationNormalizer;
-
-        //Link Skill knock back
-        private Vector3 ContactPointLaunchLimiter;
-        private float _downPull = .05f;
-
-        private SkillType _targetSkillTypeUsed;
-        private GroundCheck _groundCheck;
         private RigidBodyStunHandler _stunHandler;
-
-        //Base knock back
-        public Vector3 KnockBackForce { get; set; }
-
-        public bool IsAboveContactPoint { get; set; }
 
         public Launch(Entity entity)
         {
@@ -46,12 +25,20 @@ namespace EntityStates
 
         public void Tick()
         {
+            if (_stunHandler.GroundCheck.UpdateIsGrounded())
+                _stunHandler.DownPull = _stunHandler.StartDownPull;
+        }
+
+        public void FixedTick()
+        {
+            // _stunHandler.LimitFallAccelerationMultiplier();
+            // _stunHandler.ApplyHitStop();
+            // CalculateKnockBackPhysics();
         }
 
         public void OnEnter()
         {
             _stateMachine.Launch = false;
-            _rigidbody.velocity = _stunHandler.KnockBackForce;
             _animator.CrossFade("Flyback Stun", .25f, 0);
         }
 

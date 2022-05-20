@@ -32,6 +32,11 @@ public class AirborneCrossFade : IState
         }
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _animator.SetBool("Attacking", false);

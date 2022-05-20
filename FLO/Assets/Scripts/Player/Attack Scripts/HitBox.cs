@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(SwitchCameraOnEvent))]
 public abstract class HitBox : MonoBehaviour
 {
     public AttackDefinition AttackDefinition { get; set; }
@@ -32,15 +33,7 @@ public abstract class HitBox : MonoBehaviour
     void OnEnable()
     {
         GetHitBoxDefinition();
-        DisableMeshRendererIfPresent();
-        AddSwitchCameraComponent();
-        FindComboGravityPoint();
-        ActivateComboGravityPointIfLinkSkill();
-
         SetDefaultHitboxRange();
-
-        if (!GetComponent<TriggerStunAnimation>())
-            AddProperHitstunComponent();
     }
 
     private void SetDefaultHitboxRange()
@@ -48,49 +41,6 @@ public abstract class HitBox : MonoBehaviour
         gameObject.transform.localScale = new Vector3(AttackDefinition.AttackRange + .1f,
             AttackDefinition.AttackRange + .1f,
             AttackDefinition.AttackRange + .1f);
-    }
-
-    private void AddProperHitstunComponent()
-    {
-        if (AttackDefinition.StunType == StunType.HitStun)
-            gameObject.AddComponent<TriggerHitStunAnimation>();
-
-        if (AttackDefinition.StunType == StunType.KnockBack)
-            gameObject.AddComponent<TriggerKnockBackAnimation>();
-    }
-
-    private void ActivateComboGravityPointIfLinkSkill()
-    {
-        if (AttackDefinition.SkillType == SkillType.LinkSkill && _comboGravityPoint != null)
-            _comboGravityPoint.gameObject.SetActive(true);
-    }
-
-    private void FindComboGravityPoint()
-    {
-        _comboGravityPoint = GetComponentInParent<CombatManager>().ComboGravityPoint;
-    }
-
-    private void AddSwitchCameraComponent()
-    {
-        if (!GetComponent<SwitchCameraOnEvent>())
-            gameObject.AddComponent<SwitchCameraOnEvent>();
-    }
-
-    private void DisableMeshRendererIfPresent()
-    {
-        if (GetComponent<MeshRenderer>())
-            GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    private void SetTriggerCollider()
-    {
-        if (GetComponent<Collider>())
-            GetComponent<Collider>().isTrigger = true;
-        else
-        {
-            gameObject.AddComponent<Collider>();
-            GetComponent<Collider>().isTrigger = true;
-        }
     }
 
     private void GetHitBoxDefinition()
@@ -109,24 +59,12 @@ public abstract class HitBox : MonoBehaviour
 
     void OnDisable()
     {
-        if (GetComponent<TriggerStunAnimation>())
-            RemoveStunTypeComponent();
-
         _savedTargetID = 0;
-
-        if (_comboGravityPoint != null)
-            if (_comboGravityPoint.gameObject.activeInHierarchy)
-                _comboGravityPoint.gameObject.SetActive(false);
 
         if (GetComponentInParent<AttackDefinitionManager>())
             GetComponentInParent<AttackDefinitionManager>().ActiveHitBox = null;
 
         AttackDefinition = null;
-    }
-
-    private void RemoveStunTypeComponent()
-    {
-        Destroy(GetComponent<TriggerStunAnimation>());
     }
 
     private void FixedUpdate()
@@ -153,9 +91,9 @@ public abstract class HitBox : MonoBehaviour
             if (_newTargetID == _savedTargetID) return;
             _savedTargetID = _newTargetID;
 
-            GetComponent<TriggerStunAnimation>().TriggerAnimation(collider);
             CacheTargetComponents(collider);
             _targetStunHandler.DisableComponents();
+            _targetStunHandler.Rigidbody.velocity = Vector3.zero;
             TransferInfoToTarget(collider);
             TriggerTargetEffects();
         }
@@ -163,7 +101,7 @@ public abstract class HitBox : MonoBehaviour
 
     private void TriggerTargetEffects()
     {
-        _targetStunHandler.GetComponent<ParticleHitEffects>().TriggerHitEffects();
+        _targetStunHandler.ParticleHitEffects.TriggerHitEffects();
     }
 
     public abstract Collider[] OverlapPhysics();
@@ -187,21 +125,13 @@ public abstract class HitBox : MonoBehaviour
     protected virtual void TransferInfoToTarget(Collider collider)
     {
         SetAttackDirection(collider);
-
-        CheckSkillType();
-
         DoDamage();
-
         _targetSound.PlayHitStunSound();
-        _targetStunHandler.GetComponent<HitStop>()
+        _targetStunHandler.HitStop
             .Stop(AttackDefinition.HitStopDuration, AttackDefinition.DelayBeforeHitStop);
-
         ChangeRigidBodySettings();
-
-        HandleTargetKnockback(_targetStunHandler, _attackDirection);
-
         ApplyKnockBack(_targetStunHandler);
-        ApplyKnockBackDeceleration();
+        HandleTargetKnockback(_targetStunHandler, _attackDirection);
     }
 
 
@@ -214,17 +144,6 @@ public abstract class HitBox : MonoBehaviour
 
     private void HandleTargetKnockback(KnockBackHandler targetStunHandler, Vector3 attackDirection)
     {
-        if (AttackDefinition.KnockUpStrength <= 0)
-        {
-            //StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleStun());
-            targetStunHandler.GetComponent<IStateMachine>().Stun = true;
-        }
-        else if (AttackDefinition.KnockUpStrength > 0)
-        {
-            //StartCoroutine(targetStunHandler.GetComponent<IStateMachine>().ToggleLaunch());
-            targetStunHandler.GetComponent<IStateMachine>().Launch = true;
-        }
-
         if (targetStunHandler.GroundCheck.UpdateIsGrounded())
         {
             attackDirection.y = AttackDefinition.KnockUpStrength;
@@ -238,22 +157,23 @@ public abstract class HitBox : MonoBehaviour
             _knockBackPower = new Vector3(attackDirection.x, attackDirection.y + AttackDefinition.AirBorneKnockUp,
                 attackDirection.z * AttackDefinition.KnockBackStrength);
         }
-    }
+        
+        if (AttackDefinition.KnockUpStrength <= 0)
+        {
+            targetStunHandler.StateMachine.Stun = true;
+        }
+        else if (AttackDefinition.KnockUpStrength > 0)
+        {
+            targetStunHandler.StateMachine.Launch = true;
+        }
 
+    }
 
     private void ChangeRigidBodySettings()
     {
         _targetRigidBody.isKinematic = false;
         _targetRigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY
                                                                             | RigidbodyConstraints.FreezeRotationZ;
-    }
-
-    private void CheckSkillType()
-    {
-        if (AttackDefinition.SkillType == SkillType.LinkSkill)
-            _comboPoint = new Vector3(_comboGravityPoint.transform.position.x,
-                _comboGravityPoint.transform.position.y + AttackDefinition.LaunchLimiter,
-                _comboGravityPoint.transform.position.z);
     }
 
     private void DoDamage()
@@ -272,22 +192,12 @@ public abstract class HitBox : MonoBehaviour
         targetStun.ResetDownForce();
     }
 
-    void ApplyKnockBackDeceleration()
-    {
-        if (_knockBackDecelarationHandler != null)
-        {
-            _knockBackDecelarationHandler.SetKnockBackTrue(true);
-            _knockBackDecelarationHandler.SetKnockBackDeceleration(AttackDefinition.KnockBackStrength);
-            _knockBackDecelarationHandler.SetDecelerationDuration(AttackDefinition.DecelerationDuration);
-        }
-    }
-
     void CacheTargetComponents(Collider collider)
     {
         _targetStunHandler = collider.GetComponent<KnockBackHandler>();
-        _knockBackDecelarationHandler = collider.GetComponent<KnockBackDecelaration>();
-        _targetRigidBody = collider.GetComponent<Rigidbody>();
-        _targetHealthLogic = collider.GetComponent<HealthLogic>();
-        _targetSound = collider.GetComponent<ImpactSoundHandler>();
+        
+        _targetRigidBody = _targetStunHandler.Rigidbody;
+        _targetHealthLogic = _targetStunHandler.Health;
+        _targetSound = _targetStunHandler.SoundHandler;
     }
 }

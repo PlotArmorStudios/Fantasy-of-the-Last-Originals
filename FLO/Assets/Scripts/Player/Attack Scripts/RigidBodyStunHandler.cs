@@ -49,4 +49,20 @@ public class RigidBodyStunHandler : KnockBackHandler
     {
         CurrentDownForce = 0;
     }
+    
+    public void ApplyHitStop()
+    {
+        if (ApplyHitStopDuration)
+            StartCoroutine(KnockBackAfterHitStop());
+    }
+
+    IEnumerator KnockBackAfterHitStop()
+    {
+        Rigidbody.velocity = Vector3.zero;
+
+        yield return new WaitForSeconds(HitStopDuration);
+        Rigidbody.velocity = KnockBackForce;
+
+        ApplyHitStopDuration = false;
+    }
 }

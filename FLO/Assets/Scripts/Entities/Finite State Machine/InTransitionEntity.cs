@@ -54,6 +54,11 @@ public class InTransitionEntity : IState
         }
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _crossFaded = false;

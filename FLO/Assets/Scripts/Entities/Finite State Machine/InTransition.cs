@@ -19,6 +19,11 @@ public class InTransition : IState
         _stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
     }

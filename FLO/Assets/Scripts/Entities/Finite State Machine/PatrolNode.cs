@@ -31,6 +31,11 @@ namespace GoblinStateMachine
             PatrolArea();
         }
 
+        public void FixedTick()
+        {
+            
+        }
+
         public void OnEnter()
         {
             _timeToPatrol = Random.Range(0, 10);

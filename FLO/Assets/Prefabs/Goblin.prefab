@@ -2628,7 +2628,6 @@ GameObject:
   - component: {fileID: 5769214997430329443}
   - component: {fileID: 5769214997430329449}
   - component: {fileID: 5769214997430329447}
-  - component: {fileID: 5769214997430329441}
   - component: {fileID: 1958848708}
   - component: {fileID: 5769214997430329452}
   - component: {fileID: 3669642708024087197}
@@ -2694,7 +2693,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!198 &5769214997430329454
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -7606,20 +7605,6 @@ NavMeshAgent:
   m_BaseOffset: -0.13
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5769214997430329441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6688188120052915403}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2dc4232b195aff4aac26c2af4b48f44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackForce: 0
-  _startDecelarationMultiplier: 10
 --- !u!114 &1958848708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7633,9 +7618,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsJumping: 0
-  _enemyState: 0
-  _targetDetectRange: 5
-  _attackRange: 2
 --- !u!114 &5769214997430329452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7735,7 +7717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3671047b81c7401390dd36450d40b6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartDownPull: 0.6
+  StartDownPull: 2
   DownPull: 2
   Weight: 0.5
   FallAccelerationMultiplier: 0
@@ -7772,8 +7754,6 @@ MonoBehaviour:
   Player: {fileID: 0}
   Entity: {fileID: 0}
   Animator: {fileID: 0}
-  _launch:
-    _weight: 0
   _onGuard:
     _movementX: 0
     _movementY: 0

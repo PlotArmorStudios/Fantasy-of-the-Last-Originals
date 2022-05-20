@@ -15,6 +15,11 @@ public class DodgingCrossFade : Dasher, IState
     {
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _animator.GetComponent<Player>().enabled = false;

@@ -57,6 +57,11 @@ public class OnGuard : IState
         ComputeStrafeBehavior();
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     private void ComputeStrafeBehavior()
     {
         ComputeXMovement();

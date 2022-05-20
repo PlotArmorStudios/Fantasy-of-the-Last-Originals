@@ -2,26 +2,17 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using EntityStates;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class CalculateKnockBack : MonoBehaviour
 {
     private RigidBodyStunHandler _stunHandler;
-    private bool IsAboveContactPoint;
-    private float LaunchPosition { get; set; }
 
     void Start()
     {
         _stunHandler = GetComponent<RigidBodyStunHandler>();
-        _stunHandler.Trajectory = new Vector3(0, 0, 0);
-    }
-
-    private void OnValidate()
-    {
-        if (!GetComponent<Rigidbody>())
-        {
-            gameObject.AddComponent<Rigidbody>();
-        }
     }
 
     void Update()
@@ -33,11 +24,11 @@ public class CalculateKnockBack : MonoBehaviour
     void FixedUpdate()
     {
         _stunHandler.LimitFallAccelerationMultiplier();
-        ApplyHitStop();
+        _stunHandler.ApplyHitStop();
         CalculateKnockBackPhysics();
     }
 
-    private void CalculateKnockBackPhysics()
+    public void CalculateKnockBackPhysics()
     {
         //Limit Down force
         if (_stunHandler.CurrentDownForce > 3) _stunHandler.CurrentDownForce = 3;
@@ -49,7 +40,7 @@ public class CalculateKnockBack : MonoBehaviour
             if (_stunHandler.TargetSkillTypeUsed == SkillType.LinkSkill)
                 ApplyLinkSkillGravity();
 #endif
-                ApplyHookSkillGravity();
+            ApplyHookSkillGravity();
         }
         else
         {
@@ -127,20 +118,4 @@ public class CalculateKnockBack : MonoBehaviour
 #endif
 
     #endregion
-
-    public void ApplyHitStop()
-    {
-        if (_stunHandler.ApplyHitStopDuration)
-            StartCoroutine(KnockBackAfterHitStop());
-    }
-
-    IEnumerator KnockBackAfterHitStop()
-    {
-        _stunHandler.Rigidbody.velocity = Vector3.zero;
-
-        yield return new WaitForSeconds(_stunHandler.HitStopDuration);
-        _stunHandler.Rigidbody.velocity = _stunHandler.KnockBackForce;
-
-        _stunHandler.ApplyHitStopDuration = false;
-    }
 }

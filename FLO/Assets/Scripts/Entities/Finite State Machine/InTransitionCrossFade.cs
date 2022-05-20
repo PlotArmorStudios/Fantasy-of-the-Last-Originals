@@ -58,6 +58,11 @@ public class InTransitionCrossFade : Dasher, IState
         }
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _crossFaded = false;

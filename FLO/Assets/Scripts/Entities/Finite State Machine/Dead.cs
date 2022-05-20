@@ -17,6 +17,11 @@ public class Dead : IState
             GameObject.Destroy(_entity.gameObject);
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         //Drop loot

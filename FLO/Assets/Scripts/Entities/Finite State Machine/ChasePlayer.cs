@@ -25,6 +25,11 @@ namespace GoblinStateMachine
             FollowPlayer();
         }
 
+        public void FixedTick()
+        {
+            
+        }
+
         public void OnEnter()
         {
             _navMeshAgent.enabled = true;

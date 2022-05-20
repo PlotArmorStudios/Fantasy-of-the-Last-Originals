@@ -17,6 +17,11 @@ public class Patrol : IState
         PatrolArea();
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _navMeshAgent.enabled = true;

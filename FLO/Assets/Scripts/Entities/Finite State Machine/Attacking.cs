@@ -24,6 +24,11 @@ public class Attacking : IState
         }
     }
 
+    public void FixedTick()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void OnEnter()
     {
         HandleAttackScream(_animator, _stateInfo);

@@ -6,6 +6,11 @@ public class Defend : IState
     {
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
     }

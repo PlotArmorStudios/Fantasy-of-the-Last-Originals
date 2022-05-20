@@ -8,6 +8,7 @@ public class AutoTargetEnemy : MonoBehaviour
     [SerializeField] private float _targetDistance = 4f;
     [SerializeField] private float _rotationSpeed = 1f;
     [SerializeField] private Transform _camTransform;
+    [SerializeField] private float _yDetectRange;
 
     private Animator _animator;
     private GameObject[] _enemiesInWorld;
@@ -110,7 +111,7 @@ public class AutoTargetEnemy : MonoBehaviour
     void TargetNearestEnemy()
     {
         var yRange = Mathf.Abs(_nearestEnemy.transform.position.y - transform.position.y);
-        var yIsInRange = yRange >= 0 && yRange <= 1;
+        var yIsInRange = yRange >= 0 && yRange <= _yDetectRange;
         if (yIsInRange && Vector3.Distance(transform.position, _nearestEnemy.transform.position) <= _targetDistance)
             _targetedEnemy = _nearestEnemy;
         else if(!yIsInRange)

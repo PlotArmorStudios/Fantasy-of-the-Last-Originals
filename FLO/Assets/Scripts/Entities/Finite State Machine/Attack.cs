@@ -44,6 +44,11 @@ public class Attack : IState
         }
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void TriggerAttack()
     {
         if (_animator.GetBool($"Attack {_animatorState.AttackToTransitionTo}") &&

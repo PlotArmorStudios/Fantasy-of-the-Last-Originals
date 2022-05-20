@@ -5,7 +5,8 @@ using UnityEngine.AI;
 
 public abstract class KnockBackHandler : MonoBehaviour
 {
-    [Header("Gravity")] [SerializeField] public float StartDownPull = .6f;
+    [Header("Gravity")]
+    [SerializeField] public float StartDownPull = .6f;
     [SerializeField] public float DownPull = 2f;
     [SerializeField] public float Weight = .5f;
     [SerializeField] public float FallAccelerationMultiplier;
@@ -13,34 +14,34 @@ public abstract class KnockBackHandler : MonoBehaviour
     [SerializeField] public float FallDecelerationNormalizer;
     [SerializeField] public float FallAccelerationNormalizer = .5f;
 
-    public SkillType TargetSkillTypeUsed;
-
     public Rigidbody Rigidbody;
 
     public GroundCheck GroundCheck;
 
-    public Entity Entity;
-    public Vector3 ContactPointLaunchLimiter;
     public Vector3 KnockBackForce;
     public float StunDuration { get; set; }
-    public float AttackTimer { get; set; }
     public float CurrentDownForce { get; set; }
     public float HitStopDuration { get; set; }
-    public float AirStallDuration { get; set; }
     public float AirBorneKnockUp { get; set; }
     public float GroundAttackPull { get; set; }
     public bool ApplyHitStopDuration;
-    public bool AirStall { get; set; }
-    public bool CanResetNavAgent;
     public bool IsRaising => Rigidbody.velocity.y > 0;
     public bool IsFalling => Rigidbody.velocity.y <= 0;
 
-    public Vector3 Trajectory;
-
-    private void Start()
+    public HealthLogic Health { get; set; }
+    public ImpactSoundHandler SoundHandler { get; set; }
+    public HitStop HitStop { get; set; }
+    public IStateMachine StateMachine { get; set; }
+    public ParticleHitEffects ParticleHitEffects { get; set; }
+    protected virtual void Start()
     {
         GroundCheck = GetComponent<GroundCheck>();
         Rigidbody = GetComponent<Rigidbody>();
+        Health = GetComponent<HealthLogic>();
+        SoundHandler = GetComponent<ImpactSoundHandler>();
+        HitStop = GetComponent<HitStop>();
+        StateMachine = GetComponent<IStateMachine>();
+        ParticleHitEffects = GetComponent<ParticleHitEffects>();
     }
 
     public abstract IEnumerator ApplyAirLock();

@@ -46,6 +46,11 @@ public class AttackingCrossFade : Dasher, IState
         }
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     private bool Loop()
     {
         if (_combatManager.InputCount >= 4 && _animatorState.LoopToAttack && _stateInfo.normalizedTime > .9f)

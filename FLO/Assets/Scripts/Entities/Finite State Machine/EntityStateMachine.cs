@@ -1,5 +1,6 @@
 //#define DEBUG_LOG
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using EntityStates;
@@ -32,6 +33,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     public Hitstun _hitstun;
     public OnGuard _onGuard;
 
+    public IState CurrentState => StateMachine.CurrentState;
     public float AttackDelay => _attackDelay;
     public float ReturnHomeTime => _returnHomeTime;
     private bool IsHome => Vector3.Distance(Entity.transform.position, Entity.InitialPosition) <= _homeRadius;
@@ -205,5 +207,10 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         Debug.Log(FallTime);
 #endif
         StateMachine.Tick();
+    }
+
+    protected override void FixedUpdate()
+    {
+        StateMachine.FixedTick();
     }
 }

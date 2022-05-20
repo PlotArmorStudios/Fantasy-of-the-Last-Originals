@@ -20,6 +20,11 @@ public class ReturnHome : IState
         ReturnToStartPosition();
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _navMeshAgent.enabled = true;

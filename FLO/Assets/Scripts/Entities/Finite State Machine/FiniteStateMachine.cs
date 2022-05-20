@@ -21,4 +21,5 @@ public abstract class FiniteStateMachine : MonoBehaviourPunCallbacks
     protected abstract void AddStateTransitions();
 
     protected abstract void Update();
+    protected abstract void FixedUpdate();
 }

@@ -7350,6 +7350,7 @@ MonoBehaviour:
   _targetDistance: 15
   _rotationSpeed: 100
   _camTransform: {fileID: 1450810377}
+  _yDetectRange: 0
 --- !u!114 &77006572047640329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7781,15 +7782,10 @@ MonoBehaviour:
   FallDecelerationMultiplier: 0
   FallDecelerationNormalizer: 0
   FallAccelerationNormalizer: 0.5
-  TargetSkillTypeUsed: 0
   Rigidbody: {fileID: 0}
   GroundCheck: {fileID: 0}
-  Entity: {fileID: 0}
-  ContactPointLaunchLimiter: {x: 0, y: 0, z: 0}
   KnockBackForce: {x: 0, y: 0, z: 0}
   ApplyHitStopDuration: 0
-  CanResetNavAgent: 0
-  Trajectory: {x: 0, y: 0, z: 0}
 --- !u!114 &8595903750413299007
 MonoBehaviour:
   m_ObjectHideFlags: 0

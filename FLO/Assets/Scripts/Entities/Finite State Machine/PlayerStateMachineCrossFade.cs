@@ -131,9 +131,8 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
         _stateMachine.Tick();
     }
 
-    [PunRPC]
-    private void TickStateMachine()
+    protected override void FixedUpdate()
     {
-        _stateMachine.Tick();
+        _stateMachine.FixedTick();
     }
 }

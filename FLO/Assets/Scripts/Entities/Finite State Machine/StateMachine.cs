@@ -13,6 +13,7 @@ public class StateMachine //Stores a list of states that can be added or removed
     private List<StateTransition> _anyStateTransitions = new List<StateTransition>();
     private IState _currentState;
     private StateTransition _transition;
+    public IState CurrentState => _currentState;
 
     //Add states to the state machine
 
@@ -56,6 +57,13 @@ public class StateMachine //Stores a list of states that can be added or removed
 #if DebugStateMachine
         Debug.Log($"Ticking {_currentState}");
 #endif
+    }
+
+    public void FixedTick()
+    {
+        _transition = CheckForTransition();
+        if (_transition != null) SetState(_transition.To);
+        _currentState.FixedTick();
     }
 
     private StateTransition CheckForTransition()

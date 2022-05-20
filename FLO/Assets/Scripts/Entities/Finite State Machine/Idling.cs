@@ -13,7 +13,12 @@ public class Idling : IState
         _stanceTogglerToggler = _animator.GetComponent<StanceToggler>();
         _stanceTogglerToggler.OnChangeStance += ChangeStance;
     }
-    
+
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _animator.SetBool("Attacking", false);

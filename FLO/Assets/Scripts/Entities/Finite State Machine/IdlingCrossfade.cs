@@ -28,6 +28,11 @@ public class IdlingCrossfade : IState
             _animator.CrossFade("Stance " + stanceNumber, .25f, 0, 0f, 0f);
     }
 
+    public void FixedTick()
+    {
+        
+    }
+
     public void OnEnter()
     {
         _animator.SetBool("Attacking", false);
