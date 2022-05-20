@@ -22,8 +22,8 @@ public class Hitstun : IState
 
     public void FixedTick()
     {
-        _stunHandler.LimitFallAccelerationMultiplier();
-        _stunHandler.ApplyHitStop();
+        // _stunHandler.LimitFallAccelerationMultiplier();
+        // _stunHandler.ApplyHitStop();
     }
 
     public void OnEnter()

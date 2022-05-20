@@ -1,6 +1,5 @@
 //#define DEBUG_LOG
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using EntityStates;
@@ -22,7 +21,8 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     public Player Player;
     public Entity Entity;
     public Animator Animator;
-
+    public KnockBackHandler StunHandler;
+    
     public Idle _idle;
     public ChasePlayer _chasePlayer;
     public Attack _attack;
@@ -32,6 +32,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     public Launch _launch;
     public Hitstun _hitstun;
     public OnGuard _onGuard;
+    public AirLock _airLock;
 
     public IState CurrentState => StateMachine.CurrentState;
     public float AttackDelay => _attackDelay;
@@ -40,7 +41,6 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
     public float DistanceToPlayer => Vector3.Distance(NavMeshAgent.transform.position, Player.transform.position);
     public bool Invulnerable => false;
     public float GuardRadius => _guardRadius;
-    
     public bool AttackPhase { get; set; }
 
     public float StunTime = .5f;
@@ -56,7 +56,8 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         Entity = GetComponent<Entity>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
         Player = FindObjectOfType<Player>();
-
+        StunHandler = GetComponent<RigidBodyStunHandler>();
+        
         StateMachine = new StateMachine();
 
         InitializeStates();
@@ -81,6 +82,7 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
         _launch = new Launch(Entity);
         _hitstun = new Hitstun(Entity);
         _onGuard = new OnGuard(Instance);
+        _airLock = new AirLock(Instance);
     }
 
     protected override void AddStateTransitions()
@@ -167,10 +169,16 @@ public class EntityStateMachine : FiniteStateMachine, IStateMachine
             _hitstun,
             _idle,
             () => !Stun);
+        
+        StateMachine.AddTransition(
+            _airLock, 
+            _launch, 
+            () => !StunHandler.AirLocked);
 
         StateMachine.AddAnyTransition(_dead, () => Entity.Health <= 0);
         StateMachine.AddAnyTransition(_launch, () => !Invulnerable && Launch);
         StateMachine.AddAnyTransition(_hitstun, () => !Invulnerable && Stun);
+        StateMachine.AddAnyTransition(_airLock, () => !Invulnerable && StunHandler.AirLocked);
     }
 
 

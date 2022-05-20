@@ -15,7 +15,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 8
-  SkillType: 0
   StunType: 1
   Damage: 10
   AttackRange: 0.5
@@ -29,6 +28,7 @@ MonoBehaviour:
   DelayBeforeHitStop: 0.05
   AirStallDuration: 0.01
   DownwardPull: 0
+  AirLock: 1
   HitBoxLinger: 0.2
   Effect: {fileID: 100004, guid: 0ac99dc4fb9c9954a8ddc6e8d55cdc9d, type: 3}
   EffectPositionX: 0

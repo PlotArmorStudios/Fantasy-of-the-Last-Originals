@@ -8,17 +8,13 @@ using UnityEngine;
 public class RigidBodyStunHandler : KnockBackHandler
 {
     private bool IsAboveContactPoint;
-    private float LaunchPosition { get; set; }
-
-    public void AirLock(Transform airLockPosition)
+    public void AirLock(Vector3 airLockPosition)
     {
-        StartCoroutine(ApplyAirLock());
+        StartCoroutine(ApplyAirLock(airLockPosition));
     }
-    public override IEnumerator ApplyAirLock()
-    {
-        var newPosition = Rigidbody.transform.position;
-        newPosition.y += LaunchPosition;
-        Rigidbody.transform.position = Vector3.Lerp(Rigidbody.transform.position, newPosition, Time.deltaTime);
+    public override IEnumerator ApplyAirLock(Vector3 position)
+    { 
+        Rigidbody.MovePosition(position);
         yield return null;
     }
     

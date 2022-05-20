@@ -157,7 +157,6 @@ public class AutoTargetEnemy : MonoBehaviour
         }
     }
 
-
     void FindNearestEnemy()
     {
         var nearestDistance = float.MaxValue;

@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
 {
+    public Player Player { get; set; }
     private Animator _animator;
 
-    public Player Player;
     private DodgeManeuver _dodge;
     private GroundCheck _groundCheck;
 
@@ -21,9 +21,9 @@ public class PlayerStateMachineCrossFade : FiniteStateMachine, IStateMachine
     protected override void Start()
     {
         Instance = this;
+        Player = GetComponent<Player>();
         _animator = GetComponentInChildren<Animator>();
         _dodge = GetComponent<DodgeManeuver>();
-        Player = GetComponent<Player>();
         _stateMachine = new StateMachine();
 
         InitializeStates();

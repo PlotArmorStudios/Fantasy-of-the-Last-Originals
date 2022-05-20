@@ -5,7 +5,6 @@ using UnityEngine;
 public class AttackDefinition : ScriptableObject
 {
     public LayerMask LayerMask;
-    public SkillType SkillType = SkillType.LinkSkill;
     public StunType StunType = StunType.HitStun;
 
     [Header("Knock Back Control")]
@@ -24,7 +23,8 @@ public class AttackDefinition : ScriptableObject
     public float AirStallDuration = .8f;
     public float DownwardPull;
 
-    [Header("HitBox Control")]
+    [Header("HitBox Control")] 
+    public bool AirLock;
     public float HitBoxLinger = .2f;
     
     [Header("Effects")]

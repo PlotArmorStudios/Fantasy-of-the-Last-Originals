@@ -50,6 +50,7 @@ public class Idling : IState
             
         _animator.SetBool($"Stance{_stanceTogglerToggler.CurrentStance}", true);
     }
+
     public void OnExit()
     {
         _animator.SetBool("Attack 1", false);

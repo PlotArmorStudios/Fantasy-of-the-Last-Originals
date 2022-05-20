@@ -94,6 +94,7 @@ public abstract class HitBox : MonoBehaviour
             CacheTargetComponents(collider);
             _targetStunHandler.DisableComponents();
             _targetStunHandler.Rigidbody.velocity = Vector3.zero;
+
             TransferInfoToTarget(collider);
             TriggerTargetEffects();
         }
@@ -157,7 +158,7 @@ public abstract class HitBox : MonoBehaviour
             _knockBackPower = new Vector3(attackDirection.x, attackDirection.y + AttackDefinition.AirBorneKnockUp,
                 attackDirection.z * AttackDefinition.KnockBackStrength);
         }
-        
+
         if (AttackDefinition.KnockUpStrength <= 0)
         {
             targetStunHandler.StateMachine.Stun = true;
@@ -166,7 +167,6 @@ public abstract class HitBox : MonoBehaviour
         {
             targetStunHandler.StateMachine.Launch = true;
         }
-
     }
 
     private void ChangeRigidBodySettings()
@@ -184,18 +184,30 @@ public abstract class HitBox : MonoBehaviour
     private void ApplyKnockBack(KnockBackHandler targetStun)
     {
         targetStun.Rigidbody.velocity = Vector3.zero;
+        if (AttackDefinition.AirLock)
+        {
+            targetStun.AirLocked = true;
+            Transform transformPointer = FindHitboxParent();
+            var direction = _targetStunHandler.transform.position - transformPointer.position;
+            _targetStunHandler.ApplyAirLock(transformPointer.position + direction.normalized);
+            return;
+        }
+        else
+            targetStun.AirLocked = false;
+        
         targetStun.AirBorneKnockUp = AttackDefinition.AirBorneKnockUp;
         targetStun.StunDuration = AttackDefinition.StunDuration;
         targetStun.ApplyHitStop(AttackDefinition.HitStopDuration);
         targetStun.ApplyKnockBack(_knockBackPower);
         targetStun.ApplyGroundedAttackPull(AttackDefinition.DownwardPull);
         targetStun.ResetDownForce();
+        
     }
 
     void CacheTargetComponents(Collider collider)
     {
         _targetStunHandler = collider.GetComponent<KnockBackHandler>();
-        
+
         _targetRigidBody = _targetStunHandler.Rigidbody;
         _targetHealthLogic = _targetStunHandler.Health;
         _targetSound = _targetStunHandler.SoundHandler;

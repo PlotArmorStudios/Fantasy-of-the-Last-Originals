@@ -33,6 +33,8 @@ public abstract class KnockBackHandler : MonoBehaviour
     public HitStop HitStop { get; set; }
     public IStateMachine StateMachine { get; set; }
     public ParticleHitEffects ParticleHitEffects { get; set; }
+    public bool AirLocked { get; set; }
+
     protected virtual void Start()
     {
         GroundCheck = GetComponent<GroundCheck>();
@@ -44,7 +46,7 @@ public abstract class KnockBackHandler : MonoBehaviour
         ParticleHitEffects = GetComponent<ParticleHitEffects>();
     }
 
-    public abstract IEnumerator ApplyAirLock();
+    public abstract IEnumerator ApplyAirLock(Vector3 position);
     public abstract void ApplyHitStop(float attackDefinitionHitStopDuration);
 
     public abstract void ApplyKnockBack(Vector3 attackForce);
