@@ -16,6 +16,6 @@ public class AirborneAttackCrossFade : AttackingCrossFade
     public override void OnExit()
     {
         base.OnExit();
-        //_autoTargeter.GetComponent<RootMotionController>().enabled = true;
+        _autoTargeter.GetComponent<RootMotionController>().enabled = true;
     }
 }

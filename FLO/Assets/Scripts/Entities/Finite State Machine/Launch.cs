@@ -27,6 +27,7 @@ namespace EntityStates
         {
             if (_stunHandler.GroundCheck.UpdateIsGrounded())
                 _stunHandler.DownPull = _stunHandler.StartDownPull;
+            if (_entity.IsGrounded) _stateMachine.Launch = false;
         }
 
         public void FixedTick()

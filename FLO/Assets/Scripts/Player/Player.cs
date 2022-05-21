@@ -126,7 +126,6 @@ public class Player : Character
         if (PauseMenu.Active) return;
 
         ApplyGravity();
-        ApplyUpForce();
         HandleJumpAnimation();
         RotateInDirectionOfMovement();
     }
@@ -267,26 +266,7 @@ public class Player : Character
         StartCoroutine(StopGravity(delay));
     }
 
-    public void ApplyUpForce()
-    {
-        if (_applyUpForce)
-        {
-            _rb.velocity = new Vector3(_rb.velocity.x, _rb.velocity.y + _upForce, _rb.velocity.z);
-        }
-    }
-
-    public void ApplyUpwardForce(float force)
-    {
-        _upForce = force;
-        StartCoroutine(ReverseGravity());
-    }
-
-    private IEnumerator ReverseGravity()
-    {
-        _applyUpForce = true;
-        yield return new WaitForSeconds(.2f);
-        _applyUpForce = false;
-    }
+    
 
     private IEnumerator StopGravity(float reapplyDelay)
     {

@@ -33,7 +33,7 @@ public abstract class KnockBackHandler : MonoBehaviour
     public HitStop HitStop { get; set; }
     public IStateMachine StateMachine { get; set; }
     public ParticleHitEffects ParticleHitEffects { get; set; }
-    public bool AirLocked { get; set; }
+    [field: SerializeField] public bool AirLocked { get; set; }
 
     protected virtual void Start()
     {

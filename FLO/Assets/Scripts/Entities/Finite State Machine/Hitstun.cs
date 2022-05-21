@@ -33,5 +33,6 @@ public class Hitstun : IState
 
     public void OnExit()
     {
+        _entity.StateMachine.Stun = false;
     }
 }

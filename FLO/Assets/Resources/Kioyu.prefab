@@ -7786,6 +7786,7 @@ MonoBehaviour:
   GroundCheck: {fileID: 0}
   KnockBackForce: {x: 0, y: 0, z: 0}
   ApplyHitStopDuration: 0
+  <AirLocked>k__BackingField: 0
 --- !u!114 &8595903750413299007
 MonoBehaviour:
   m_ObjectHideFlags: 0

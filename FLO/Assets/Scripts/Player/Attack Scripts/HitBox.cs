@@ -145,28 +145,15 @@ public abstract class HitBox : MonoBehaviour
 
     private void HandleTargetKnockback(KnockBackHandler targetStunHandler, Vector3 attackDirection)
     {
-        if (targetStunHandler.GroundCheck.UpdateIsGrounded())
-        {
-            attackDirection.y = AttackDefinition.KnockUpStrength;
-            _knockBackPower = new Vector3(attackDirection.x,
-                (attackDirection.y + AttackDefinition.KnockUpStrength) * AttackDefinition.KnockUpStrength,
-                attackDirection.z * AttackDefinition.KnockBackStrength);
-        }
-        else
-        {
-            attackDirection.y = 0;
-            _knockBackPower = new Vector3(attackDirection.x, attackDirection.y + AttackDefinition.AirBorneKnockUp,
-                attackDirection.z * AttackDefinition.KnockBackStrength);
-        }
+        attackDirection.y = AttackDefinition.KnockUpStrength;
+        _knockBackPower = new Vector3(attackDirection.x,
+            (attackDirection.y + AttackDefinition.KnockUpStrength) * AttackDefinition.KnockUpStrength,
+            attackDirection.z * AttackDefinition.KnockBackStrength);
 
         if (AttackDefinition.KnockUpStrength <= 0)
-        {
             targetStunHandler.StateMachine.Stun = true;
-        }
         else if (AttackDefinition.KnockUpStrength > 0)
-        {
             targetStunHandler.StateMachine.Launch = true;
-        }
     }
 
     private void ChangeRigidBodySettings()
@@ -194,14 +181,13 @@ public abstract class HitBox : MonoBehaviour
         }
         else
             targetStun.AirLocked = false;
-        
+
         targetStun.AirBorneKnockUp = AttackDefinition.AirBorneKnockUp;
         targetStun.StunDuration = AttackDefinition.StunDuration;
         targetStun.ApplyHitStop(AttackDefinition.HitStopDuration);
         targetStun.ApplyKnockBack(_knockBackPower);
         targetStun.ApplyGroundedAttackPull(AttackDefinition.DownwardPull);
         targetStun.ResetDownForce();
-        
     }
 
     void CacheTargetComponents(Collider collider)

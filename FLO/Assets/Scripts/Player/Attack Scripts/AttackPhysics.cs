@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,28 +9,31 @@ public class AttackPhysics : MonoBehaviour
     [SerializeField] float _attackSlideDistance = 5f;
     [SerializeField] private StopMovementOnCollision _stopMovement;
 
-    GameObject m_player;
+    private GameObject _player;
 
-    CharacterController m_controller;
-    Rigidbody m_rb;
+    private CharacterController _controller;
+    private Rigidbody _rigidbody;
     private AutoTargetEnemy _enemyTargeter;
 
     public bool StopMovement;
     public GameObject Enemy => _enemyTargeter.TargetedEnemy;
-
     public bool EnemyIsTooClose => Vector3.Distance(transform.position, Enemy.transform.position) <
                                    _stoppingDistance;
 
-    bool m_sliding = false;
+    bool _sliding = false;
 
     private WaitForSeconds _slideDuration;
     private float _newDuration;
+    
+    //Attack Upforce
+    private bool _applyUpForce;
+    private float _upForce;
 
     private void Start()
     {
         _slideDuration = new WaitForSeconds(_newDuration);
-        m_rb = GetComponent<Rigidbody>();
-        m_controller = GetComponent<CharacterController>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _controller = GetComponent<CharacterController>();
         _enemyTargeter = GetComponent<AutoTargetEnemy>();
     }
 
@@ -40,12 +44,38 @@ public class AttackPhysics : MonoBehaviour
         else
             StopMovement = false;
         
-        if (m_sliding && !StopMovement) //applies forward movement to character controller when m_sliding is true
+        if (_sliding && !StopMovement) //applies forward movement to character controller when m_sliding is true
         {
             AttackSlide(AttackSlideDistance(_attackSlideDistance));
         }
     }
 
+    private void FixedUpdate()
+    {
+        ApplyUpForce();
+    }
+    
+    public void ApplyUpForce()
+    {
+        if (_applyUpForce)
+        {
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y + _upForce, _rigidbody.velocity.z);
+        }
+    }
+
+    public void ApplyUpwardForce(float force)
+    {
+        _upForce = force;
+        StartCoroutine(ReverseGravity());
+    }
+
+    private IEnumerator ReverseGravity()
+    {
+        _applyUpForce = true;
+        yield return new WaitForSeconds(.2f);
+        _applyUpForce = false;
+    }
+    
     void AttackSlide(float distance)
     {
         transform.position += transform.forward * Time.deltaTime * distance;
@@ -66,9 +96,9 @@ public class AttackPhysics : MonoBehaviour
         if (StopMovement)
             yield break;
 
-        m_sliding = true;
+        _sliding = true;
         _newDuration = slideDuration;
         yield return new WaitForSeconds(slideDuration);
-        m_sliding = false;
+        _sliding = false;
     }
 }
